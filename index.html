@@ -736,13 +736,41 @@ document.querySelectorAll('.segment button').forEach(btn => {
   });
 });
 
-/* ===== Pill expansion ===== */
+/* ===== Pill expansion + smart auto-scroll ===== */
+function scrollExpandedIntoView(card) {
+  const topbarH = document.querySelector('.topbar').getBoundingClientRect().height;
+  const vh = window.innerHeight;
+  // Wait for the height transition to finish before measuring (280ms per CSS).
+  setTimeout(() => {
+    const rect = card.getBoundingClientRect();
+    const cardTop = rect.top;
+    const cardBottom = rect.bottom;
+    let target = null;
+    if (cardBottom > vh - 16) {
+      // Continue button / bottom is below the fold — scroll up so bottom sits ~16px above viewport bottom.
+      target = window.scrollY + (cardBottom - vh) + 24;
+    } else if (cardTop < topbarH + 12) {
+      // Pill header got pushed behind the sticky topbar — scroll so header is just below topbar.
+      target = window.scrollY + cardTop - topbarH - 12;
+    }
+    if (target != null) {
+      // Clamp within scrollable range to avoid the browser rubber-banding.
+      const max = document.documentElement.scrollHeight - vh;
+      target = Math.max(0, Math.min(target, max));
+      window.scrollTo({ top: target, behavior: 'smooth' });
+    }
+  }, 300);
+}
+
 document.querySelectorAll('.outcome-trigger').forEach(t => {
   t.addEventListener('click', () => {
     const card = t.closest('.outcome');
     const wasOpen = card.classList.contains('open');
     card.parentElement.querySelectorAll('.outcome.open').forEach(o => o.classList.remove('open'));
-    if (!wasOpen) card.classList.add('open');
+    if (!wasOpen) {
+      card.classList.add('open');
+      scrollExpandedIntoView(card);
+    }
   });
 });
 
