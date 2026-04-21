@@ -754,12 +754,25 @@ function scrollExpandedIntoView(card) {
       target = window.scrollY + cardTop - topbarH - 12;
     }
     if (target != null) {
-      // Clamp within scrollable range to avoid the browser rubber-banding.
       const max = document.documentElement.scrollHeight - vh;
       target = Math.max(0, Math.min(target, max));
-      window.scrollTo({ top: target, behavior: 'smooth' });
+      smoothScrollTo(target, 360);
     }
   }, 300);
+}
+
+function smoothScrollTo(targetY, duration) {
+  const startY = window.scrollY;
+  const delta = targetY - startY;
+  if (Math.abs(delta) < 2) return;
+  const startT = performance.now();
+  function step(now) {
+    const t = Math.min(1, (now - startT) / duration);
+    const eased = t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
+    window.scrollTo(0, startY + delta * eased);
+    if (t < 1) requestAnimationFrame(step);
+  }
+  requestAnimationFrame(step);
 }
 
 document.querySelectorAll('.outcome-trigger').forEach(t => {
