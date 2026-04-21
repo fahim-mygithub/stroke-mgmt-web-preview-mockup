@@ -294,7 +294,7 @@ button { font-family: inherit; cursor: pointer; }
     </div>
     <div class="topbar-title" id="topbarTitle"></div>
     <div class="spacer"></div>
-    <button class="trail-badge" id="trailBadge"><span class="dot"></span><span id="trailBadgeCnt">0</span> steps</button>
+    <button class="trail-badge" id="trailBadge"><span class="dot"></span><span id="trailBadgeLabel">0 steps</span></button>
     <button class="icon-btn" aria-label="Search">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"/><path d="M21 21l-4.35-4.35" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
     </button>
@@ -784,11 +784,11 @@ function renderTrail() {
   const lists = [document.getElementById('trailList'), document.getElementById('trailList2'), document.getElementById('trailListMobile')];
   const empties = [document.getElementById('trailEmpty'), document.getElementById('trailEmpty2'), document.getElementById('trailEmptyMobile')];
   const badge = document.getElementById('trailBadge');
-  const cnt = document.getElementById('trailBadgeCnt');
+  const label = document.getElementById('trailBadgeLabel');
 
   lists.forEach(list => { if (!list) return; list.innerHTML = state.trail.map((s, i) => trailItemHTML(s, i, i === state.trail.length - 1)).join(''); });
   empties.forEach(e => { if (!e) return; e.classList.toggle('hidden', state.trail.length > 0); });
-  cnt.textContent = state.trail.length;
+  label.textContent = state.trail.length + ' ' + (state.trail.length === 1 ? 'step' : 'steps');
   badge.style.display = state.trail.length > 0 ? 'inline-flex' : 'none';
 }
 
