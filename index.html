@@ -160,30 +160,16 @@ button { font-family: inherit; cursor: pointer; }
   position: relative;
   background: var(--surface);
   border: 1px solid var(--border);
-  border-left: 4px solid var(--border);
   border-radius: var(--r-md);
   padding: 0;
   overflow: hidden;
   transition: border-color 200ms var(--ease), box-shadow 200ms var(--ease), transform 200ms var(--ease);
 }
 .outcome:hover { border-color: var(--ink-3); box-shadow: var(--shadow-xs); }
-.outcome.sev-critical { border-left-color: var(--critical); }
-.outcome.sev-caution { border-left-color: var(--caution); }
-.outcome.sev-stable { border-left-color: var(--stable); }
-.outcome.sev-info { border-left-color: var(--info); }
-.outcome.open { box-shadow: var(--shadow-md); border-color: transparent; }
-.outcome.open.sev-critical { border-color: var(--critical-bd); background: linear-gradient(var(--critical-bg), var(--surface) 12%); }
-.outcome.open.sev-caution  { border-color: var(--caution-bd);  background: linear-gradient(var(--caution-bg),  var(--surface) 12%); }
-.outcome.open.sev-stable   { border-color: var(--stable-bd);   background: linear-gradient(var(--stable-bg),   var(--surface) 12%); }
-.outcome.open.sev-info     { border-color: var(--info-bd);     background: linear-gradient(var(--info-bg),     var(--surface) 12%); }
+.outcome.open { box-shadow: var(--shadow-md); border-color: var(--ink-3); }
 
 .outcome-trigger { display: flex; align-items: center; gap: 14px; width: 100%; border: 0; background: transparent; padding: 16px 18px; text-align: left; font: inherit; color: inherit; cursor: pointer; }
 .outcome-trigger:active { transform: scale(.995); }
-.outcome-trigger .status-pill { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; padding: 3px 8px; border-radius: var(--r-pill); }
-.sev-critical .status-pill { background: var(--critical-bg); color: var(--critical); }
-.sev-caution .status-pill  { background: var(--caution-bg);  color: var(--caution); }
-.sev-stable .status-pill   { background: var(--stable-bg);   color: var(--stable); }
-.sev-info .status-pill     { background: var(--info-bg);     color: var(--info); }
 .outcome-trigger .title { flex: 1; font-size: 15px; font-weight: 600; color: var(--ink); letter-spacing: -0.005em; }
 .outcome-trigger .chevron { color: var(--ink-3); transition: transform 220ms var(--spring); flex-shrink: 0; }
 .outcome.open .outcome-trigger .chevron { transform: rotate(180deg); color: var(--ink); }
@@ -220,13 +206,12 @@ button { font-family: inherit; cursor: pointer; }
   from { opacity: 0; transform: translateY(-6px); }
   to { opacity: 1; transform: translateY(0); }
 }
-.trail-item .node { width: 18px; height: 18px; border-radius: 50%; background: var(--stable); border: 3px solid var(--surface); box-shadow: 0 0 0 2px var(--stable); position: relative; z-index: 1; margin-top: 2px; }
+.trail-item .node { width: 18px; height: 18px; border-radius: 50%; background: var(--ink-3); border: 3px solid var(--surface); box-shadow: 0 0 0 2px var(--ink-3); position: relative; z-index: 1; margin-top: 2px; }
 .trail-item.active .node { background: var(--brand); box-shadow: 0 0 0 2px var(--brand); }
 .trail-item.active .node::after { content: ''; position: absolute; inset: -6px; border-radius: 50%; border: 2px solid var(--brand-soft); animation: pulse 1.6s infinite; }
 @keyframes pulse { 0%,100% { opacity: 1; transform: scale(1); } 50% { opacity: .3; transform: scale(1.2); } }
 .trail-item .text .step-name { font-size: 13px; font-weight: 600; color: var(--ink); letter-spacing: -0.005em; }
 .trail-item .text .decision { font-size: 12.5px; color: var(--ink-2); margin-top: 2px; }
-.trail-item .text .decision .badge { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; padding: 2px 6px; border-radius: var(--r-pill); margin-right: 6px; }
 .trail-item .edit { font-size: 12px; color: var(--ink-3); background: transparent; border: 0; padding: 4px 6px; cursor: pointer; border-radius: 4px; }
 .trail-item .edit:hover { color: var(--brand); background: var(--brand-soft); }
 
@@ -254,8 +239,7 @@ button { font-family: inherit; cursor: pointer; }
 .summary-step:last-child { border-bottom: 0; }
 .summary-step .num { width: 32px; height: 32px; border-radius: 50%; background: var(--brand-soft); color: var(--brand); display: grid; place-items: center; font-weight: 700; font-size: 13px; }
 .summary-step .name { font-size: 14px; font-weight: 600; color: var(--ink); }
-.summary-step .choice { font-size: 13px; color: var(--ink-2); margin-top: 4px; display: flex; align-items: center; gap: 8px; }
-.summary-step .choice .badge { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; padding: 2px 7px; border-radius: var(--r-pill); }
+.summary-step .choice { font-size: 13px; color: var(--ink-2); margin-top: 4px; }
 
 /* ===== Article reader ===== */
 .article-reader { max-width: 720px; margin: 0 auto; }
@@ -453,7 +437,7 @@ button { font-family: inherit; cursor: pointer; }
           </div>
 
           <div class="outcome sev-critical" data-sev="critical" data-next="algo-fasted" data-name="Airway Unstable">
-            <button class="outcome-trigger"><span class="status-pill">Critical</span><span class="title">Airway Unstable</span><svg class="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+            <button class="outcome-trigger"><span class="title">Airway Unstable</span><svg class="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
             <div class="outcome-body-wrap"><div class="outcome-body"><div class="outcome-body-inner">
               <p>Secure airway before continuing any stroke workup.</p>
               <ul>
@@ -466,7 +450,7 @@ button { font-family: inherit; cursor: pointer; }
           </div>
 
           <div class="outcome sev-critical" data-sev="critical" data-next="algo-fasted" data-name="Breathing Unstable">
-            <button class="outcome-trigger"><span class="status-pill">Critical</span><span class="title">Breathing Unstable</span><svg class="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+            <button class="outcome-trigger"><span class="title">Breathing Unstable</span><svg class="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
             <div class="outcome-body-wrap"><div class="outcome-body"><div class="outcome-body-inner">
               <p>Stabilize breathing before proceeding.</p>
               <ul>
@@ -479,7 +463,7 @@ button { font-family: inherit; cursor: pointer; }
           </div>
 
           <div class="outcome sev-caution" data-sev="caution" data-next="algo-fasted" data-name="Circulation Unstable">
-            <button class="outcome-trigger"><span class="status-pill">Caution</span><span class="title">Circulation Unstable</span><svg class="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+            <button class="outcome-trigger"><span class="title">Circulation Unstable</span><svg class="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
             <div class="outcome-body-wrap"><div class="outcome-body"><div class="outcome-body-inner">
               <p>Restore perfusion while preserving cerebral pressure.</p>
               <ul>
@@ -492,7 +476,7 @@ button { font-family: inherit; cursor: pointer; }
           </div>
 
           <div class="outcome sev-caution" data-sev="caution" data-next="algo-fasted" data-name="GCS < 8">
-            <button class="outcome-trigger"><span class="status-pill">Caution</span><span class="title">GCS &lt; 8</span><svg class="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+            <button class="outcome-trigger"><span class="title">GCS &lt; 8</span><svg class="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
             <div class="outcome-body-wrap"><div class="outcome-body"><div class="outcome-body-inner">
               <p>Protect airway early. Low GCS suggests impending loss of protective reflexes.</p>
               <ul>
@@ -505,7 +489,7 @@ button { font-family: inherit; cursor: pointer; }
           </div>
 
           <div class="outcome sev-stable" data-sev="stable" data-next="algo-fasted" data-name="Stable">
-            <button class="outcome-trigger"><span class="status-pill">Stable</span><span class="title">Stable</span><svg class="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+            <button class="outcome-trigger"><span class="title">Stable</span><svg class="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
             <div class="outcome-body-wrap"><div class="outcome-body"><div class="outcome-body-inner">
               <p>ABCs stable — proceed to scale-based triage.</p>
               <ul>
@@ -603,7 +587,7 @@ button { font-family: inherit; cursor: pointer; }
           </div>
 
           <div class="outcome sev-stable" data-sev="stable" data-score-min="0" data-score-max="3" data-name="LVO Unlikely" data-end="true">
-            <button class="outcome-trigger"><span class="status-pill">Stable</span><span class="title">LVO Unlikely — continue standard protocol</span><svg class="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+            <button class="outcome-trigger"><span class="title">LVO Unlikely — continue standard protocol</span><svg class="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
             <div class="outcome-body-wrap"><div class="outcome-body"><div class="outcome-body-inner">
               <p>Score &lt; 4 suggests LVO is unlikely. Continue with standard stroke protocol:</p>
               <ul>
@@ -616,7 +600,7 @@ button { font-family: inherit; cursor: pointer; }
           </div>
 
           <div class="outcome sev-critical hidden" data-sev="critical" data-score-min="4" data-score-max="9" data-name="LVO Likely" data-end="true">
-            <button class="outcome-trigger"><span class="status-pill">Critical</span><span class="title">LVO Likely — route to comprehensive center</span><svg class="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+            <button class="outcome-trigger"><span class="title">LVO Likely — route to comprehensive center</span><svg class="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
             <div class="outcome-body-wrap"><div class="outcome-body"><div class="outcome-body-inner">
               <p>Score ≥ 4 suggests large-vessel occlusion. Route directly to a comprehensive stroke center capable of mechanical thrombectomy:</p>
               <ul>
@@ -809,14 +793,12 @@ document.querySelectorAll('[data-continue]').forEach(btn => {
 
 /* ===== Trail render ===== */
 function trailItemHTML(step, idx, isLast) {
-  const badgeColor = { critical: 'var(--critical)', caution: 'var(--caution)', stable: 'var(--stable)', info: 'var(--info)' }[step.severity];
-  const badgeBg    = { critical: 'var(--critical-bg)', caution: 'var(--caution-bg)', stable: 'var(--stable-bg)', info: 'var(--info-bg)' }[step.severity];
   return `
     <div class="trail-item ${isLast ? 'active' : ''}">
-      <div class="node" style="${!isLast ? 'background:'+badgeColor+';box-shadow:0 0 0 2px '+badgeColor : ''}"></div>
+      <div class="node"></div>
       <div class="text">
         <div class="step-name">${step.algorithm}</div>
-        <div class="decision"><span class="badge" style="background:${badgeBg};color:${badgeColor}">${step.severity}</span>${step.outcome}</div>
+        <div class="decision">${step.outcome}</div>
       </div>
       <button class="edit">Edit</button>
     </div>
@@ -874,19 +856,15 @@ document.querySelectorAll('#fastedSwitches .level-btn').forEach(btn => {
 /* ===== Summary render ===== */
 function renderSummary() {
   const card = document.getElementById('summaryCard');
-  card.innerHTML = state.trail.map((s, i) => {
-    const badgeColor = { critical: 'var(--critical)', caution: 'var(--caution)', stable: 'var(--stable)', info: 'var(--info)' }[s.severity];
-    const badgeBg    = { critical: 'var(--critical-bg)', caution: 'var(--caution-bg)', stable: 'var(--stable-bg)', info: 'var(--info-bg)' }[s.severity];
-    return `
-      <div class="summary-step">
-        <div class="num">${i+1}</div>
-        <div>
-          <div class="name">${s.algorithm}</div>
-          <div class="choice"><span class="badge" style="background:${badgeBg};color:${badgeColor}">${s.severity}</span>${s.outcome}</div>
-        </div>
+  card.innerHTML = state.trail.map((s, i) => `
+    <div class="summary-step">
+      <div class="num">${i+1}</div>
+      <div>
+        <div class="name">${s.algorithm}</div>
+        <div class="choice">${s.outcome}</div>
       </div>
-    `;
-  }).join('');
+    </div>
+  `).join('');
 }
 
 document.getElementById('startOverBtn').addEventListener('click', () => {
