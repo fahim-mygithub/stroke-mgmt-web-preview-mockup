@@ -528,10 +528,12 @@ async function goToAlgorithm(id) {
   loadingFrame();
   let algo;
   try { algo = await loadAlgorithm(id); } catch (e) { errorFrame(e.message); return; }
-  // Default every switch to its first level (value), matching RN default behavior
+  // Default every switch to its lowest level so the score starts at 0
   const sc = state.currentAlgoScores[id];
   for (const s of algo.attributes.switches || []) {
-    if (!(s.id in sc) && s.levels?.length) sc[s.id] = s.levels[0].Value;
+    if (!(s.id in sc) && s.levels?.length) {
+      sc[s.id] = s.levels.reduce((m, l) => l.Value < m ? l.Value : m, s.levels[0].Value);
+    }
   }
   renderAlgorithm(algo);
 }
