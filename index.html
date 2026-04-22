@@ -576,18 +576,23 @@ function renderAlgorithm(algo) {
     </div>
   ` : '';
 
-  const visible = scored
-    ? att.outcomes.filter((o) => outcomeMatches(o, score))
-    : att.outcomes;
+  // Render every outcome upfront; for scored algorithms, hide the ones whose
+  // criterion doesn't currently match. This way, raising switches can reveal
+  // previously-hidden outcomes without re-rendering.
+  const visibleCount = scored
+    ? att.outcomes.filter((o) => outcomeMatches(o, score)).length
+    : att.outcomes.length;
 
   const outcomesHTML = `
     <div class="outcomes">
       <div class="outcomes-head">
         <h3>${scored ? 'Recommended outcome' : 'Select the outcome that fits'}</h3>
-        <span class="count">${visible.length} of ${att.outcomes.length}</span>
+        <span class="count">${visibleCount} of ${att.outcomes.length}</span>
       </div>
-      ${visible.map((o) => `
-        <div class="outcome" data-outcome-id="${o.id}">
+      ${att.outcomes.map((o) => {
+        const vis = scored ? outcomeMatches(o, score) : true;
+        return `
+        <div class="outcome ${vis ? '' : 'hidden'}" data-outcome-id="${o.id}">
           <button class="outcome-trigger">
             <span class="title">${esc(decodeEntities(o.Title))}</span>
             <svg class="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -601,8 +606,8 @@ function renderAlgorithm(algo) {
               </button>
             </div>
           </div></div></div>
-        </div>
-      `).join('')}
+        </div>`;
+      }).join('')}
     </div>
   `;
 
