@@ -4,7 +4,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no" />
 <meta name="theme-color" content="#1E4E8C" />
-<title>Stroke Mgmt — Design Mockup v3</title>
+<title>Stroke Mgmt — Design Mockup</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -23,11 +23,6 @@
   --brand-soft: #EAF0F8;
   --brand-softer: #F3F7FB;
   --accent: #0891B2;
-
-  --critical: #B42318;  --critical-bg: #FEF3F2;  --critical-bd: #FECDCA;
-  --caution:  #B54708;  --caution-bg:  #FFFAEB;  --caution-bd:  #FEDF89;
-  --stable:   #027A48;  --stable-bg:   #ECFDF3;  --stable-bd:   #ABEFC6;
-  --info:     #175CD3;  --info-bg:     #EFF8FF;  --info-bd:     #B2DDFF;
 
   --r-sm: 6px; --r-md: 10px; --r-lg: 14px; --r-pill: 999px;
   --shadow-xs: 0 1px 2px rgba(16,24,40,.04);
@@ -48,7 +43,6 @@ a:hover { text-decoration: underline; }
 button { font-family: inherit; cursor: pointer; }
 :focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; border-radius: 4px; }
 
-/* ===== Top bar ===== */
 .topbar { position: sticky; top: 0; z-index: 20; background: rgba(247,245,242,.92); backdrop-filter: blur(8px); border-bottom: 1px solid var(--border-2); }
 .topbar-inner { max-width: 1280px; margin: 0 auto; padding: 14px 24px; display: flex; align-items: center; gap: 16px; }
 .brand { font-weight: 700; font-size: 15px; color: var(--ink); letter-spacing: -0.01em; display: flex; align-items: center; gap: 10px; }
@@ -68,24 +62,20 @@ button { font-family: inherit; cursor: pointer; }
   .trail-badge .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--brand); }
 }
 
-/* ===== Layout shell ===== */
 .shell { max-width: 1280px; margin: 0 auto; padding: 24px; }
 .with-trail { display: grid; grid-template-columns: 1fr 340px; gap: 32px; align-items: start; }
 @media (max-width: 960px) { .with-trail { grid-template-columns: 1fr; } .trail-panel { display: none; } }
 
-/* ===== View transitions ===== */
 .view { animation: viewIn 260ms var(--ease) both; }
 @keyframes viewIn {
   from { opacity: 0; transform: translateY(4px); }
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* ===== Eyebrow / section header ===== */
 .eyebrow { text-transform: uppercase; letter-spacing: 0.08em; font-size: 11px; font-weight: 600; color: var(--ink-3); margin-bottom: 8px; }
 .section-title { font-size: 22px; font-weight: 700; letter-spacing: -0.02em; color: var(--ink); margin: 0 0 4px 0; }
 .section-sub { color: var(--ink-2); font-size: 14px; margin: 0 0 20px 0; }
 
-/* ===== Pathways grid ===== */
 .pathways { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-bottom: 40px; }
 @media (max-width: 720px) { .pathways { grid-template-columns: 1fr; } }
 .pathway-card { position: relative; display: block; background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-lg); padding: 20px; box-shadow: var(--shadow-xs); transition: all 180ms var(--ease); cursor: pointer; text-align: left; font: inherit; color: inherit; width: 100%; }
@@ -99,13 +89,11 @@ button { font-family: inherit; cursor: pointer; }
 .pathway-card .meta { display: flex; gap: 10px; margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--border-2); font-size: 12px; color: var(--ink-3); }
 .pathway-card .meta span { display: inline-flex; align-items: center; gap: 4px; }
 
-/* ===== Filter chips ===== */
 .filter-row { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px; }
 .chip { padding: 7px 14px; border-radius: var(--r-pill); border: 1px solid var(--border); background: var(--surface); color: var(--ink-2); font-size: 13px; font-weight: 500; cursor: pointer; transition: all 140ms var(--ease); }
 .chip:hover { border-color: var(--ink-3); color: var(--ink); }
 .chip.active { background: var(--ink); color: #fff; border-color: var(--ink); }
 
-/* ===== Article cards ===== */
 .articles { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
 @media (max-width: 960px) { .articles { grid-template-columns: repeat(2, 1fr); } }
 @media (max-width: 560px) { .articles { grid-template-columns: 1fr; } }
@@ -116,7 +104,6 @@ button { font-family: inherit; cursor: pointer; }
 .article-card p { margin: 0; font-size: 13px; color: var(--ink-2); line-height: 1.5; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
 .article-card .read { margin-top: auto; padding-top: 8px; font-size: 12px; color: var(--ink-3); display: flex; align-items: center; gap: 4px; }
 
-/* ===== Algorithm screen ===== */
 .algo-header { margin-bottom: 24px; padding-bottom: 20px; border-bottom: 1px solid var(--border-2); }
 .algo-header .eyebrow { color: var(--brand); }
 .algo-title { font-size: 28px; font-weight: 700; letter-spacing: -0.025em; color: var(--ink); margin: 0 0 8px 0; line-height: 1.2; }
@@ -124,24 +111,27 @@ button { font-family: inherit; cursor: pointer; }
 @media (max-width: 560px) { .algo-title { font-size: 22px; } }
 
 .algo-body { font-size: 14.5px; color: var(--ink); line-height: 1.65; margin-bottom: 28px; }
+.algo-body p { margin: 0 0 10px 0; }
 .algo-body strong { font-weight: 600; color: var(--ink); }
 .algo-body ul { padding-left: 22px; margin: 10px 0; }
 .algo-body li { margin-bottom: 4px; }
-.algo-body .highlight { background: var(--brand-softer); border: 1px solid var(--brand-soft); border-left: 3px solid var(--brand); padding: 14px 16px; border-radius: var(--r-md); margin: 16px 0; font-size: 14px; }
+.algo-body h1,.algo-body h2,.algo-body h3 { font-weight: 700; letter-spacing: -0.015em; margin: 18px 0 8px 0; }
+.algo-body h1 { font-size: 20px; }
+.algo-body h2 { font-size: 17px; }
+.algo-body h3 { font-size: 15px; }
 
-/* ===== Scored switches ===== */
 .switches { display: grid; gap: 12px; margin-bottom: 24px; }
 .switch-row { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-md); padding: 14px 16px; transition: all 180ms var(--ease); }
-.switch-row .label-line { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; margin-bottom: 10px; }
+.switch-row .label-line { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; margin-bottom: 10px; flex-wrap: wrap; }
 .switch-row .label-line .lbl { font-size: 14px; font-weight: 600; color: var(--ink); }
-.switch-row .label-line .desc { font-size: 12.5px; color: var(--ink-3); }
+.switch-row .label-line .desc { font-size: 12.5px; color: var(--ink-3); flex: 1 1 280px; }
+.switch-row .label-line .desc p { margin: 0; }
 .level-row { display: flex; gap: 6px; flex-wrap: wrap; }
 .level-btn { padding: 8px 14px; border-radius: var(--r-md); border: 1px solid var(--border); background: var(--surface); color: var(--ink-2); font-size: 13px; font-weight: 500; cursor: pointer; transition: all 140ms var(--ease); min-width: 44px; text-align: center; }
 .level-btn:hover { border-color: var(--ink-3); color: var(--ink); }
 .level-btn.selected { background: var(--brand); border-color: var(--brand); color: #fff; box-shadow: 0 0 0 3px var(--brand-soft); }
 .level-btn:active { transform: scale(.96); }
 
-/* ===== Score bar ===== */
 .score-bar { display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 16px 20px; background: var(--ink); color: #fff; border-radius: var(--r-md); margin-bottom: 28px; box-shadow: var(--shadow-sm); }
 .score-bar .score-label { display: flex; flex-direction: column; gap: 2px; }
 .score-bar .score-label .eyebrow { color: rgba(255,255,255,.6); margin: 0; }
@@ -150,7 +140,6 @@ button { font-family: inherit; cursor: pointer; }
 .score-bar .score-val.animate { animation: scorePulse 300ms var(--ease); }
 @keyframes scorePulse { 0%,100% { transform: scale(1); } 50% { transform: scale(1.08); color: #93C5FD; } }
 
-/* ===== Outcome pills (new) ===== */
 .outcomes { display: grid; gap: 10px; }
 .outcomes .outcomes-head { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 8px; }
 .outcomes .outcomes-head h3 { margin: 0; font-size: 16px; font-weight: 600; letter-spacing: -0.01em; }
@@ -191,7 +180,6 @@ button { font-family: inherit; cursor: pointer; }
 .btn-ghost { background: transparent; color: var(--ink-2); border-color: var(--border); }
 .btn-ghost:hover { color: var(--ink); border-color: var(--ink-3); }
 
-/* ===== Trail panel (desktop right) ===== */
 .trail-panel { position: sticky; top: 80px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-lg); padding: 18px; box-shadow: var(--shadow-xs); }
 .trail-panel .trail-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
 .trail-panel .trail-head .ttl { font-size: 13px; font-weight: 600; color: var(--ink); text-transform: uppercase; letter-spacing: 0.06em; }
@@ -215,14 +203,12 @@ button { font-family: inherit; cursor: pointer; }
 .trail-item .edit { font-size: 12px; color: var(--ink-3); background: transparent; border: 0; padding: 4px 6px; cursor: pointer; border-radius: 4px; }
 .trail-item .edit:hover { color: var(--brand); background: var(--brand-soft); }
 
-/* ===== Mobile trail drawer ===== */
 .trail-drawer { position: fixed; inset: 0; z-index: 50; display: none; background: rgba(11,18,32,.45); backdrop-filter: blur(3px); opacity: 0; transition: opacity 200ms var(--ease); pointer-events: none; }
 .trail-drawer.open { display: block; opacity: 1; pointer-events: auto; }
 .trail-drawer-inner { position: absolute; left: 0; right: 0; bottom: 0; background: var(--surface); border-radius: 20px 20px 0 0; padding: 20px 20px 28px; transform: translateY(100%); transition: transform 320ms var(--spring); max-height: 80vh; overflow-y: auto; }
 .trail-drawer.open .trail-drawer-inner { transform: translateY(0); }
 .trail-drawer-handle { width: 40px; height: 4px; background: var(--border); border-radius: 2px; margin: -4px auto 16px; }
 
-/* ===== Summary screen ===== */
 .summary-hero { background: linear-gradient(135deg, var(--brand) 0%, #2C5EA0 100%); color: #fff; padding: 32px 28px; border-radius: var(--r-lg); margin-bottom: 24px; position: relative; overflow: hidden; }
 .summary-hero::after { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at top right, rgba(255,255,255,.1), transparent 60%); pointer-events: none; }
 .summary-hero .eyebrow { color: rgba(255,255,255,.7); }
@@ -241,28 +227,29 @@ button { font-family: inherit; cursor: pointer; }
 .summary-step .name { font-size: 14px; font-weight: 600; color: var(--ink); }
 .summary-step .choice { font-size: 13px; color: var(--ink-2); margin-top: 4px; }
 
-/* ===== Article reader ===== */
 .article-reader { max-width: 720px; margin: 0 auto; }
 .article-reader .tag { font-size: 11px; font-weight: 600; color: var(--brand); text-transform: uppercase; letter-spacing: 0.08em; }
 .article-reader h1 { font-size: 34px; font-weight: 700; letter-spacing: -0.03em; color: var(--ink); line-height: 1.15; margin: 10px 0 16px 0; }
 .article-reader .article-meta { display: flex; gap: 16px; color: var(--ink-3); font-size: 13px; padding-bottom: 18px; border-bottom: 1px solid var(--border-2); margin-bottom: 28px; }
 .article-reader p { font-size: 16px; line-height: 1.7; color: var(--ink); margin: 0 0 18px 0; }
-.article-reader p:first-of-type::first-letter { font-size: 52px; font-weight: 700; float: left; line-height: 0.9; margin: 6px 10px 0 0; color: var(--brand); }
 .article-reader h2 { font-size: 22px; font-weight: 700; letter-spacing: -0.02em; margin: 32px 0 12px 0; color: var(--ink); }
-.article-reader ul { padding-left: 22px; }
+.article-reader h3 { font-size: 18px; font-weight: 700; margin: 24px 0 10px 0; }
+.article-reader ul, .article-reader ol { padding-left: 22px; }
 .article-reader li { font-size: 16px; line-height: 1.7; color: var(--ink); margin-bottom: 6px; }
-.article-reader .callout { background: var(--brand-softer); border: 1px solid var(--brand-soft); border-left: 3px solid var(--brand); padding: 16px 20px; border-radius: var(--r-md); margin: 24px 0; font-size: 15px; color: var(--ink); }
+.article-reader img { max-width: 100%; height: auto; border-radius: var(--r-md); margin: 20px 0; }
 
-/* ===== Segment control (Triage / Library) ===== */
 .segment { display: inline-flex; background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-md); padding: 3px; margin-bottom: 24px; box-shadow: var(--shadow-xs); }
 .segment button { border: 0; background: transparent; padding: 7px 16px; border-radius: 7px; font-size: 13px; font-weight: 500; color: var(--ink-2); cursor: pointer; transition: all 140ms var(--ease); font-family: inherit; }
 .segment button.on { background: var(--ink); color: #fff; box-shadow: var(--shadow-xs); }
 .segment button:hover:not(.on) { color: var(--ink); }
 
 .hidden { display: none !important; }
-
-/* ===== Small footer note ===== */
 .footnote { font-size: 12px; color: var(--ink-3); font-style: italic; margin-top: 24px; text-align: right; }
+
+.loading { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 80px 20px; color: var(--ink-3); }
+.loading .spinner { width: 28px; height: 28px; border: 3px solid var(--border); border-top-color: var(--brand); border-radius: 50%; animation: spin 700ms linear infinite; margin-bottom: 12px; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.error-banner { background: #FEF3F2; border: 1px solid #FECDCA; color: #B42318; border-radius: var(--r-md); padding: 14px 16px; font-size: 14px; }
 </style>
 </head>
 <body>
@@ -289,463 +276,551 @@ button { font-family: inherit; cursor: pointer; }
   </div>
 </div>
 
-<main class="shell">
+<main class="shell" id="main"></main>
 
-  <!-- ============ HOME VIEW ============ -->
-  <div id="view-home" class="view">
+<div class="trail-drawer" id="trailDrawer">
+  <div class="trail-drawer-inner" id="trailDrawerInner" onclick="event.stopPropagation()">
+    <div class="trail-drawer-handle"></div>
+    <div class="trail-head" style="margin-bottom:12px;"><span class="ttl" style="font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;">Your triage</span></div>
+    <div class="trail-list" id="trailListMobile"></div>
+    <div class="empty hidden" id="trailEmptyMobile" style="font-size:13px;color:var(--ink-3);padding:20px 0;text-align:center;">No decisions yet.</div>
+  </div>
+</div>
+
+<script>
+/* ================================================================
+   CMS client — pulls from the same Strapi instance as the RN app
+   ================================================================ */
+const CMS = 'https://stroke-mgmt-cms.a2hosted.com';
+const ALGO_POPULATE =
+  'populate[0]=outcomes&populate[1]=switches&populate[2]=outcomes.criterion&populate[3]=outcomes.next&populate[4]=switches.levels&populate[5]=citations';
+const ARTICLE_POPULATE = 'populate[0]=tags';
+
+const state = {
+  view: 'home',
+  homeAlgos: [],
+  articles: [],
+  algoCache: {},
+  trail: [],
+  currentAlgoId: null,
+  currentAlgoScores: {},
+  activeTab: 'triage',
+  articleFilter: 'All',
+};
+
+const $ = (id) => document.getElementById(id);
+const main = $('main');
+
+/* ----- HTML entity decoder for title strings ----- */
+const _decoder = document.createElement('textarea');
+function decodeEntities(s) {
+  if (!s) return '';
+  _decoder.innerHTML = s;
+  return _decoder.value;
+}
+function esc(s) {
+  return String(s ?? '').replace(/[&<>"']/g, (c) => ({
+    '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;',
+  }[c]));
+}
+
+/* ----- Network ----- */
+async function fetchJson(url) {
+  const res = await fetch(url);
+  if (!res.ok) throw new Error(`Fetch failed: ${res.status} ${url}`);
+  return res.json();
+}
+async function loadHomeAlgorithms() {
+  const json = await fetchJson(
+    `${CMS}/api/algorithms?filters[ShowOnHomeScreen]=true&${ALGO_POPULATE}`
+  );
+  return json.data;
+}
+async function loadAllArticles() {
+  const json = await fetchJson(`${CMS}/api/articles?${ARTICLE_POPULATE}`);
+  return json.data.filter((a) => a.attributes.Designation === 'Article');
+}
+async function loadAlgorithm(id) {
+  if (state.algoCache[id]) return state.algoCache[id];
+  const json = await fetchJson(`${CMS}/api/algorithms/${id}?${ALGO_POPULATE}`);
+  state.algoCache[id] = json.data;
+  return json.data;
+}
+
+/* ----- Criterion matching (matches domain/models/Algorithm/Criterion) ----- */
+function outcomeMatches(outcome, score) {
+  const c = outcome.criterion;
+  if (!c || c.Type === 'None' || c.Value == null) return true;
+  if (c.Type === 'GreaterThan') return score > c.Value;
+  if (c.Type === 'LessThan') return score < c.Value;
+  if (c.Type === 'GreaterThanOrEqualTo') return score >= c.Value;
+  if (c.Type === 'LessThanOrEqualTo') return score <= c.Value;
+  return true;
+}
+function isScored(algo) { return (algo.attributes.switches || []).length > 0; }
+function calcScore(algo) {
+  const sc = state.currentAlgoScores[algo.id] || {};
+  const sw = algo.attributes.switches || [];
+  let total = 0;
+  for (const s of sw) {
+    const lv = sc[s.id];
+    if (typeof lv === 'number') total += lv;
+  }
+  return total;
+}
+function allSwitchesSet(algo) {
+  const sc = state.currentAlgoScores[algo.id] || {};
+  return (algo.attributes.switches || []).every((s) => typeof sc[s.id] === 'number');
+}
+
+/* ----- Topbar chrome ----- */
+function setTopbar(title) {
+  $('topbarTitle').textContent = title || '';
+  $('backBtn').style.display = state.view === 'home' ? 'none' : 'inline-flex';
+}
+$('backBtn').addEventListener('click', () => {
+  if (state.view === 'algorithm' && state.trail.length >= 1) {
+    const last = state.trail.pop();
+    goToAlgorithm(last.algorithmId);
+    return;
+  }
+  renderHome();
+});
+
+/* ================================================================
+   View rendering
+   ================================================================ */
+
+function viewFrame(content) {
+  main.innerHTML = `<div class="view">${content}</div>`;
+}
+
+function loadingFrame() {
+  viewFrame(`<div class="loading"><div class="spinner"></div>Loading from CMS…</div>`);
+}
+
+function errorFrame(msg) {
+  viewFrame(`<div class="error-banner">${esc(msg)}</div>`);
+}
+
+/* ---------- HOME ---------- */
+async function renderHome() {
+  state.view = 'home';
+  state.currentAlgoId = null;
+  setTopbar('');
+  // Fresh fetch of home algos and articles if not loaded yet
+  if (!state.homeAlgos.length || !state.articles.length) {
+    loadingFrame();
+    try {
+      const [algos, arts] = await Promise.all([
+        state.homeAlgos.length ? state.homeAlgos : loadHomeAlgorithms(),
+        state.articles.length ? state.articles : loadAllArticles(),
+      ]);
+      state.homeAlgos = algos;
+      state.articles = arts;
+      // Seed algo cache so subsequent navigation is instant
+      for (const a of algos) state.algoCache[a.id] = a;
+    } catch (e) {
+      errorFrame(`Couldn't reach the CMS: ${e.message}`);
+      return;
+    }
+  }
+
+  const tagSet = new Set(['All']);
+  for (const a of state.articles) {
+    for (const t of a.attributes.tags?.data || []) tagSet.add(t.attributes.Name);
+  }
+  const tags = [...tagSet];
+
+  const triageCards = state.homeAlgos.map((a) => {
+    const att = a.attributes;
+    const scored = (att.switches || []).length > 0;
+    const eyebrow = scored ? '▲ Scale-based' : '◆ Pathway';
+    return `
+      <button class="pathway-card" data-algo-id="${a.id}">
+        <div class="eyebrow">${eyebrow}</div>
+        <h3>${esc(decodeEntities(att.Title))}</h3>
+        <p>${esc(decodeEntities(att.Summary || ''))}</p>
+        <div class="arrow"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="meta">
+          <span>${att.outcomes.length} outcome${att.outcomes.length === 1 ? '' : 's'}</span>
+          ${scored ? `<span>·</span><span>${att.switches.length} score items</span>` : ''}
+        </div>
+      </button>`;
+  }).join('');
+
+  const filterChips = tags.map((t) =>
+    `<button class="chip ${t === state.articleFilter ? 'active' : ''}" data-tag="${esc(t)}">${esc(t)}</button>`
+  ).join('');
+
+  const visibleArticles = state.articles.filter((a) => {
+    if (state.articleFilter === 'All') return true;
+    return (a.attributes.tags?.data || []).some((t) => t.attributes.Name === state.articleFilter);
+  });
+
+  const articleCards = visibleArticles.map((a) => {
+    const att = a.attributes;
+    const firstTag = (att.tags?.data || [])[0]?.attributes?.Name || 'Article';
+    return `
+      <button class="article-card" data-article-id="${a.id}">
+        <span class="tag">${esc(firstTag)}</span>
+        <h4>${esc(decodeEntities(att.Title))}</h4>
+        <p>${esc(decodeEntities(att.Summary || '').slice(0, 180))}</p>
+        <div class="read">Read →</div>
+      </button>`;
+  }).join('') || `<p style="color:var(--ink-3);">No articles match this filter.</p>`;
+
+  viewFrame(`
     <div class="segment" role="tablist">
-      <button class="on" data-tab="triage">Triage</button>
-      <button data-tab="library">Library</button>
+      <button class="${state.activeTab === 'triage' ? 'on' : ''}" data-tab="triage">Triage</button>
+      <button class="${state.activeTab === 'library' ? 'on' : ''}" data-tab="library">Library</button>
     </div>
 
-    <section id="tab-triage">
+    <section id="tab-triage" ${state.activeTab !== 'triage' ? 'class="hidden"' : ''}>
       <div class="eyebrow">Decision Pathways</div>
       <h2 class="section-title">Build a triage</h2>
       <p class="section-sub">Start with an assessment pathway. The app walks you through each decision and keeps a running record of your triage.</p>
-
-      <div class="pathways">
-        <button class="pathway-card" data-goto="algo-start">
-          <div class="eyebrow"><span>◆</span> Primary assessment</div>
-          <h3>Start Triaging</h3>
-          <p>Assess airway, breathing, circulation, and time of onset. Recommended first step for any suspected stroke.</p>
-          <div class="arrow"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-          <div class="meta"><span>5 outcomes</span><span>·</span><span>Chains to FAST-ED</span></div>
-        </button>
-        <button class="pathway-card" data-goto="algo-fasted">
-          <div class="eyebrow"><span>▲</span> Scale-based</div>
-          <h3>FAST-ED</h3>
-          <p>Determine likelihood of large-vessel occlusion in the field using the Field Assessment Stroke Triage for Emergency Destination scale.</p>
-          <div class="arrow"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-          <div class="meta"><span>5 items</span><span>·</span><span>Score 0–9</span></div>
-        </button>
-        <button class="pathway-card" data-goto="algo-start">
-          <div class="eyebrow"><span>◆</span> Comprehensive</div>
-          <h3>Comprehensive Pathway Using NIHSS</h3>
-          <p>Full assessment using the NIH Stroke Scale for comprehensive stroke center decision-making.</p>
-          <div class="arrow"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-          <div class="meta"><span>11 items</span><span>·</span><span>Score 0–42</span></div>
-        </button>
-        <button class="pathway-card" data-goto="algo-start">
-          <div class="eyebrow"><span>◆</span> Field-ready</div>
-          <h3>Swift and Simple Pathway Using GWNS</h3>
-          <p>Streamlined pathway using the Gaze-Weakness-Neglect-Speech scale for rapid field triage.</p>
-          <div class="arrow"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-          <div class="meta"><span>4 items</span><span>·</span><span>Score 0–4</span></div>
-        </button>
-      </div>
+      <div class="pathways">${triageCards || `<p style="color:var(--ink-3);">No pathways found.</p>`}</div>
     </section>
 
-    <section id="tab-library" class="hidden">
+    <section id="tab-library" ${state.activeTab !== 'library' ? 'class="hidden"' : ''}>
       <div class="eyebrow">Reference</div>
       <h2 class="section-title">Library</h2>
       <p class="section-sub">Background, procedure demos, trial reviews, and case studies.</p>
-
-      <div class="filter-row">
-        <button class="chip active">All</button>
-        <button class="chip">Introductory</button>
-        <button class="chip">Procedure Demo</button>
-        <button class="chip">Trials</button>
-        <button class="chip">Case Studies</button>
-        <button class="chip">Video</button>
-        <button class="chip">Quick Info</button>
-      </div>
-
-      <div class="articles">
-        <button class="article-card" data-goto="article-1">
-          <span class="tag">Introductory</span>
-          <h4>Stroke Causes and Risk Factors</h4>
-          <p>It's important to distinguish between causes of stroke and modifiable and non-modifiable risk factors.</p>
-          <div class="read">5 min read →</div>
-        </button>
-        <button class="article-card" data-goto="article-1">
-          <span class="tag">Procedure Demo</span>
-          <h4>TRAP Animation</h4>
-          <p>The TRAP mechanical thrombectomy combination technique is a procedure used to treat acute ischemic stroke.</p>
-          <div class="read">3 min watch →</div>
-        </button>
-        <button class="article-card" data-goto="article-1">
-          <span class="tag">Procedure Demo</span>
-          <h4>Solitaire Animation</h4>
-          <p>The Solitaire FR Revascularization Device is a cutting-edge medical device designed to assist doctors in treating stroke.</p>
-          <div class="read">3 min watch →</div>
-        </button>
-        <button class="article-card" data-goto="article-1">
-          <span class="tag">Introductory</span>
-          <h4>Vascular Anatomy</h4>
-          <p>Angio-architectures of the aortic arch with large blood vessels including anterior and posterior circulation.</p>
-          <div class="read">7 min read →</div>
-        </button>
-        <button class="article-card" data-goto="article-1">
-          <span class="tag">Trials</span>
-          <h4>Trials and Studies</h4>
-          <p>Acute antiplatelet therapy — PRISMS, aspirin vs alteplase, DAPT comparisons, and ARAMIS.</p>
-          <div class="read">12 min read →</div>
-        </button>
-        <button class="article-card" data-goto="article-1">
-          <span class="tag">Video</span>
-          <h4>Introduction to Stroke Management</h4>
-          <p>Dr. Lodi, a board-certified neurologist, introduces core concepts in acute stroke management.</p>
-          <div class="read">8 min watch →</div>
-        </button>
-        <button class="article-card" data-goto="article-1">
-          <span class="tag">Case Studies</span>
-          <h4>Real World Cases — Posterior Circulation</h4>
-          <p>Dr. Lodi shares real-world cases highlighting the complexity of posterior circulation stroke.</p>
-          <div class="read">6 min read →</div>
-        </button>
-        <button class="article-card" data-goto="article-1">
-          <span class="tag">Quick Info</span>
-          <h4>Signs You May Be Having a Stroke</h4>
-          <p>Quick signs to watch out for. Useful for non-clinician patient education.</p>
-          <div class="read">2 min read →</div>
-        </button>
-        <button class="article-card" data-goto="article-1">
-          <span class="tag">Introductory</span>
-          <h4>Anterior vs Posterior Circulation</h4>
-          <p>Anterior and posterior circulation stroke present very differently and must both be recognized.</p>
-          <div class="read">6 min read →</div>
-        </button>
-      </div>
+      <div class="filter-row">${filterChips}</div>
+      <div class="articles">${articleCards}</div>
     </section>
-  </div>
+  `);
 
-  <!-- ============ TEXT ALGORITHM (Start Triaging) ============ -->
-  <div id="view-algo-start" class="view hidden">
+  wireHomeHandlers();
+  renderTrailBadge();
+}
+
+function wireHomeHandlers() {
+  document.querySelectorAll('.segment button').forEach((b) => {
+    b.addEventListener('click', () => {
+      state.activeTab = b.dataset.tab;
+      renderHome();
+    });
+  });
+  document.querySelectorAll('.pathway-card').forEach((c) => {
+    c.addEventListener('click', () => {
+      state.trail = [];
+      goToAlgorithm(+c.dataset.algoId);
+    });
+  });
+  document.querySelectorAll('.article-card').forEach((c) => {
+    c.addEventListener('click', () => goToArticle(+c.dataset.articleId));
+  });
+  document.querySelectorAll('.chip[data-tag]').forEach((c) => {
+    c.addEventListener('click', () => {
+      state.articleFilter = c.dataset.tag;
+      renderHome();
+    });
+  });
+}
+
+/* ---------- ALGORITHM ---------- */
+async function goToAlgorithm(id) {
+  state.view = 'algorithm';
+  state.currentAlgoId = id;
+  if (!state.currentAlgoScores[id]) state.currentAlgoScores[id] = {};
+  loadingFrame();
+  let algo;
+  try { algo = await loadAlgorithm(id); } catch (e) { errorFrame(e.message); return; }
+  // Default every switch to its first level (value), matching RN default behavior
+  const sc = state.currentAlgoScores[id];
+  for (const s of algo.attributes.switches || []) {
+    if (!(s.id in sc) && s.levels?.length) sc[s.id] = s.levels[0].Value;
+  }
+  renderAlgorithm(algo);
+}
+
+function renderAlgorithm(algo) {
+  const att = algo.attributes;
+  const title = decodeEntities(att.Title);
+  setTopbar(title);
+
+  const scored = isScored(algo);
+  const score = scored ? calcScore(algo) : 0;
+  const lastUpdated = att.updatedAt ? new Date(att.updatedAt).toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' }) : '';
+
+  const switchesHTML = scored ? `
+    <div class="switches">
+      ${att.switches.map((s) => {
+        const selected = state.currentAlgoScores[algo.id][s.id];
+        return `
+          <div class="switch-row" data-switch-id="${s.id}">
+            <div class="label-line">
+              <span class="lbl">${esc(decodeEntities(s.Label))}</span>
+              ${s.Description ? `<span class="desc">${s.Description}</span>` : ''}
+            </div>
+            <div class="level-row">
+              ${s.levels.map((l) => `
+                <button class="level-btn ${l.Value === selected ? 'selected' : ''}" data-level="${l.Value}">
+                  ${l.Value} — ${esc(decodeEntities(l.Label))}
+                </button>`).join('')}
+            </div>
+          </div>`;
+      }).join('')}
+    </div>
+
+    <div class="score-bar">
+      <div class="score-label">
+        <div class="eyebrow">Live score</div>
+        <div class="name" id="scoreInterpretation"></div>
+      </div>
+      <div class="score-val" id="scoreVal">${score}</div>
+    </div>
+  ` : '';
+
+  const visible = scored
+    ? att.outcomes.filter((o) => outcomeMatches(o, score))
+    : att.outcomes;
+
+  const outcomesHTML = `
+    <div class="outcomes">
+      <div class="outcomes-head">
+        <h3>${scored ? 'Recommended outcome' : 'Select the outcome that fits'}</h3>
+        <span class="count">${visible.length} of ${att.outcomes.length}</span>
+      </div>
+      ${visible.map((o) => `
+        <div class="outcome" data-outcome-id="${o.id}">
+          <button class="outcome-trigger">
+            <span class="title">${esc(decodeEntities(o.Title))}</span>
+            <svg class="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <div class="outcome-body-wrap"><div class="outcome-body"><div class="outcome-body-inner">
+            <div class="rich">${o.Body || ''}</div>
+            <div class="actions">
+              <button class="btn btn-primary" data-continue data-next="${o.next?.data?.id || ''}">
+                ${o.next?.data?.id ? 'Continue' : 'Complete triage'}
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </button>
+            </div>
+          </div></div></div>
+        </div>
+      `).join('')}
+    </div>
+  `;
+
+  viewFrame(`
     <div class="with-trail">
       <div>
         <div class="algo-header">
-          <div class="eyebrow">Primary assessment · Text pathway</div>
-          <h1 class="algo-title">Start Triaging</h1>
-          <p class="algo-sub">When a stroke is suspected, first assess ABCT's and determine the next step based on stability.</p>
+          <div class="eyebrow">${scored ? 'Scored pathway' : 'Text pathway'}</div>
+          <h1 class="algo-title">${esc(title)}</h1>
+          <p class="algo-sub">${esc(decodeEntities(att.Summary || ''))}</p>
         </div>
 
-        <div class="algo-body">
-          <p>Evaluate each of the following before selecting an outcome:</p>
-          <ul>
-            <li><strong>Airway</strong>: Talking normally? Edema / blood / vomitus / foreign body?</li>
-            <li><strong>Breathing</strong>: O2 sat &lt; 90%, respiratory rate &lt; 10 or &gt; 30, breath sounds, chest movement, work of breathing, accessory respiratory muscle use</li>
-            <li><strong>Circulation</strong>: BP, HR, AMS, cool extremities, skin discoloration, diaphoresis, weak peripheral pulses, arrhythmia</li>
-            <li><strong>Time of Stroke Onset</strong>: Last Known Normal</li>
-          </ul>
-          <div class="highlight"><strong>If ABC's are stable:</strong> maintain SBP 140–185 mmHg, maintain HR 60–100, and check GCS before proceeding.</div>
-        </div>
+        <div class="algo-body">${att.Body || ''}</div>
 
-        <div class="outcomes">
-          <div class="outcomes-head">
-            <h3>Select the most critical finding</h3>
-            <span class="count">5 outcomes</span>
-          </div>
+        ${switchesHTML}
 
-          <div class="outcome sev-critical" data-sev="critical" data-next="algo-fasted" data-name="Airway Unstable">
-            <button class="outcome-trigger"><span class="title">Airway Unstable</span><svg class="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-            <div class="outcome-body-wrap"><div class="outcome-body"><div class="outcome-body-inner">
-              <p>Secure airway before continuing any stroke workup.</p>
-              <ul>
-                <li>Position, suction aggressively, remove foreign body</li>
-                <li>Consider intubation if GCS &lt; 8 or gag absent</li>
-                <li>Pre-oxygenate; avoid hypoxemia and hypotension</li>
-              </ul>
-              <div class="actions"><button class="btn btn-primary" data-continue>Continue to FAST-ED <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div>
-            </div></div></div>
-          </div>
+        ${outcomesHTML}
 
-          <div class="outcome sev-critical" data-sev="critical" data-next="algo-fasted" data-name="Breathing Unstable">
-            <button class="outcome-trigger"><span class="title">Breathing Unstable</span><svg class="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-            <div class="outcome-body-wrap"><div class="outcome-body"><div class="outcome-body-inner">
-              <p>Stabilize breathing before proceeding.</p>
-              <ul>
-                <li>Supplemental O2 for SpO2 &lt; 94%</li>
-                <li>Assist ventilation if RR &lt; 10 or &gt; 30</li>
-                <li>Check chest rise and breath sounds bilaterally</li>
-              </ul>
-              <div class="actions"><button class="btn btn-primary" data-continue>Continue to FAST-ED <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div>
-            </div></div></div>
-          </div>
-
-          <div class="outcome sev-caution" data-sev="caution" data-next="algo-fasted" data-name="Circulation Unstable">
-            <button class="outcome-trigger"><span class="title">Circulation Unstable</span><svg class="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-            <div class="outcome-body-wrap"><div class="outcome-body"><div class="outcome-body-inner">
-              <p>Restore perfusion while preserving cerebral pressure.</p>
-              <ul>
-                <li>IV access ×2, isotonic fluids if hypotensive</li>
-                <li>Correct arrhythmia per ACLS; avoid over-correction of hypertension</li>
-                <li>Continuous cardiac monitoring</li>
-              </ul>
-              <div class="actions"><button class="btn btn-primary" data-continue>Continue to FAST-ED <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div>
-            </div></div></div>
-          </div>
-
-          <div class="outcome sev-caution" data-sev="caution" data-next="algo-fasted" data-name="GCS < 8">
-            <button class="outcome-trigger"><span class="title">GCS &lt; 8</span><svg class="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-            <div class="outcome-body-wrap"><div class="outcome-body"><div class="outcome-body-inner">
-              <p>Protect airway early. Low GCS suggests impending loss of protective reflexes.</p>
-              <ul>
-                <li>Consider definitive airway</li>
-                <li>Elevate head of bed to 30° if no spinal precautions</li>
-                <li>Recheck pupils, motor response, and glucose</li>
-              </ul>
-              <div class="actions"><button class="btn btn-primary" data-continue>Continue to FAST-ED <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div>
-            </div></div></div>
-          </div>
-
-          <div class="outcome sev-stable" data-sev="stable" data-next="algo-fasted" data-name="Stable">
-            <button class="outcome-trigger"><span class="title">Stable</span><svg class="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-            <div class="outcome-body-wrap"><div class="outcome-body"><div class="outcome-body-inner">
-              <p>ABCs stable — proceed to scale-based triage.</p>
-              <ul>
-                <li>Maintain SBP 140–185 mmHg</li>
-                <li>Maintain HR 60–100</li>
-                <li>Document GCS and proceed to FAST-ED</li>
-              </ul>
-              <div class="actions"><button class="btn btn-primary" data-continue>Continue to FAST-ED <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div>
-            </div></div></div>
-          </div>
-        </div>
-
-        <p class="footnote">Last updated October 9, 2023</p>
+        ${lastUpdated ? `<p class="footnote">Last updated ${lastUpdated}</p>` : ''}
       </div>
 
-      <aside class="trail-panel" id="trailPanel">
-        <div class="trail-head"><span class="ttl">Your triage</span><span class="cnt" id="trailCnt">Active</span></div>
-        <div class="trail-list" id="trailList"></div>
-        <div class="empty" id="trailEmpty">
+      <aside class="trail-panel">
+        <div class="trail-head"><span class="ttl">Your triage</span><span class="cnt">Active</span></div>
+        <div class="trail-list" id="trailListDesktop"></div>
+        <div class="empty ${state.trail.length ? 'hidden' : ''}" id="trailEmptyDesktop">
           <svg class="icon" width="28" height="28" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.5"/><path d="M12 7v5l3 2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
           No decisions yet. Pick an outcome below to start building your triage.
         </div>
       </aside>
     </div>
-  </div>
+  `);
 
-  <!-- ============ SCORED ALGORITHM (FAST-ED) ============ -->
-  <div id="view-algo-fasted" class="view hidden">
-    <div class="with-trail">
+  wireAlgorithmHandlers(algo);
+  updateScoreInterpretation(algo);
+  renderTrailBadge();
+  renderTrailLists();
+  window.scrollTo({ top: 0, behavior: 'instant' });
+}
+
+function updateScoreInterpretation(algo) {
+  if (!isScored(algo)) return;
+  const score = calcScore(algo);
+  const visible = algo.attributes.outcomes.filter((o) => outcomeMatches(o, score));
+  const name = visible[0]?.Title ? decodeEntities(visible[0].Title) : '';
+  const interp = $('scoreInterpretation');
+  if (interp) interp.textContent = name;
+  const scoreEl = $('scoreVal');
+  if (scoreEl) {
+    const prev = +scoreEl.textContent;
+    scoreEl.textContent = score;
+    if (prev !== score) {
+      scoreEl.classList.remove('animate');
+      void scoreEl.offsetWidth;
+      scoreEl.classList.add('animate');
+    }
+  }
+}
+
+function wireAlgorithmHandlers(algo) {
+  // Level buttons
+  document.querySelectorAll('.switch-row').forEach((row) => {
+    const swId = +row.dataset.switchId;
+    row.querySelectorAll('.level-btn').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const v = +btn.dataset.level;
+        state.currentAlgoScores[algo.id][swId] = v;
+        row.querySelectorAll('.level-btn').forEach((b) => b.classList.remove('selected'));
+        btn.classList.add('selected');
+        updateScoreInterpretation(algo);
+        rerenderOutcomesInPlace(algo);
+      });
+    });
+  });
+
+  // Outcome expand
+  wireOutcomeTriggers();
+
+  // Continue button
+  document.querySelectorAll('[data-continue]').forEach((btn) => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const card = btn.closest('.outcome');
+      const outcomeId = +card.dataset.outcomeId;
+      const att = algo.attributes;
+      const outcome = att.outcomes.find((o) => o.id === outcomeId);
+      const nextId = outcome?.next?.data?.id || null;
+
+      state.trail.push({
+        algorithmId: algo.id,
+        algorithmTitle: decodeEntities(att.Title),
+        outcomeTitle: decodeEntities(outcome.Title),
+        score: isScored(algo) ? calcScore(algo) : null,
+      });
+
+      if (nextId) goToAlgorithm(nextId);
+      else showSummary();
+    });
+  });
+}
+
+function rerenderOutcomesInPlace(algo) {
+  const score = calcScore(algo);
+  const visible = algo.attributes.outcomes.filter((o) => outcomeMatches(o, score));
+  const container = document.querySelector('.outcomes');
+  if (!container) return;
+  const countEl = container.querySelector('.count');
+  if (countEl) countEl.textContent = `${visible.length} of ${algo.attributes.outcomes.length}`;
+  // Toggle visibility without destroying expanded state
+  container.querySelectorAll('.outcome').forEach((card) => {
+    const id = +card.dataset.outcomeId;
+    const vis = visible.some((o) => o.id === id);
+    card.classList.toggle('hidden', !vis);
+  });
+}
+
+function wireOutcomeTriggers() {
+  document.querySelectorAll('.outcome-trigger').forEach((t) => {
+    t.addEventListener('click', () => {
+      const card = t.closest('.outcome');
+      const wasOpen = card.classList.contains('open');
+      card.parentElement.querySelectorAll('.outcome.open').forEach((o) => o.classList.remove('open'));
+      if (!wasOpen) {
+        card.classList.add('open');
+        scrollExpandedIntoView(card);
+      }
+    });
+  });
+}
+
+/* ---------- SUMMARY ---------- */
+function showSummary() {
+  state.view = 'summary';
+  setTopbar('Triage Summary');
+  const steps = state.trail.map((s, i) => `
+    <div class="summary-step">
+      <div class="num">${i + 1}</div>
       <div>
-        <div class="algo-header">
-          <div class="eyebrow">Scale-based · Scored pathway</div>
-          <h1 class="algo-title">FAST-ED</h1>
-          <p class="algo-sub">Field Assessment Stroke Triage for Emergency Destination. Score ≥ 4 suggests large-vessel occlusion — consider direct transport to a comprehensive stroke center.</p>
-        </div>
-
-        <div class="algo-body">
-          <p>Score each domain. Select the best-fit level for the patient's current presentation.</p>
-        </div>
-
-        <div class="switches" id="fastedSwitches">
-          <div class="switch-row" data-max="1">
-            <div class="label-line"><span class="lbl">Facial Palsy</span><span class="desc">Normal / slight asymmetry (0) vs partial or complete palsy (1)</span></div>
-            <div class="level-row">
-              <button class="level-btn selected" data-val="0">0 — Normal</button>
-              <button class="level-btn" data-val="1">1 — Palsy</button>
-            </div>
-          </div>
-          <div class="switch-row" data-max="2">
-            <div class="label-line"><span class="lbl">Arm Weakness</span><span class="desc">No drift (0) / drift (1) / fall against gravity (2)</span></div>
-            <div class="level-row">
-              <button class="level-btn selected" data-val="0">0</button>
-              <button class="level-btn" data-val="1">1</button>
-              <button class="level-btn" data-val="2">2</button>
-            </div>
-          </div>
-          <div class="switch-row" data-max="2">
-            <div class="label-line"><span class="lbl">Speech Changes</span><span class="desc">None (0) / mild-moderate dysarthria or aphasia (1) / severe (2)</span></div>
-            <div class="level-row">
-              <button class="level-btn selected" data-val="0">0</button>
-              <button class="level-btn" data-val="1">1</button>
-              <button class="level-btn" data-val="2">2</button>
-            </div>
-          </div>
-          <div class="switch-row" data-max="2">
-            <div class="label-line"><span class="lbl">Eye Deviation</span><span class="desc">None (0) / partial (1) / forced deviation (2)</span></div>
-            <div class="level-row">
-              <button class="level-btn selected" data-val="0">0</button>
-              <button class="level-btn" data-val="1">1</button>
-              <button class="level-btn" data-val="2">2</button>
-            </div>
-          </div>
-          <div class="switch-row" data-max="2">
-            <div class="label-line"><span class="lbl">Denial / Neglect</span><span class="desc">None (0) / extinction to bilat stim (1) / hemi-inattention or hemianopia (2)</span></div>
-            <div class="level-row">
-              <button class="level-btn selected" data-val="0">0</button>
-              <button class="level-btn" data-val="1">1</button>
-              <button class="level-btn" data-val="2">2</button>
-            </div>
-          </div>
-        </div>
-
-        <div class="score-bar">
-          <div class="score-label">
-            <div class="eyebrow">Live score</div>
-            <div class="name" id="scoreInterpretation">LVO unlikely — continue standard protocol</div>
-          </div>
-          <div class="score-val" id="scoreVal">0</div>
-        </div>
-
-        <div class="outcomes" id="fastedOutcomes">
-          <div class="outcomes-head">
-            <h3>Recommended outcome</h3>
-            <span class="count" id="outcomeCnt">1 outcome shown</span>
-          </div>
-
-          <div class="outcome sev-stable" data-sev="stable" data-score-min="0" data-score-max="3" data-name="LVO Unlikely" data-end="true">
-            <button class="outcome-trigger"><span class="title">LVO Unlikely — continue standard protocol</span><svg class="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-            <div class="outcome-body-wrap"><div class="outcome-body"><div class="outcome-body-inner">
-              <p>Score &lt; 4 suggests LVO is unlikely. Continue with standard stroke protocol:</p>
-              <ul>
-                <li>Transport to the nearest primary stroke center</li>
-                <li>Pre-notify receiving facility with ETA and LKN</li>
-                <li>Re-assess scores en route; upgrade if scores rise</li>
-              </ul>
-              <div class="actions"><button class="btn btn-primary" data-continue>Complete triage <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M5 12l5 5L21 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div>
-            </div></div></div>
-          </div>
-
-          <div class="outcome sev-critical hidden" data-sev="critical" data-score-min="4" data-score-max="9" data-name="LVO Likely" data-end="true">
-            <button class="outcome-trigger"><span class="title">LVO Likely — route to comprehensive center</span><svg class="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-            <div class="outcome-body-wrap"><div class="outcome-body"><div class="outcome-body-inner">
-              <p>Score ≥ 4 suggests large-vessel occlusion. Route directly to a comprehensive stroke center capable of mechanical thrombectomy:</p>
-              <ul>
-                <li>Bypass primary stroke center if within extended time window</li>
-                <li>Activate stroke team and MT team on notification</li>
-                <li>Ensure CT angiography is queued for arrival</li>
-              </ul>
-              <div class="actions"><button class="btn btn-primary" data-continue>Complete triage <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M5 12l5 5L21 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div>
-            </div></div></div>
-          </div>
-        </div>
-
-        <p class="footnote">Last updated October 9, 2023</p>
+        <div class="name">${esc(s.algorithmTitle)}${s.score != null ? ` <span style="color:var(--ink-3);font-weight:500;">· score ${s.score}</span>` : ''}</div>
+        <div class="choice">${esc(s.outcomeTitle)}</div>
       </div>
-
-      <aside class="trail-panel">
-        <div class="trail-head"><span class="ttl">Your triage</span><span class="cnt">Active</span></div>
-        <div class="trail-list" id="trailList2"></div>
-        <div class="empty hidden" id="trailEmpty2">No decisions yet.</div>
-      </aside>
     </div>
-  </div>
+  `).join('');
 
-  <!-- ============ SUMMARY ============ -->
-  <div id="view-summary" class="view hidden">
+  viewFrame(`
     <div class="summary-hero">
       <div class="eyebrow">Triage complete</div>
       <h2>Your triage is ready</h2>
       <p>Review the decisions you made below. This is your stroke triage record for the current patient. You can start over at any time.</p>
       <div class="actions">
-        <button class="btn btn-primary"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M9 17H5a2 2 0 01-2-2V5a2 2 0 012-2h14a2 2 0 012 2v10a2 2 0 01-2 2h-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><polyline points="12,15 12,3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><polyline points="8,7 12,3 16,7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Export PDF</button>
+        <button class="btn btn-primary" id="printBtn">Export PDF</button>
         <button class="btn btn-ghost" id="startOverBtn">Start new triage</button>
       </div>
     </div>
-    <div class="summary-card" id="summaryCard"></div>
-  </div>
+    <div class="summary-card">${steps || '<p style="color:var(--ink-3);">No decisions recorded.</p>'}</div>
+  `);
 
-  <!-- ============ ARTICLE READER ============ -->
-  <div id="view-article-1" class="view hidden">
-    <div class="article-reader">
-      <span class="tag">Introductory</span>
-      <h1>Stroke Causes and Risk Factors</h1>
-      <div class="article-meta"><span>Dr. Lodi</span><span>·</span><span>5 min read</span><span>·</span><span>Updated Oct 2023</span></div>
-      <p>It's important to distinguish between causes of stroke and modifiable and non-modifiable risk factors. A stroke is caused by an interruption of blood flow to the brain — either from a blocked vessel (ischemic) or a bleed (hemorrhagic). Identifying the underlying mechanism changes the acute treatment pathway.</p>
-      <p>Ischemic stroke is the most common type, accounting for roughly 87% of cases. It occurs when a blood vessel supplying the brain becomes blocked — most often by a clot that traveled from elsewhere in the body, or by local narrowing of a cerebral vessel.</p>
-      <h2>Non-modifiable risk factors</h2>
-      <ul>
-        <li>Age — risk doubles every decade after 55</li>
-        <li>Sex — men have higher incidence; women have higher mortality</li>
-        <li>Family history of stroke or TIA</li>
-        <li>Prior stroke or TIA</li>
-      </ul>
-      <h2>Modifiable risk factors</h2>
-      <ul>
-        <li>Hypertension — the single most important modifiable factor</li>
-        <li>Atrial fibrillation</li>
-        <li>Diabetes and metabolic syndrome</li>
-        <li>Tobacco use and heavy alcohol intake</li>
-        <li>Hyperlipidemia and sedentary lifestyle</li>
-      </ul>
-      <div class="callout">Distinguishing modifiable from non-modifiable factors is essential for both primary prevention counselling and long-term secondary prevention planning after a stroke.</div>
-      <h2>Takeaways</h2>
-      <p>For clinicians, the priority is rapid identification and treatment. For prevention, the focus should be on aggressive control of blood pressure, management of atrial fibrillation, and lifestyle modification. See related articles for detailed treatment pathways and secondary-prevention frameworks.</p>
-    </div>
-  </div>
-
-</main>
-
-<div class="trail-drawer" id="trailDrawer">
-  <div class="trail-drawer-inner" id="trailDrawerInner" onclick="event.stopPropagation()">
-    <div class="trail-drawer-handle"></div>
-    <div class="trail-head" style="margin-bottom:12px;"><span class="ttl">Your triage</span></div>
-    <div class="trail-list" id="trailListMobile"></div>
-    <div class="empty hidden" id="trailEmptyMobile">No decisions yet.</div>
-  </div>
-</div>
-
-<script>
-/* ===== State ===== */
-const state = { view: 'home', trail: [], fastedScores: [0,0,0,0,0] };
-
-/* ===== View routing ===== */
-const views = ['home','algo-start','algo-fasted','summary','article-1'];
-function showView(id) {
-  state.view = id;
-  views.forEach(v => {
-    const el = document.getElementById('view-' + v);
-    if (!el) return;
-    if (v === id) { el.classList.remove('hidden'); el.style.animation = 'none'; void el.offsetWidth; el.style.animation = ''; }
-    else el.classList.add('hidden');
+  $('printBtn').addEventListener('click', () => window.print());
+  $('startOverBtn').addEventListener('click', () => {
+    state.trail = [];
+    state.currentAlgoScores = {};
+    renderHome();
   });
-  const back = document.getElementById('backBtn');
-  back.style.display = id === 'home' ? 'none' : 'inline-flex';
-  const title = document.getElementById('topbarTitle');
-  const map = { 'home': '', 'algo-start': 'Start Triaging', 'algo-fasted': 'FAST-ED', 'summary': 'Triage Summary', 'article-1': 'Article' };
-  title.textContent = map[id] || '';
+  renderTrailBadge();
   window.scrollTo({ top: 0, behavior: 'instant' });
-  renderTrail();
 }
 
-document.getElementById('backBtn').addEventListener('click', () => {
-  if (state.view === 'summary' || state.view === 'algo-fasted') showView('algo-start');
-  else showView('home');
-});
+/* ---------- ARTICLE ---------- */
+async function goToArticle(id) {
+  state.view = 'article';
+  setTopbar('Article');
+  const found = state.articles.find((a) => a.id === id);
+  if (!found) { errorFrame('Article not found.'); return; }
+  const att = found.attributes;
+  const tag = (att.tags?.data || [])[0]?.attributes?.Name || 'Article';
+  const lastUpdated = att.updatedAt ? new Date(att.updatedAt).toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' }) : '';
 
-document.querySelectorAll('[data-goto]').forEach(el => {
-  el.addEventListener('click', () => showView(el.dataset.goto));
-});
+  viewFrame(`
+    <div class="article-reader">
+      <span class="tag">${esc(tag)}</span>
+      <h1>${esc(decodeEntities(att.Title))}</h1>
+      <div class="article-meta">
+        ${att.Summary ? `<span>${esc(decodeEntities(att.Summary))}</span><span>·</span>` : ''}
+        <span>Updated ${lastUpdated}</span>
+      </div>
+      <div>${att.Body || ''}</div>
+    </div>
+  `);
+  window.scrollTo({ top: 0, behavior: 'instant' });
+  renderTrailBadge();
+}
 
-/* ===== Segmented tabs ===== */
-document.querySelectorAll('.segment button').forEach(btn => {
-  btn.addEventListener('click', () => {
-    document.querySelectorAll('.segment button').forEach(b => b.classList.remove('on'));
-    btn.classList.add('on');
-    const tab = btn.dataset.tab;
-    document.getElementById('tab-triage').classList.toggle('hidden', tab !== 'triage');
-    document.getElementById('tab-library').classList.toggle('hidden', tab !== 'library');
+/* ---------- TRAIL ---------- */
+function renderTrailLists() {
+  const lists = [$('trailListDesktop'), $('trailListMobile')];
+  const empties = [$('trailEmptyDesktop'), $('trailEmptyMobile')];
+  lists.forEach((list) => {
+    if (!list) return;
+    list.innerHTML = state.trail.map((s, i) => `
+      <div class="trail-item ${i === state.trail.length - 1 ? 'active' : ''}">
+        <div class="node"></div>
+        <div class="text">
+          <div class="step-name">${esc(s.algorithmTitle)}</div>
+          <div class="decision">${esc(s.outcomeTitle)}${s.score != null ? ` · score ${s.score}` : ''}</div>
+        </div>
+      </div>
+    `).join('');
   });
-});
-
-/* ===== Pill expansion + smart auto-scroll ===== */
-function scrollExpandedIntoView(card) {
-  const topbarH = document.querySelector('.topbar').getBoundingClientRect().height;
-  const vh = window.innerHeight;
-  // Wait for the height transition to finish before measuring (280ms per CSS).
-  setTimeout(() => {
-    const rect = card.getBoundingClientRect();
-    const cardTop = rect.top;
-    const cardBottom = rect.bottom;
-    let target = null;
-    if (cardBottom > vh - 16) {
-      // Continue button / bottom is below the fold — scroll up so bottom sits ~16px above viewport bottom.
-      target = window.scrollY + (cardBottom - vh) + 24;
-    } else if (cardTop < topbarH + 12) {
-      // Pill header got pushed behind the sticky topbar — scroll so header is just below topbar.
-      target = window.scrollY + cardTop - topbarH - 12;
-    }
-    if (target != null) {
-      const max = document.documentElement.scrollHeight - vh;
-      target = Math.max(0, Math.min(target, max));
-      smoothScrollTo(target, 360);
-    }
-  }, 300);
+  empties.forEach((e) => { if (e) e.classList.toggle('hidden', state.trail.length > 0); });
+}
+function renderTrailBadge() {
+  renderTrailLists();
+  const n = state.trail.length;
+  $('trailBadgeLabel').textContent = `${n} ${n === 1 ? 'step' : 'steps'}`;
+  $('trailBadge').style.display = n > 0 ? 'inline-flex' : 'none';
 }
 
+$('trailBadge').addEventListener('click', () => $('trailDrawer').classList.add('open'));
+$('trailDrawer').addEventListener('click', () => $('trailDrawer').classList.remove('open'));
+
+/* ---------- Scroll helper ---------- */
 function smoothScrollTo(targetY, duration) {
   const startY = window.scrollY;
   const delta = targetY - startY;
@@ -759,128 +834,24 @@ function smoothScrollTo(targetY, duration) {
   }
   requestAnimationFrame(step);
 }
-
-document.querySelectorAll('.outcome-trigger').forEach(t => {
-  t.addEventListener('click', () => {
-    const card = t.closest('.outcome');
-    const wasOpen = card.classList.contains('open');
-    card.parentElement.querySelectorAll('.outcome.open').forEach(o => o.classList.remove('open'));
-    if (!wasOpen) {
-      card.classList.add('open');
-      scrollExpandedIntoView(card);
+function scrollExpandedIntoView(card) {
+  const topbarH = document.querySelector('.topbar').getBoundingClientRect().height;
+  const vh = window.innerHeight;
+  setTimeout(() => {
+    const rect = card.getBoundingClientRect();
+    let target = null;
+    if (rect.bottom > vh - 16) target = window.scrollY + (rect.bottom - vh) + 24;
+    else if (rect.top < topbarH + 12) target = window.scrollY + rect.top - topbarH - 12;
+    if (target != null) {
+      const max = document.documentElement.scrollHeight - vh;
+      target = Math.max(0, Math.min(target, max));
+      smoothScrollTo(target, 360);
     }
-  });
-});
-
-/* ===== Continue button → chain ===== */
-document.querySelectorAll('[data-continue]').forEach(btn => {
-  btn.addEventListener('click', (e) => {
-    e.stopPropagation();
-    const card = btn.closest('.outcome');
-    const algoScreen = btn.closest('[id^="view-algo-"]');
-    const algoName = algoScreen.querySelector('.algo-title').textContent;
-    const sev = card.dataset.sev;
-    const outcomeName = card.dataset.name;
-    const next = card.dataset.next;
-    const isEnd = card.dataset.end === 'true';
-
-    state.trail.push({ algorithm: algoName, outcome: outcomeName, severity: sev });
-
-    if (isEnd) { renderSummary(); showView('summary'); }
-    else if (next) showView(next);
-  });
-});
-
-/* ===== Trail render ===== */
-function trailItemHTML(step, idx, isLast) {
-  return `
-    <div class="trail-item ${isLast ? 'active' : ''}">
-      <div class="node"></div>
-      <div class="text">
-        <div class="step-name">${step.algorithm}</div>
-        <div class="decision">${step.outcome}</div>
-      </div>
-      <button class="edit">Edit</button>
-    </div>
-  `;
-}
-function renderTrail() {
-  const lists = [document.getElementById('trailList'), document.getElementById('trailList2'), document.getElementById('trailListMobile')];
-  const empties = [document.getElementById('trailEmpty'), document.getElementById('trailEmpty2'), document.getElementById('trailEmptyMobile')];
-  const badge = document.getElementById('trailBadge');
-  const label = document.getElementById('trailBadgeLabel');
-
-  lists.forEach(list => { if (!list) return; list.innerHTML = state.trail.map((s, i) => trailItemHTML(s, i, i === state.trail.length - 1)).join(''); });
-  empties.forEach(e => { if (!e) return; e.classList.toggle('hidden', state.trail.length > 0); });
-  label.textContent = state.trail.length + ' ' + (state.trail.length === 1 ? 'step' : 'steps');
-  badge.style.display = state.trail.length > 0 ? 'inline-flex' : 'none';
+  }, 300);
 }
 
-document.getElementById('trailBadge').addEventListener('click', () => {
-  document.getElementById('trailDrawer').classList.add('open');
-});
-document.getElementById('trailDrawer').addEventListener('click', () => {
-  document.getElementById('trailDrawer').classList.remove('open');
-});
-
-/* ===== FAST-ED score + filter ===== */
-function recalcFasted() {
-  const rows = document.querySelectorAll('#fastedSwitches .switch-row');
-  let score = 0;
-  rows.forEach((row, i) => { score += state.fastedScores[i] || 0; });
-  const el = document.getElementById('scoreVal');
-  const prev = +el.textContent;
-  el.textContent = score;
-  if (prev !== score) { el.classList.remove('animate'); void el.offsetWidth; el.classList.add('animate'); }
-  const interp = document.getElementById('scoreInterpretation');
-  if (score >= 4) { interp.textContent = 'LVO likely — consider comprehensive stroke center'; }
-  else { interp.textContent = 'LVO unlikely — continue standard protocol'; }
-  document.querySelectorAll('#fastedOutcomes .outcome').forEach(o => {
-    const min = +o.dataset.scoreMin, max = +o.dataset.scoreMax;
-    const visible = score >= min && score <= max;
-    o.classList.toggle('hidden', !visible);
-  });
-  document.getElementById('outcomeCnt').textContent = '1 outcome shown';
-}
-document.querySelectorAll('#fastedSwitches .level-btn').forEach(btn => {
-  btn.addEventListener('click', () => {
-    const row = btn.closest('.switch-row');
-    row.querySelectorAll('.level-btn').forEach(b => b.classList.remove('selected'));
-    btn.classList.add('selected');
-    const rowIdx = [...row.parentElement.children].indexOf(row);
-    state.fastedScores[rowIdx] = +btn.dataset.val;
-    recalcFasted();
-  });
-});
-
-/* ===== Summary render ===== */
-function renderSummary() {
-  const card = document.getElementById('summaryCard');
-  card.innerHTML = state.trail.map((s, i) => `
-    <div class="summary-step">
-      <div class="num">${i+1}</div>
-      <div>
-        <div class="name">${s.algorithm}</div>
-        <div class="choice">${s.outcome}</div>
-      </div>
-    </div>
-  `).join('');
-}
-
-document.getElementById('startOverBtn').addEventListener('click', () => {
-  state.trail = [];
-  state.fastedScores = [0,0,0,0,0];
-  document.querySelectorAll('#fastedSwitches .switch-row').forEach(row => {
-    row.querySelectorAll('.level-btn').forEach((b,i) => b.classList.toggle('selected', i === 0));
-  });
-  recalcFasted();
-  showView('home');
-});
-
-/* ===== Init ===== */
-recalcFasted();
-renderTrail();
-showView('home');
+/* ---------- Boot ---------- */
+renderHome();
 </script>
 
 </body>
