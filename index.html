@@ -499,21 +499,28 @@ function wireHomeHandlers() {
 }
 
 /* ---------- ALGORITHM ---------- */
-async function goToAlgorithm(id) {
+async function goToAlgorithm(id, opts = {}) {
   state.view = 'algorithm';
   state.currentAlgoId = id;
   if (!state.currentAlgoScores[id]) state.currentAlgoScores[id] = {};
   loadingFrame();
   let algo;
   try { algo = await loadAlgorithm(id); } catch (e) { errorFrame(e.message); return; }
-  // Default every switch to its lowest level so the score starts at 0
-  const sc = state.currentAlgoScores[id];
-  for (const s of algo.attributes.switches || []) {
-    if (!(s.id in sc) && s.levels?.length) {
-      sc[s.id] = s.levels.reduce((m, l) => l.Value < m ? l.Value : m, s.levels[0].Value);
+
+  if (opts.restoreFrom?.switchValues) {
+    // Rehydrate the exact switch values from the saved trail entry.
+    state.currentAlgoScores[id] = { ...opts.restoreFrom.switchValues };
+  } else {
+    // Default every switch to its lowest level so the score starts at 0.
+    const sc = state.currentAlgoScores[id];
+    for (const s of algo.attributes.switches || []) {
+      if (!(s.id in sc) && s.levels?.length) {
+        sc[s.id] = s.levels.reduce((m, l) => l.Value < m ? l.Value : m, s.levels[0].Value);
+      }
     }
   }
-  renderAlgorithm(algo);
+
+  renderAlgorithm(algo, { restoreOutcomeId: opts.restoreFrom?.outcomeId });
 }
 
 function renderBreadcrumb(currentAlgo) {
@@ -544,7 +551,7 @@ function renderBreadcrumb(currentAlgo) {
     : '';
 }
 
-function renderAlgorithm(algo) {
+function renderAlgorithm(algo, opts = {}) {
   const att = algo.attributes;
   const title = decodeEntities(att.Title);
   setTopbar(title);
@@ -636,7 +643,7 @@ function renderAlgorithm(algo) {
   `);
 
   setBreadcrumb(renderBreadcrumb(algo));
-  wireAlgorithmHandlers(algo);
+  wireAlgorithmHandlers(algo, opts);
   updateScoreInterpretation(algo);
   window.scrollTo({ top: 0, behavior: 'instant' });
 }
@@ -660,7 +667,7 @@ function updateScoreInterpretation(algo) {
   }
 }
 
-function wireAlgorithmHandlers(algo) {
+function wireAlgorithmHandlers(algo, opts = {}) {
   // Level buttons
   document.querySelectorAll('.switch-row').forEach((row) => {
     const swId = +row.dataset.switchId;
@@ -712,6 +719,17 @@ function wireAlgorithmHandlers(algo) {
       goToAlgorithm(entry.algorithmId, { restoreFrom: entry });
     });
   });
+
+  // Auto-expand the outcome that was previously chosen, if we're restoring.
+  if (opts.restoreOutcomeId) {
+    const card = document.querySelector(
+      `.outcome[data-outcome-id="${opts.restoreOutcomeId}"]`
+    );
+    if (card && !card.classList.contains('hidden')) {
+      card.classList.add('open');
+      scrollExpandedIntoView(card);
+    }
+  }
 }
 
 function rerenderOutcomesInPlace(algo) {
