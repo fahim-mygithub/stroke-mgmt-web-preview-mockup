@@ -55,16 +55,8 @@ button { font-family: inherit; cursor: pointer; }
 .back-btn { display: flex; align-items: center; gap: 6px; padding: 6px 12px 6px 8px; border: 1px solid var(--border); background: var(--surface); color: var(--ink-2); border-radius: var(--r-md); font-weight: 500; font-size: 13px; transition: all 140ms var(--ease); }
 .back-btn:hover { background: var(--surface-2); color: var(--ink); }
 .topbar-title { font-weight: 600; font-size: 14px; color: var(--ink); letter-spacing: -0.01em; }
-.trail-badge { display: none; }
-@media (max-width: 960px) {
-  .trail-badge { display: inline-flex; align-items: center; gap: 6px; padding: 6px 10px; background: var(--brand-soft); color: var(--brand); border-radius: var(--r-pill); font-size: 12px; font-weight: 600; border: 1px solid transparent; cursor: pointer; }
-  .trail-badge:active { transform: scale(.96); }
-  .trail-badge .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--brand); }
-}
 
 .shell { max-width: 1280px; margin: 0 auto; padding: 24px; }
-.with-trail { display: grid; grid-template-columns: 1fr 340px; gap: 32px; align-items: start; }
-@media (max-width: 960px) { .with-trail { grid-template-columns: 1fr; } .trail-panel { display: none; } }
 
 .view { animation: viewIn 260ms var(--ease) both; }
 @keyframes viewIn {
@@ -180,35 +172,6 @@ button { font-family: inherit; cursor: pointer; }
 .btn-ghost { background: transparent; color: var(--ink-2); border-color: var(--border); }
 .btn-ghost:hover { color: var(--ink); border-color: var(--ink-3); }
 
-.trail-panel { position: sticky; top: 80px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-lg); padding: 18px; box-shadow: var(--shadow-xs); }
-.trail-panel .trail-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
-.trail-panel .trail-head .ttl { font-size: 13px; font-weight: 600; color: var(--ink); text-transform: uppercase; letter-spacing: 0.06em; }
-.trail-panel .trail-head .cnt { font-size: 12px; color: var(--ink-3); }
-.trail-panel .empty { font-size: 13px; color: var(--ink-3); padding: 20px 0; text-align: center; line-height: 1.5; }
-.trail-panel .empty .icon { display: block; margin: 0 auto 8px; opacity: .6; }
-
-.trail-list { position: relative; display: flex; flex-direction: column; gap: 2px; }
-.trail-list::before { content: ''; position: absolute; left: 9px; top: 14px; bottom: 14px; width: 2px; background: var(--border); }
-.trail-item { display: grid; grid-template-columns: 22px 1fr auto; gap: 10px; align-items: start; padding: 10px 0; position: relative; animation: trailIn 360ms var(--spring) both; }
-@keyframes trailIn {
-  from { opacity: 0; transform: translateY(-6px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-.trail-item .node { width: 18px; height: 18px; border-radius: 50%; background: var(--ink-3); border: 3px solid var(--surface); box-shadow: 0 0 0 2px var(--ink-3); position: relative; z-index: 1; margin-top: 2px; }
-.trail-item.active .node { background: var(--brand); box-shadow: 0 0 0 2px var(--brand); }
-.trail-item.active .node::after { content: ''; position: absolute; inset: -6px; border-radius: 50%; border: 2px solid var(--brand-soft); animation: pulse 1.6s infinite; }
-@keyframes pulse { 0%,100% { opacity: 1; transform: scale(1); } 50% { opacity: .3; transform: scale(1.2); } }
-.trail-item .text .step-name { font-size: 13px; font-weight: 600; color: var(--ink); letter-spacing: -0.005em; }
-.trail-item .text .decision { font-size: 12.5px; color: var(--ink-2); margin-top: 2px; }
-.trail-item .edit { font-size: 12px; color: var(--ink-3); background: transparent; border: 0; padding: 4px 6px; cursor: pointer; border-radius: 4px; }
-.trail-item .edit:hover { color: var(--brand); background: var(--brand-soft); }
-
-.trail-drawer { position: fixed; inset: 0; z-index: 50; display: none; background: rgba(11,18,32,.45); backdrop-filter: blur(3px); opacity: 0; transition: opacity 200ms var(--ease); pointer-events: none; }
-.trail-drawer.open { display: block; opacity: 1; pointer-events: auto; }
-.trail-drawer-inner { position: absolute; left: 0; right: 0; bottom: 0; background: var(--surface); border-radius: 20px 20px 0 0; padding: 20px 20px 28px; transform: translateY(100%); transition: transform 320ms var(--spring); max-height: 80vh; overflow-y: auto; }
-.trail-drawer.open .trail-drawer-inner { transform: translateY(0); }
-.trail-drawer-handle { width: 40px; height: 4px; background: var(--border); border-radius: 2px; margin: -4px auto 16px; }
-
 .summary-hero { background: linear-gradient(135deg, var(--brand) 0%, #2C5EA0 100%); color: #fff; padding: 32px 28px; border-radius: var(--r-lg); margin-bottom: 24px; position: relative; overflow: hidden; }
 .summary-hero::after { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at top right, rgba(255,255,255,.1), transparent 60%); pointer-events: none; }
 .summary-hero .eyebrow { color: rgba(255,255,255,.7); }
@@ -288,7 +251,6 @@ button { font-family: inherit; cursor: pointer; }
     </div>
     <div class="topbar-title" id="topbarTitle"></div>
     <div class="spacer"></div>
-    <button class="trail-badge" id="trailBadge"><span class="dot"></span><span id="trailBadgeLabel">0 steps</span></button>
     <button class="icon-btn" aria-label="Search">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"/><path d="M21 21l-4.35-4.35" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
     </button>
@@ -298,16 +260,8 @@ button { font-family: inherit; cursor: pointer; }
   </div>
 </div>
 
+<div id="breadcrumbSlot"></div>
 <main class="shell" id="main"></main>
-
-<div class="trail-drawer" id="trailDrawer">
-  <div class="trail-drawer-inner" id="trailDrawerInner" onclick="event.stopPropagation()">
-    <div class="trail-drawer-handle"></div>
-    <div class="trail-head" style="margin-bottom:12px;"><span class="ttl" style="font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;">Your triage</span></div>
-    <div class="trail-list" id="trailListMobile"></div>
-    <div class="empty hidden" id="trailEmptyMobile" style="font-size:13px;color:var(--ink-3);padding:20px 0;text-align:center;">No decisions yet.</div>
-  </div>
-</div>
 
 <script>
 /* ================================================================
@@ -399,6 +353,9 @@ function allSwitchesSet(algo) {
 function setTopbar(title) {
   $('topbarTitle').textContent = title || '';
   $('backBtn').style.display = state.view === 'home' ? 'none' : 'inline-flex';
+}
+function setBreadcrumb(html) {
+  document.getElementById('breadcrumbSlot').innerHTML = html || '';
 }
 $('backBtn').addEventListener('click', () => {
   if (state.view === 'algorithm' && state.trail.length >= 1) {
@@ -515,7 +472,6 @@ async function renderHome() {
   `);
 
   wireHomeHandlers();
-  renderTrailBadge();
 }
 
 function wireHomeHandlers() {
@@ -558,6 +514,34 @@ async function goToAlgorithm(id) {
     }
   }
   renderAlgorithm(algo);
+}
+
+function renderBreadcrumb(currentAlgo) {
+  const items = [];
+  state.trail.forEach((s, i) => {
+    items.push(`
+      <button class="crumb" data-crumb-idx="${i}" title="Jump back to ${esc(s.algorithmTitle)}">
+        <span class="crumb-name">${esc(s.algorithmTitle)}</span>
+        <span class="crumb-choice">${esc(s.outcomeTitle)}</span>
+      </button>
+    `);
+    items.push(`<span class="crumb-sep">›</span>`);
+  });
+  if (currentAlgo) {
+    const t = decodeEntities(currentAlgo.attributes.Title);
+    items.push(`
+      <span class="crumb current" aria-current="step">
+        <span class="crumb-name">${esc(t)}</span>
+        <span class="crumb-choice">Current</span>
+      </span>
+    `);
+  }
+  return items.length
+    ? `<div class="breadcrumb-bar"><div class="breadcrumb-inner">
+         <span class="breadcrumb-label">Your triage</span>
+         ${items.join('')}
+       </div></div>`
+    : '';
 }
 
 function renderAlgorithm(algo) {
@@ -634,38 +618,26 @@ function renderAlgorithm(algo) {
   `;
 
   viewFrame(`
-    <div class="with-trail">
-      <div>
-        <div class="algo-header">
-          <div class="eyebrow">${scored ? 'Scored pathway' : 'Text pathway'}</div>
-          <h1 class="algo-title">${esc(title)}</h1>
-          <p class="algo-sub">${esc(decodeEntities(att.Summary || ''))}</p>
-        </div>
-
-        <div class="algo-body">${att.Body || ''}</div>
-
-        ${switchesHTML}
-
-        ${outcomesHTML}
-
-        ${lastUpdated ? `<p class="footnote">Last updated ${lastUpdated}</p>` : ''}
+    <div class="algo-wrap">
+      <div class="algo-header">
+        <div class="eyebrow">${scored ? 'Scored pathway' : 'Text pathway'}</div>
+        <h1 class="algo-title">${esc(title)}</h1>
+        <p class="algo-sub">${esc(decodeEntities(att.Summary || ''))}</p>
       </div>
 
-      <aside class="trail-panel">
-        <div class="trail-head"><span class="ttl">Your triage</span><span class="cnt">Active</span></div>
-        <div class="trail-list" id="trailListDesktop"></div>
-        <div class="empty ${state.trail.length ? 'hidden' : ''}" id="trailEmptyDesktop">
-          <svg class="icon" width="28" height="28" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.5"/><path d="M12 7v5l3 2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-          No decisions yet. Pick an outcome below to start building your triage.
-        </div>
-      </aside>
+      <div class="algo-body">${att.Body || ''}</div>
+
+      ${switchesHTML}
+
+      ${outcomesHTML}
+
+      ${lastUpdated ? `<p class="footnote">Last updated ${lastUpdated}</p>` : ''}
     </div>
   `);
 
+  setBreadcrumb(renderBreadcrumb(algo));
   wireAlgorithmHandlers(algo);
   updateScoreInterpretation(algo);
-  renderTrailBadge();
-  renderTrailLists();
   window.scrollTo({ top: 0, behavior: 'instant' });
 }
 
@@ -728,6 +700,16 @@ function wireAlgorithmHandlers(algo) {
 
       if (nextId) goToAlgorithm(nextId);
       else showSummary();
+    });
+  });
+
+  document.querySelectorAll('.crumb[data-crumb-idx]').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const idx = +btn.dataset.crumbIdx;
+      const entry = state.trail[idx];
+      if (!entry) return;
+      state.trail = state.trail.slice(0, idx);
+      goToAlgorithm(entry.algorithmId, { restoreFrom: entry });
     });
   });
 }
@@ -794,7 +776,6 @@ function showSummary() {
     state.currentAlgoScores = {};
     renderHome();
   });
-  renderTrailBadge();
   window.scrollTo({ top: 0, behavior: 'instant' });
 }
 
@@ -820,36 +801,7 @@ async function goToArticle(id) {
     </div>
   `);
   window.scrollTo({ top: 0, behavior: 'instant' });
-  renderTrailBadge();
 }
-
-/* ---------- TRAIL ---------- */
-function renderTrailLists() {
-  const lists = [$('trailListDesktop'), $('trailListMobile')];
-  const empties = [$('trailEmptyDesktop'), $('trailEmptyMobile')];
-  lists.forEach((list) => {
-    if (!list) return;
-    list.innerHTML = state.trail.map((s, i) => `
-      <div class="trail-item ${i === state.trail.length - 1 ? 'active' : ''}">
-        <div class="node"></div>
-        <div class="text">
-          <div class="step-name">${esc(s.algorithmTitle)}</div>
-          <div class="decision">${esc(s.outcomeTitle)}${s.score != null ? ` · score ${s.score}` : ''}</div>
-        </div>
-      </div>
-    `).join('');
-  });
-  empties.forEach((e) => { if (e) e.classList.toggle('hidden', state.trail.length > 0); });
-}
-function renderTrailBadge() {
-  renderTrailLists();
-  const n = state.trail.length;
-  $('trailBadgeLabel').textContent = `${n} ${n === 1 ? 'step' : 'steps'}`;
-  $('trailBadge').style.display = n > 0 ? 'inline-flex' : 'none';
-}
-
-$('trailBadge').addEventListener('click', () => $('trailDrawer').classList.add('open'));
-$('trailDrawer').addEventListener('click', () => $('trailDrawer').classList.remove('open'));
 
 /* ---------- Scroll helper ---------- */
 function smoothScrollTo(targetY, duration) {
