@@ -387,6 +387,7 @@ function errorFrame(msg) {
 /* ---------- HOME ---------- */
 async function renderHome() {
   state.view = 'home';
+  setBreadcrumb('');
   state.currentAlgoId = null;
   setTopbar('');
   // Fresh fetch of home algos and articles if not loaded yet
@@ -800,6 +801,7 @@ function wireOutcomeTriggers() {
 /* ---------- SUMMARY ---------- */
 function showSummary() {
   state.view = 'summary';
+  setBreadcrumb('');
   setTopbar('Triage Summary');
   const steps = state.trail.map((s, i) => `
     <div class="summary-step">
@@ -836,6 +838,7 @@ function showSummary() {
 /* ---------- ARTICLE ---------- */
 async function goToArticle(id) {
   state.view = 'article';
+  setBreadcrumb('');
   setTopbar('Article');
   const found = state.articles.find((a) => a.id === id);
   if (!found) { errorFrame('Article not found.'); return; }
