@@ -665,6 +665,7 @@ function renderAlgorithm(algo, opts = {}) {
 
   setBreadcrumb(renderBreadcrumb(algo));
   wireAlgorithmHandlers(algo, opts);
+  rerenderOutcomesInPlace(algo);
   updateScoreInterpretation(algo);
   window.scrollTo({ top: 0, behavior: 'instant' });
 }
@@ -776,12 +777,16 @@ function rerenderOutcomesInPlace(algo) {
   if (!container) return;
   const countEl = container.querySelector('.count');
   if (countEl) countEl.textContent = `${visible.length} of ${algo.attributes.outcomes.length}`;
-  // Toggle visibility without destroying expanded state
   container.querySelectorAll('.outcome').forEach((card) => {
     const id = +card.dataset.outcomeId;
     const vis = visible.some((o) => o.id === id);
     card.classList.toggle('hidden', !vis);
+    if (!vis) card.classList.remove('open');
   });
+  if (isScored(algo) && !container.querySelector('.outcome:not(.hidden).open')) {
+    const first = container.querySelector('.outcome:not(.hidden)');
+    if (first) first.classList.add('open');
+  }
 }
 
 function wireOutcomeTriggers() {
