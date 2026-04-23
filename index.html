@@ -868,6 +868,132 @@ function wireOutcomeTriggers() {
   });
 }
 
+function renderPdfDoc() {
+  if (state.trail.length === 0) return '';
+
+  const last = state.trail[state.trail.length - 1];
+  const genDate = new Date().toLocaleString(undefined, {
+    year: 'numeric', month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit',
+  });
+
+  const cover = `
+    <div class="pdf-cover">
+      <div class="brand-line">Stroke Mgmt · Triage Record</div>
+      <h1>Triage Handoff</h1>
+      <div class="generated">Generated ${esc(genDate)}</div>
+      <div class="writein">
+        <div><label>Patient identifier</label><div class="line"></div></div>
+        <div><label>Date / time of triage</label><div class="line"></div></div>
+        <div><label>Clinician name</label><div class="line"></div></div>
+        <div><label>Signature</label><div class="line"></div></div>
+      </div>
+      <div class="final-rec">
+        <div class="lbl">Final recommendation</div>
+        <div class="rec">${esc(last.outcomeTitle)} <span style="color:var(--ink-3);font-weight:500;">(from ${esc(last.algorithmTitle)})</span></div>
+      </div>
+    </div>
+  `;
+
+  const stepsHTML = state.trail.map((s, i) => renderPdfStep(s, i)).join('');
+
+  return `
+    <div class="pdf-doc" aria-hidden="true">
+      ${cover}
+      ${stepsHTML}
+      <div class="pdf-end">End of triage record</div>
+    </div>
+  `;
+}
+
+function renderPdfStep(trailEntry, i) {
+  const algo = state.algoCache[trailEntry.algorithmId];
+  if (!algo) {
+    return `
+      <div class="pdf-step">
+        <div class="step-head">
+          <span class="step-num">Step ${i + 1}</span>
+          <h2>${esc(trailEntry.algorithmTitle)}</h2>
+        </div>
+        <p class="step-sub">${esc(trailEntry.outcomeTitle)}</p>
+      </div>
+    `;
+  }
+
+  const att = algo.attributes;
+  const title = decodeEntities(att.Title);
+  const summary = decodeEntities(att.Summary || '');
+  const scored = isScored(algo);
+  const score = trailEntry.score;
+
+  const outcome = (att.outcomes || []).find((o) => o.id === trailEntry.outcomeId);
+
+  const qaBlock = scored ? `
+    <div class="pdf-qa">
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 20%;">Question</th>
+            <th>Assessment criterion</th>
+            <th style="width: 22%;">Answer</th>
+            <th style="width: 8%; text-align: right;">Points</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${(att.switches || []).map((sw) => {
+            const chosenValue = trailEntry.switchValues?.[sw.id];
+            const chosenLevel = (sw.levels || []).find((l) => l.Value === chosenValue);
+            const answerLabel = chosenLevel
+              ? `${chosenLevel.Value} — ${decodeEntities(chosenLevel.Label)}`
+              : '—';
+            return `
+              <tr>
+                <td class="q-label">${esc(decodeEntities(sw.Label))}</td>
+                <td class="q-desc">${sw.Description ? sw.Description : ''}</td>
+                <td class="q-answer">${esc(answerLabel)}</td>
+                <td class="q-points">${chosenValue != null ? chosenValue : '—'}</td>
+              </tr>
+            `;
+          }).join('')}
+          <tr class="total-row">
+            <td colspan="3">Total score</td>
+            <td class="q-points">${score != null ? score : '—'}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  ` : '';
+
+  const outcomeBlock = `
+    <div class="pdf-outcome">
+      <div class="lbl">Decision</div>
+      <h3>${esc(decodeEntities(outcome?.Title || trailEntry.outcomeTitle))}</h3>
+      <div class="body">${outcome?.Body || ''}</div>
+    </div>
+  `;
+
+  const citations = (att.citations || []);
+  const citationsBlock = citations.length ? `
+    <div class="pdf-citations">
+      <div class="lbl">Citations</div>
+      <ol>${citations.map((c) => `<li>${esc(c.Citation)}</li>`).join('')}</ol>
+    </div>
+  ` : '';
+
+  return `
+    <div class="pdf-step">
+      <div class="step-head">
+        <span class="step-num">Step ${i + 1}</span>
+        <h2>${esc(title)}</h2>
+      </div>
+      ${summary ? `<p class="step-sub">${esc(summary)}</p>` : ''}
+      <div class="algo-body">${att.Body || ''}</div>
+      ${qaBlock}
+      ${outcomeBlock}
+      ${citationsBlock}
+    </div>
+  `;
+}
+
 /* ---------- SUMMARY ---------- */
 function showSummary() {
   state.view = 'summary';
@@ -883,6 +1009,8 @@ function showSummary() {
     </div>
   `).join('');
 
+  const pdfHTML = renderPdfDoc();
+
   viewFrame(`
     <div class="summary-hero">
       <div class="eyebrow">Triage complete</div>
@@ -894,6 +1022,7 @@ function showSummary() {
       </div>
     </div>
     <div class="summary-card">${steps || '<p style="color:var(--ink-3);">No decisions recorded.</p>'}</div>
+    ${pdfHTML}
   `);
 
   $('printBtn').addEventListener('click', () => window.print());
