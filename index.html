@@ -698,8 +698,10 @@ function wireAlgorithmHandlers(algo) {
       state.trail.push({
         algorithmId: algo.id,
         algorithmTitle: decodeEntities(att.Title),
+        outcomeId: outcome.id,
         outcomeTitle: decodeEntities(outcome.Title),
         score: isScored(algo) ? calcScore(algo) : null,
+        switchValues: { ...(state.currentAlgoScores[algo.id] || {}) },
       });
 
       if (nextId) goToAlgorithm(nextId);
