@@ -250,6 +250,29 @@ button { font-family: inherit; cursor: pointer; }
 .loading .spinner { width: 28px; height: 28px; border: 3px solid var(--border); border-top-color: var(--brand); border-radius: 50%; animation: spin 700ms linear infinite; margin-bottom: 12px; }
 @keyframes spin { to { transform: rotate(360deg); } }
 .error-banner { background: #FEF3F2; border: 1px solid #FECDCA; color: #B42318; border-radius: var(--r-md); padding: 14px 16px; font-size: 14px; }
+
+/* ---- Horizontal breadcrumb trail ---- */
+.breadcrumb-bar { position: sticky; top: 64px; z-index: 15; background: rgba(247,245,242,.92); backdrop-filter: blur(8px); border-bottom: 1px solid var(--border-2); }
+.breadcrumb-inner { max-width: 1280px; margin: 0 auto; padding: 10px 24px; display: flex; align-items: center; gap: 6px; overflow-x: auto; scrollbar-width: none; -ms-overflow-style: none; }
+.breadcrumb-inner::-webkit-scrollbar { display: none; }
+.breadcrumb-inner::before, .breadcrumb-inner::after { content: ''; position: sticky; top: 0; height: 100%; width: 20px; flex: 0 0 20px; pointer-events: none; }
+.breadcrumb-label { flex: 0 0 auto; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--ink-3); margin-right: 4px; }
+.crumb { flex: 0 0 auto; display: inline-flex; align-items: center; gap: 8px; padding: 6px 12px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-pill); color: var(--ink-2); font-family: inherit; font-size: 12.5px; line-height: 1.25; cursor: pointer; transition: all 140ms var(--ease); max-width: 260px; }
+.crumb:hover { border-color: var(--brand); color: var(--ink); background: var(--brand-softer); }
+.crumb .crumb-name { font-weight: 600; color: var(--ink); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.crumb .crumb-choice { color: var(--ink-3); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.crumb .crumb-choice::before { content: '·'; margin: 0 6px; color: var(--border); }
+.crumb.current { background: var(--brand); border-color: var(--brand); color: #fff; cursor: default; }
+.crumb.current .crumb-name { color: #fff; }
+.crumb.current .crumb-choice { color: rgba(255,255,255,.75); }
+.crumb.current .crumb-choice::before { color: rgba(255,255,255,.4); }
+.crumb.current:hover { background: var(--brand); border-color: var(--brand); }
+.crumb-sep { flex: 0 0 auto; color: var(--ink-3); font-size: 14px; user-select: none; }
+@media (max-width: 720px) {
+  .breadcrumb-inner { padding: 8px 16px; }
+  .breadcrumb-label { display: none; }
+  .crumb { max-width: 180px; font-size: 12px; padding: 5px 10px; }
+}
 </style>
 </head>
 <body>
