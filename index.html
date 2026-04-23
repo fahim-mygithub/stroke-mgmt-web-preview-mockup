@@ -229,6 +229,8 @@ button { font-family: inherit; cursor: pointer; }
 .crumb.current .crumb-choice { color: rgba(255,255,255,.75); }
 .crumb.current .crumb-choice::before { color: rgba(255,255,255,.4); }
 .crumb.current:hover { background: var(--brand); border-color: var(--brand); }
+.crumb.tentative { opacity: .55; border-style: dashed; }
+.crumb.tentative:hover { opacity: .85; background: var(--brand-softer); border-style: solid; }
 .crumb-sep { flex: 0 0 auto; color: var(--ink-3); font-size: 14px; user-select: none; }
 @media (max-width: 720px) {
   .breadcrumb-inner { padding: 8px 16px; }
@@ -524,31 +526,49 @@ async function goToAlgorithm(id, opts = {}) {
 }
 
 function renderBreadcrumb(currentAlgo) {
-  const items = [];
+  if (!currentAlgo && state.trail.length === 0) return '';
+
+  const currentIdx = currentAlgo
+    ? state.trail.findIndex((t) => t.algorithmId === currentAlgo.id)
+    : -1;
+
+  const parts = [];
   state.trail.forEach((s, i) => {
-    items.push(`
-      <button class="crumb" data-crumb-idx="${i}" title="Jump back to ${esc(s.algorithmTitle)}">
-        <span class="crumb-name">${esc(s.algorithmTitle)}</span>
-        <span class="crumb-choice">${esc(s.outcomeTitle)}</span>
-      </button>
-    `);
-    items.push(`<span class="crumb-sep">›</span>`);
+    if (i > 0) parts.push(`<span class="crumb-sep">›</span>`);
+    if (i === currentIdx) {
+      parts.push(`
+        <span class="crumb current" aria-current="step">
+          <span class="crumb-name">${esc(s.algorithmTitle)}</span>
+          <span class="crumb-choice">Current</span>
+        </span>
+      `);
+    } else {
+      const cls = currentIdx >= 0 && i > currentIdx ? 'crumb tentative' : 'crumb';
+      parts.push(`
+        <button class="${cls}" data-crumb-idx="${i}" title="Jump back to ${esc(s.algorithmTitle)}">
+          <span class="crumb-name">${esc(s.algorithmTitle)}</span>
+          <span class="crumb-choice">${esc(s.outcomeTitle)}</span>
+        </button>
+      `);
+    }
   });
-  if (currentAlgo) {
+
+  // If the current algo is brand-new (not in trail), append its current pill.
+  if (currentAlgo && currentIdx === -1) {
+    if (state.trail.length > 0) parts.push(`<span class="crumb-sep">›</span>`);
     const t = decodeEntities(currentAlgo.attributes.Title);
-    items.push(`
+    parts.push(`
       <span class="crumb current" aria-current="step">
         <span class="crumb-name">${esc(t)}</span>
         <span class="crumb-choice">Current</span>
       </span>
     `);
   }
-  return items.length
-    ? `<div class="breadcrumb-bar"><div class="breadcrumb-inner">
-         <span class="breadcrumb-label">Your triage</span>
-         ${items.join('')}
-       </div></div>`
-    : '';
+
+  return `<div class="breadcrumb-bar"><div class="breadcrumb-inner">
+    <span class="breadcrumb-label">Your triage</span>
+    ${parts.join('')}
+  </div></div>`;
 }
 
 function renderAlgorithm(algo, opts = {}) {
@@ -729,7 +749,9 @@ function wireAlgorithmHandlers(algo, opts = {}) {
       const idx = +btn.dataset.crumbIdx;
       const entry = state.trail[idx];
       if (!entry) return;
-      state.trail = state.trail.slice(0, idx);
+      // Don't truncate here; keep the full trail so the user sees their
+      // walked path. The Continue handler (Task 5) decides whether to
+      // preserve downstream (same choice) or truncate (different choice).
       goToAlgorithm(entry.algorithmId, { restoreFrom: entry });
     });
   });
