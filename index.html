@@ -70,7 +70,23 @@ button { font-family: inherit; cursor: pointer; }
 .section-sub { color: var(--ink-2); font-size: 14px; margin: 0 0 20px 0; }
 
 .pathways { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-bottom: 24px; }
-@media (max-width: 720px) { .pathways { grid-template-columns: 1fr; } }
+@media (max-width: 720px) {
+  .pathways {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: 78%;
+    grid-template-columns: none;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    padding: 4px 24px 12px;
+    margin-left: -24px;
+    margin-right: -24px;
+    scrollbar-width: none;
+  }
+  .pathways::-webkit-scrollbar { display: none; }
+  .pathway-card { scroll-snap-align: start; }
+}
 .pathway-card { position: relative; display: block; background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-lg); padding: 0; overflow: hidden; box-shadow: var(--shadow-xs); transition: all 180ms var(--ease); cursor: pointer; text-align: left; font: inherit; color: inherit; width: 100%; }
 .pathway-thumb { display: block; width: 100%; aspect-ratio: 16 / 9; object-fit: cover; background: var(--surface-2); border-bottom: 1px solid var(--border-2); }
 .pathway-card-body { padding: 20px; position: relative; }
