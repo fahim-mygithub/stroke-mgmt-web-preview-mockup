@@ -1024,11 +1024,15 @@ async function exportHandoffPdf() {
     return;
   }
 
-  const priorStyle = pdfDoc.getAttribute('style') || '';
-  pdfDoc.setAttribute(
-    'style',
-    'display: block !important; position: fixed; left: -10000px; top: 0; width: 7in; background: #fff; z-index: -1;'
-  );
+  // html2canvas produces a 0-height capture when the source element has
+  // position:fixed/absolute. Workaround: clone with default block layout and
+  // place it inside an off-screen wrapper instead.
+  const clone = pdfDoc.cloneNode(true);
+  clone.setAttribute('style', 'display: block; width: 672px; background: #fff; color: #0B1220;');
+  const wrapper = document.createElement('div');
+  wrapper.style.cssText = 'position: absolute; left: -20000px; top: 0;';
+  wrapper.appendChild(clone);
+  document.body.appendChild(wrapper);
 
   const priorBtnLabel = btn ? btn.textContent : null;
   if (btn) { btn.textContent = 'Generating PDF…'; btn.disabled = true; }
@@ -1043,19 +1047,18 @@ async function exportHandoffPdf() {
         useCORS: true,
         logging: false,
         backgroundColor: '#ffffff',
-        windowWidth: 672,
       },
       jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait', compress: true },
       pagebreak: {
         mode: ['css', 'legacy'],
         avoid: ['.pdf-qa', '.pdf-outcome', '.pdf-cover .final-rec'],
       },
-    }).from(pdfDoc).save();
+    }).from(clone).save();
   } catch (err) {
     console.error('PDF export failed:', err);
     alert('PDF export failed: ' + (err && err.message ? err.message : err));
   } finally {
-    pdfDoc.setAttribute('style', priorStyle);
+    wrapper.remove();
     if (btn) { btn.textContent = priorBtnLabel; btn.disabled = false; }
   }
 }
