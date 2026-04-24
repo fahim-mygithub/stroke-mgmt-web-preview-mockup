@@ -92,7 +92,9 @@ button { font-family: inherit; cursor: pointer; }
 .articles { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
 @media (max-width: 960px) { .articles { grid-template-columns: repeat(2, 1fr); } }
 @media (max-width: 560px) { .articles { grid-template-columns: 1fr; } }
-.article-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-lg); padding: 16px; transition: all 180ms var(--ease); cursor: pointer; text-align: left; font: inherit; color: inherit; display: flex; flex-direction: column; gap: 8px; }
+.article-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-lg); padding: 0; overflow: hidden; transition: all 180ms var(--ease); cursor: pointer; text-align: left; font: inherit; color: inherit; display: flex; flex-direction: column; }
+.article-thumb { display: block; width: 100%; aspect-ratio: 21 / 9; object-fit: cover; background: var(--surface-2); border-bottom: 1px solid var(--border-2); }
+.article-card-body { padding: 16px; display: flex; flex-direction: column; gap: 8px; flex: 1; }
 .article-card:hover { border-color: var(--ink-3); box-shadow: var(--shadow-sm); transform: translateY(-1px); }
 .article-card .tag { font-size: 11px; font-weight: 600; color: var(--brand); text-transform: uppercase; letter-spacing: 0.06em; }
 .article-card h4 { margin: 0; font-size: 15px; font-weight: 600; color: var(--ink); line-height: 1.35; letter-spacing: -0.005em; }
@@ -579,12 +581,16 @@ async function renderHome() {
   const articleCards = visibleArticles.map((a) => {
     const att = a.attributes;
     const firstTag = (att.tags?.data || [])[0]?.attributes?.Name || 'Article';
+    const thumb = thumbUrl(att) || placeholderThumb(a.id, 'article');
     return `
       <button class="article-card" data-article-id="${a.id}">
-        <span class="tag">${esc(firstTag)}</span>
-        <h4>${esc(decodeEntities(att.Title))}</h4>
-        <p>${esc(decodeEntities(att.Summary || '').slice(0, 180))}</p>
-        <div class="read">Read →</div>
+        <img class="article-thumb" src="${thumb}" alt="" loading="lazy">
+        <div class="article-card-body">
+          <span class="tag">${esc(firstTag)}</span>
+          <h4>${esc(decodeEntities(att.Title))}</h4>
+          <p>${esc(decodeEntities(att.Summary || '').slice(0, 180))}</p>
+          <div class="read">Read →</div>
+        </div>
       </button>`;
   }).join('') || `<p style="color:var(--ink-3);">No articles match this filter.</p>`;
 
