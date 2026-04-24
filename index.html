@@ -8,6 +8,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" defer></script>
 <style>
 :root {
   --canvas: #F7F5F2;
@@ -1014,6 +1015,51 @@ function renderPdfStep(trailEntry, i) {
   `;
 }
 
+async function exportHandoffPdf() {
+  const pdfDoc = document.querySelector('.pdf-doc');
+  const btn = document.getElementById('printBtn');
+  if (!pdfDoc) return;
+  if (typeof html2pdf === 'undefined') {
+    alert('PDF library still loading — please try again in a moment.');
+    return;
+  }
+
+  const priorStyle = pdfDoc.getAttribute('style') || '';
+  pdfDoc.setAttribute(
+    'style',
+    'display: block !important; position: fixed; left: -10000px; top: 0; width: 7in; background: #fff; z-index: -1;'
+  );
+
+  const priorBtnLabel = btn ? btn.textContent : null;
+  if (btn) { btn.textContent = 'Generating PDF…'; btn.disabled = true; }
+
+  try {
+    await html2pdf().set({
+      margin: [0.75, 0.75, 0.85, 0.75],
+      filename: 'Triage Handoff.pdf',
+      image: { type: 'jpeg', quality: 0.98 },
+      html2canvas: {
+        scale: 2,
+        useCORS: true,
+        logging: false,
+        backgroundColor: '#ffffff',
+        windowWidth: 672,
+      },
+      jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait', compress: true },
+      pagebreak: {
+        mode: ['css', 'legacy'],
+        avoid: ['.pdf-qa', '.pdf-outcome', '.pdf-cover .final-rec'],
+      },
+    }).from(pdfDoc).save();
+  } catch (err) {
+    console.error('PDF export failed:', err);
+    alert('PDF export failed: ' + (err && err.message ? err.message : err));
+  } finally {
+    pdfDoc.setAttribute('style', priorStyle);
+    if (btn) { btn.textContent = priorBtnLabel; btn.disabled = false; }
+  }
+}
+
 /* ---------- SUMMARY ---------- */
 function showSummary() {
   state.view = 'summary';
@@ -1045,18 +1091,7 @@ function showSummary() {
     ${pdfHTML}
   `);
 
-  $('printBtn').addEventListener('click', () => {
-    const originalTitle = document.title;
-    document.title = 'Triage Handoff';
-    // Restore title after the print dialog closes. Chrome fires afterprint even
-    // when the user cancels.
-    const restore = () => {
-      document.title = originalTitle;
-      window.removeEventListener('afterprint', restore);
-    };
-    window.addEventListener('afterprint', restore);
-    window.print();
-  });
+  $('printBtn').addEventListener('click', () => exportHandoffPdf());
   $('startOverBtn').addEventListener('click', () => {
     state.trail = [];
     state.currentAlgoScores = {};
