@@ -69,7 +69,7 @@ button { font-family: inherit; cursor: pointer; }
 .section-title { font-size: 22px; font-weight: 700; letter-spacing: -0.02em; color: var(--ink); margin: 0 0 4px 0; }
 .section-sub { color: var(--ink-2); font-size: 14px; margin: 0 0 20px 0; }
 
-.pathways { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-bottom: 40px; }
+.pathways { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-bottom: 24px; }
 @media (max-width: 720px) { .pathways { grid-template-columns: 1fr; } }
 .pathway-card { position: relative; display: block; background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-lg); padding: 0; overflow: hidden; box-shadow: var(--shadow-xs); transition: all 180ms var(--ease); cursor: pointer; text-align: left; font: inherit; color: inherit; width: 100%; }
 .pathway-thumb { display: block; width: 100%; aspect-ratio: 16 / 9; object-fit: cover; background: var(--surface-2); border-bottom: 1px solid var(--border-2); }
@@ -100,6 +100,7 @@ button { font-family: inherit; cursor: pointer; }
 .article-card h4 { margin: 0; font-size: 15px; font-weight: 600; color: var(--ink); line-height: 1.35; letter-spacing: -0.005em; }
 .article-card p { margin: 0; font-size: 13px; color: var(--ink-2); line-height: 1.5; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
 .article-card .read { margin-top: auto; padding-top: 8px; font-size: 12px; color: var(--ink-3); display: flex; align-items: center; gap: 4px; }
+.home-sep { height: 1px; background: var(--border-2); border: 0; margin: 32px 0 24px 0; }
 
 .algo-header { margin-bottom: 24px; padding-bottom: 20px; border-bottom: 1px solid var(--border-2); }
 .algo-header .eyebrow { color: var(--brand); }
@@ -372,7 +373,6 @@ const state = {
   trail: [],
   currentAlgoId: null,
   currentAlgoScores: {},
-  activeTab: 'triage',
   articleFilter: 'All',
 };
 
@@ -595,19 +595,16 @@ async function renderHome() {
   }).join('') || `<p style="color:var(--ink-3);">No articles match this filter.</p>`;
 
   viewFrame(`
-    <div class="segment" role="tablist">
-      <button class="${state.activeTab === 'triage' ? 'on' : ''}" data-tab="triage">Triage</button>
-      <button class="${state.activeTab === 'library' ? 'on' : ''}" data-tab="library">Library</button>
-    </div>
-
-    <section id="tab-triage" ${state.activeTab !== 'triage' ? 'class="hidden"' : ''}>
+    <section>
       <div class="eyebrow">Decision Pathways</div>
       <h2 class="section-title">Build a triage</h2>
       <p class="section-sub">Start with an assessment pathway. The app walks you through each decision and keeps a running record of your triage.</p>
       <div class="pathways">${triageCards || `<p style="color:var(--ink-3);">No pathways found.</p>`}</div>
     </section>
 
-    <section id="tab-library" ${state.activeTab !== 'library' ? 'class="hidden"' : ''}>
+    <hr class="home-sep" />
+
+    <section>
       <div class="eyebrow">Reference</div>
       <h2 class="section-title">Library</h2>
       <p class="section-sub">Background, procedure demos, trial reviews, and case studies.</p>
@@ -620,12 +617,6 @@ async function renderHome() {
 }
 
 function wireHomeHandlers() {
-  document.querySelectorAll('.segment button').forEach((b) => {
-    b.addEventListener('click', () => {
-      state.activeTab = b.dataset.tab;
-      renderHome();
-    });
-  });
   document.querySelectorAll('.pathway-card').forEach((c) => {
     c.addEventListener('click', () => {
       state.trail = [];
