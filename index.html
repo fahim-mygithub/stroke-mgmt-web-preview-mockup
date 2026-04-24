@@ -589,7 +589,7 @@ async function renderHome() {
     const thumb = thumbUrl(att) || placeholderThumb(a.id, scored ? 'algo-scored' : 'algo-path');
     return `
       <button class="pathway-card" data-algo-id="${a.id}">
-        <img class="pathway-thumb" src="${thumb}" alt="" loading="lazy">
+        <img class="pathway-thumb" src="${thumb}" alt="" decoding="async">
         <div class="pathway-card-body">
           <div class="eyebrow">${eyebrow}</div>
           <h3>${esc(decodeEntities(att.Title))}</h3>
@@ -618,7 +618,7 @@ async function renderHome() {
     const thumb = thumbUrl(att) || placeholderThumb(a.id, 'article');
     return `
       <button class="article-card" data-article-id="${a.id}">
-        <img class="article-thumb" src="${thumb}" alt="" loading="lazy">
+        <img class="article-thumb" src="${thumb}" alt="" decoding="async">
         <div class="article-card-body">
           <span class="tag">${esc(firstTag)}</span>
           <h4>${esc(decodeEntities(att.Title))}</h4>
