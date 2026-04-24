@@ -386,6 +386,7 @@ const state = {
   homeAlgos: [],
   articles: [],
   algoCache: {},
+  placeholderImages: [],
   trail: [],
   currentAlgoId: null,
   currentAlgoScores: {},
@@ -429,6 +430,21 @@ async function loadAlgorithm(id) {
   const json = await fetchJson(`${CMS}/api/algorithms/${id}?${ALGO_POPULATE}`);
   state.algoCache[id] = json.data;
   return json.data;
+}
+// Matches the old app's StrapiPlaceholderImageRepository: pull the CMS-managed
+// pool of clinical stock photos once, then deterministically pick one per
+// record by hashing `${kind}-${id}`. Preserves the original UX where every
+// card has a real photo even when the record itself has no Thumbnail uploaded.
+async function loadPlaceholderImages() {
+  const json = await fetchJson(`${CMS}/api/placeholder-image?populate=Images`);
+  const imgs = (json.data && json.data.attributes && json.data.attributes.Images && json.data.attributes.Images.data) || [];
+  return imgs.map((i) => {
+    const a = i.attributes || {};
+    const f = a.formats || {};
+    const pick = f.small || f.medium || f.thumbnail || a;
+    const url = pick.url || '';
+    return url.startsWith('http') ? url : `${CMS}${url}`;
+  }).filter(Boolean);
 }
 
 /* ----- Criterion matching (matches domain/models/Algorithm/Criterion) ----- */
@@ -503,25 +519,26 @@ function thumbUrl(att) {
   return url.startsWith('http') ? url : `${CMS}${url}`;
 }
 
-// Returns a data-URI SVG with a deterministic gradient + one of three
-// geometric glyphs (triangle for scored algos, diamond for pathway-only
-// algos, document for articles). Used as a fallback when the CMS record
-// has no Thumbnail. Device-safe across iOS/Android/desktop: uses SVG
-// <path>/<rect> instead of emoji, scoped gradient id to avoid Chrome
-// Android same-id clashes, and `%23` (encoded `#`) in url(...) so iOS
-// Safari does not parse the fragment incorrectly.
+// Deterministic djb2 hash → same input always picks the same image.
+// Non-cryptographic; adequate for "pick one of N placeholders" bucketing.
+function hashString(s) {
+  let h = 5381;
+  for (let i = 0; i < s.length; i++) h = ((h * 33) ^ s.charCodeAt(i)) >>> 0;
+  return h;
+}
+
+// Deterministic placeholder thumbnail. Picks from the CMS placeholder-image
+// pool (populated at boot via loadPlaceholderImages) by hashing `${kind}-${id}`.
+// Mirrors the old native app's StrapiPlaceholderImageRepository. If the pool
+// is empty (network failure), returns an SVG gradient so cards still render.
 function placeholderThumb(id, kind) {
+  const pool = state.placeholderImages;
+  if (pool && pool.length) {
+    return pool[hashString(`${kind}-${id}`) % pool.length];
+  }
   const n = Number(id) || 0;
   const hue = (n * 47) % 360;
   const hue2 = (hue + 40) % 360;
-  const icons = {
-    'algo-scored': `<path d='M200 90 L230 150 L170 150 Z' fill='rgba(255,255,255,0.55)'/>`,
-    'algo-path':   `<path d='M200 90 L240 130 L200 170 L160 130 Z' fill='rgba(255,255,255,0.55)'/>`,
-    'article':     `<rect x='170' y='92' width='60' height='66' rx='3' fill='rgba(255,255,255,0.55)'/>
-                    <rect x='180' y='108' width='40' height='3' fill='hsl(${hue},60%,52%)'/>
-                    <rect x='180' y='118' width='40' height='3' fill='hsl(${hue},60%,52%)'/>
-                    <rect x='180' y='128' width='28' height='3' fill='hsl(${hue},60%,52%)'/>`,
-  };
   const svg =
     `<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 225'>` +
     `<defs><linearGradient id='g${n}' x1='0' y1='0' x2='1' y2='1'>` +
@@ -529,7 +546,6 @@ function placeholderThumb(id, kind) {
     `<stop offset='1' stop-color='hsl(${hue2},55%,38%)'/>` +
     `</linearGradient></defs>` +
     `<rect width='400' height='225' fill='url(%23g${n})'/>` +
-    (icons[kind] || icons.article) +
     `</svg>`;
   return 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg);
 }
@@ -544,12 +560,14 @@ async function renderHome() {
   if (!state.homeAlgos.length || !state.articles.length) {
     loadingFrame();
     try {
-      const [algos, arts] = await Promise.all([
+      const [algos, arts, phImgs] = await Promise.all([
         state.homeAlgos.length ? state.homeAlgos : loadHomeAlgorithms(),
         state.articles.length ? state.articles : loadAllArticles(),
+        state.placeholderImages.length ? state.placeholderImages : loadPlaceholderImages().catch(() => []),
       ]);
       state.homeAlgos = algos;
       state.articles = arts;
+      state.placeholderImages = phImgs;
       // Seed algo cache so subsequent navigation is instant
       for (const a of algos) state.algoCache[a.id] = a;
     } catch (e) {
