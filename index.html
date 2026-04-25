@@ -47,8 +47,7 @@ button { font-family: inherit; cursor: pointer; }
 .topbar { position: sticky; top: 0; z-index: 20; background: rgba(247,245,242,.92); backdrop-filter: blur(8px); border-bottom: 1px solid var(--border-2); }
 .topbar-inner { max-width: 1280px; margin: 0 auto; padding: 14px 24px; display: flex; align-items: center; gap: 16px; }
 .brand { font-weight: 700; font-size: 15px; color: var(--ink); letter-spacing: -0.01em; display: flex; align-items: center; gap: 10px; }
-.brand-dot { width: 22px; height: 22px; border-radius: 6px; background: var(--brand); position: relative; }
-.brand-dot::after { content: ''; position: absolute; inset: 6px; border-radius: 2px; background: #fff; clip-path: polygon(50% 0, 100% 50%, 50% 100%, 0 50%); }
+.brand-logo { width: 28px; height: 28px; border-radius: 6px; flex-shrink: 0; display: block; }
 .topbar .spacer { flex: 1; }
 .icon-btn { width: 36px; height: 36px; border-radius: var(--r-md); border: 1px solid var(--border); background: var(--surface); display: grid; place-items: center; color: var(--ink-2); transition: all 140ms var(--ease); }
 .icon-btn:hover { background: var(--surface-2); color: var(--ink); }
@@ -409,7 +408,7 @@ button { font-family: inherit; cursor: pointer; }
       Back
     </button>
     <div class="brand">
-      <span class="brand-dot"></span>
+      <img class="brand-logo" src="logo.png" alt="" decoding="async">
       Stroke Mgmt
     </div>
     <div class="topbar-title" id="topbarTitle"></div>
