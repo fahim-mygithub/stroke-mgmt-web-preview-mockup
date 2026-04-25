@@ -546,7 +546,7 @@ function setBreadcrumb(html) {
   // Make the active "current" crumb visible on narrow viewports — it sits
   // at the end of the trail and is otherwise scrolled off-screen right.
   const inner = slot.querySelector('.breadcrumb-inner');
-  if (inner) inner.scrollLeft = inner.scrollWidth;
+  if (inner) inner.scrollTo({ left: inner.scrollWidth, behavior: 'instant' });
 }
 $('backBtn').addEventListener('click', () => {
   if (state.view === 'algorithm' && state.trail.length >= 1) {
