@@ -857,8 +857,8 @@ async function renderHome() {
 
   viewFrame(`
     <section>
-      <div class="eyebrow">Decision Pathways</div>
-      <h2 class="section-title">Build a triage</h2>
+      <div class="eyebrow">Treatment Algorithms</div>
+      <h2 class="section-title">Build a treatment algorithm</h2>
       <p class="section-sub">Start with an assessment pathway. The app walks you through each decision and keeps a running record of your triage.</p>
       <div class="pathways">${triageCards || `<p style="color:var(--ink-3);">No pathways found.</p>`}</div>
     </section>
@@ -1177,7 +1177,7 @@ function renderPdfDoc() {
   const cover = `
     <div class="pdf-cover">
       <div class="brand-line">Stroke Mgmt · Triage Record</div>
-      <h1>Triage Handoff</h1>
+      <h1>Treatment Handoff</h1>
       <div class="generated">Generated ${esc(genDate)}</div>
       <div class="writein">
         <div><label>Patient identifier</label><div class="line"></div></div>
@@ -1317,7 +1317,7 @@ async function exportHandoffPdf() {
   try {
     await html2pdf().set({
       margin: [0.75, 0.75, 0.85, 0.75],
-      filename: 'Triage Handoff.pdf',
+      filename: 'Treatment Handoff.pdf',
       image: { type: 'jpeg', quality: 0.98 },
       html2canvas: {
         scale: 2,
@@ -1360,7 +1360,7 @@ function showSummary() {
   viewFrame(`
     <div class="summary-hero">
       <div class="eyebrow">Triage complete</div>
-      <h2>Your triage is ready</h2>
+      <h2>Your treatment plan is ready</h2>
       <p>Review the decisions you made below. This is your stroke triage record for the current patient. You can start over at any time.</p>
       <div class="actions">
         <button class="btn btn-primary" id="printBtn">Export PDF</button>
