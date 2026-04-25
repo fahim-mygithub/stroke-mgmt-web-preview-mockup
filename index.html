@@ -272,7 +272,15 @@ button { font-family: inherit; cursor: pointer; }
 .error-banner { background: #FEF3F2; border: 1px solid #FECDCA; color: #B42318; border-radius: var(--r-md); padding: 14px 16px; font-size: 14px; }
 
 /* ---- Steps drawer ---- */
-.topbar-steps-btn { position: relative; gap: 4px; padding: 0 8px; }
+.topbar-steps-btn {
+  position: relative;
+  width: auto;
+  min-width: 36px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 0 10px;
+}
 .topbar-steps-btn .steps-count {
   font-size: 11px; font-weight: 700; color: var(--ink-2);
   font-variant-numeric: tabular-nums;
