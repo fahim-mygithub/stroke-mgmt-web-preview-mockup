@@ -859,7 +859,7 @@ async function renderHome() {
     <section>
       <div class="eyebrow">Treatment Algorithms</div>
       <h2 class="section-title">Build a treatment algorithm</h2>
-      <p class="section-sub">Start with an assessment pathway. The app walks you through each decision and keeps a running record of your triage.</p>
+      <p class="section-sub">Start with an assessment pathway. The app walks you through each decision and keeps a running record of your treatment plan.</p>
       <div class="pathways">${triageCards || `<p style="color:var(--ink-3);">No pathways found.</p>`}</div>
     </section>
 
@@ -998,7 +998,7 @@ function renderAlgorithm(algo, opts = {}) {
             <div class="rich">${o.Body || ''}</div>
             <div class="actions">
               <button class="btn btn-primary" data-continue data-next="${o.next?.data?.id || ''}">
-                ${o.next?.data?.id ? 'Continue' : 'Complete triage'}
+                ${o.next?.data?.id ? 'Continue' : 'Complete'}
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
               </button>
             </div>
@@ -1176,12 +1176,12 @@ function renderPdfDoc() {
 
   const cover = `
     <div class="pdf-cover">
-      <div class="brand-line">Stroke Mgmt · Triage Record</div>
+      <div class="brand-line">Stroke Mgmt · Treatment Record</div>
       <h1>Treatment Handoff</h1>
       <div class="generated">Generated ${esc(genDate)}</div>
       <div class="writein">
         <div><label>Patient identifier</label><div class="line"></div></div>
-        <div><label>Date / time of triage</label><div class="line"></div></div>
+        <div><label>Date / time of treatment</label><div class="line"></div></div>
         <div><label>Clinician name</label><div class="line"></div></div>
         <div><label>Signature</label><div class="line"></div></div>
       </div>
@@ -1198,7 +1198,7 @@ function renderPdfDoc() {
     <div class="pdf-doc" aria-hidden="true">
       ${cover}
       ${stepsHTML}
-      <div class="pdf-end">End of triage record</div>
+      <div class="pdf-end">End of treatment record</div>
     </div>
   `;
 }
@@ -1344,7 +1344,7 @@ async function exportHandoffPdf() {
 function showSummary() {
   state.view = 'summary';
   updateStepsAffordance(null);
-  setTopbar('Triage Summary');
+  setTopbar('Treatment Summary');
   const steps = state.trail.map((s, i) => `
     <div class="summary-step">
       <div class="num">${i + 1}</div>
@@ -1359,12 +1359,12 @@ function showSummary() {
 
   viewFrame(`
     <div class="summary-hero">
-      <div class="eyebrow">Triage complete</div>
+      <div class="eyebrow">Treatment complete</div>
       <h2>Your treatment plan is ready</h2>
-      <p>Review the decisions you made below. This is your stroke triage record for the current patient. You can start over at any time.</p>
+      <p>Review the decisions you made below. This is your stroke treatment record for the current patient. You can start over at any time.</p>
       <div class="actions">
         <button class="btn btn-primary" id="printBtn">Export PDF</button>
-        <button class="btn btn-ghost" id="startOverBtn">Start new triage</button>
+        <button class="btn btn-ghost" id="startOverBtn">Start new</button>
       </div>
     </div>
     <div class="summary-card">${steps || '<p style="color:var(--ink-3);">No decisions recorded.</p>'}</div>
