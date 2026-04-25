@@ -373,11 +373,198 @@ button { font-family: inherit; cursor: pointer; }
 
 .pdf-end { text-align: center; padding: 16px 0 8px 0; font-size: 11px; color: var(--ink-3); border-top: 1px solid var(--border); margin-top: 20px; }
 
+/* ---- Topbar menu popover ---- */
+.topbar-inner { position: relative; }
+#topbarMenu {
+  position: absolute; top: calc(100% + 6px); right: 24px;
+  min-width: 200px; padding: 6px;
+  background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-md);
+  box-shadow: var(--shadow-lg); z-index: 30;
+  display: flex; flex-direction: column; gap: 1px;
+  transform: translateY(-4px); opacity: 0; pointer-events: none;
+  transition: opacity 120ms var(--ease), transform 120ms var(--ease);
+}
+#topbarMenu.open { transform: translateY(0); opacity: 1; pointer-events: auto; }
+.menu-item {
+  appearance: none; border: 0; background: transparent;
+  text-align: left; padding: 9px 12px; border-radius: var(--r-sm);
+  font: inherit; font-size: 14px; color: var(--ink);
+  cursor: pointer; transition: background 120ms var(--ease);
+}
+.menu-item:hover { background: var(--brand-softer); }
+.menu-item:active { background: var(--brand-soft); }
+
+/* ---- Modal scaffolding (disclaimer) ---- */
+.modal-backdrop {
+  position: fixed; inset: 0; z-index: 40;
+  background: rgba(11, 18, 32, .48);
+  display: flex; align-items: center; justify-content: center;
+  padding: 16px;
+  animation: backdropIn 200ms var(--ease) both;
+}
+@keyframes backdropIn { from { opacity: 0; } to { opacity: 1; } }
+.modal-card {
+  background: var(--surface); border-radius: var(--r-lg);
+  width: 100%; max-width: 480px; max-height: calc(100vh - 32px);
+  display: flex; flex-direction: column;
+  box-shadow: var(--shadow-lg);
+  animation: modalIn 240ms var(--ease) both;
+}
+@keyframes modalIn {
+  from { opacity: 0; transform: translateY(8px) scale(.98); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+.modal-head {
+  padding: 18px 22px 12px; border-bottom: 1px solid var(--border-2);
+  display: flex; align-items: center; gap: 10px;
+}
+.modal-head h2 { margin: 0; font-size: 18px; font-weight: 700; letter-spacing: -0.01em; flex: 1; }
+.modal-close {
+  width: 30px; height: 30px; border-radius: var(--r-sm);
+  border: 0; background: transparent; color: var(--ink-3);
+  display: grid; place-items: center; cursor: pointer;
+  transition: background 140ms var(--ease), color 140ms var(--ease);
+}
+.modal-close:hover { background: var(--surface-2); color: var(--ink); }
+.modal-body {
+  padding: 18px 22px; overflow-y: auto; flex: 1;
+}
+.modal-foot {
+  padding: 14px 22px; border-top: 1px solid var(--border-2);
+  display: flex; justify-content: flex-end; gap: 10px;
+}
+
+/* ---- Intro slideshow ---- */
+.intro-backdrop {
+  position: fixed; inset: 0; z-index: 35;
+  background: rgba(11, 18, 32, .55);
+  display: flex; align-items: center; justify-content: center;
+  padding: 0;
+  animation: backdropIn 200ms var(--ease) both;
+}
+.intro-card {
+  background: var(--surface);
+  width: 100%; height: 100%;
+  display: flex; flex-direction: column;
+  overflow: hidden;
+}
+.intro-head {
+  display: flex; align-items: center; gap: 12px;
+  padding: 14px 18px;
+  border-bottom: 1px solid var(--border-2);
+  background: var(--surface);
+  flex-shrink: 0;
+}
+.intro-dots { display: flex; gap: 6px; align-items: center; }
+.intro-dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--border);
+  transition: background 200ms var(--ease), transform 200ms var(--ease);
+}
+.intro-dot.active { background: var(--brand); transform: scale(1.15); }
+.intro-dot.done { background: var(--brand); opacity: .55; }
+.intro-count { font-size: 12px; color: var(--ink-3); font-variant-numeric: tabular-nums; }
+.intro-skip {
+  margin-left: auto;
+  appearance: none; border: 0; background: transparent;
+  font: inherit; font-size: 13px; font-weight: 500; color: var(--ink-2);
+  padding: 6px 10px; border-radius: var(--r-sm); cursor: pointer;
+  transition: background 140ms var(--ease), color 140ms var(--ease);
+}
+.intro-skip:hover { background: var(--surface-2); color: var(--ink); }
+
+.intro-body {
+  flex: 1; overflow: hidden; position: relative;
+  display: flex;
+}
+.intro-track {
+  display: flex; width: 100%; height: 100%;
+  transition: transform 240ms cubic-bezier(.2,.8,.2,1);
+  will-change: transform;
+}
+.intro-slide {
+  flex: 0 0 100%; width: 100%; height: 100%;
+  overflow-y: auto; -webkit-overflow-scrolling: touch;
+  display: flex; flex-direction: column;
+}
+.intro-hero {
+  width: 100%; height: 38vh; min-height: 200px; max-height: 320px;
+  object-fit: cover; background: var(--surface-2);
+  display: block;
+  flex-shrink: 0;
+}
+.intro-content {
+  padding: 22px 20px 28px;
+}
+.intro-content .article-reader { margin: 0; max-width: 640px; }
+.intro-content .article-reader .tag { display: inline-block; margin-bottom: 6px; }
+.intro-content .article-reader h1 { font-size: 26px; margin-top: 4px; margin-bottom: 14px; }
+.intro-content .article-reader p { font-size: 15px; line-height: 1.65; }
+.intro-content .article-reader li { font-size: 15px; line-height: 1.65; }
+.intro-error {
+  padding: 32px 20px; text-align: center; color: var(--ink-2);
+}
+.intro-error .btn { margin-top: 12px; }
+
+.intro-foot {
+  display: flex; align-items: center; gap: 12px;
+  padding: 12px 18px; border-top: 1px solid var(--border-2);
+  background: var(--surface); flex-shrink: 0;
+  flex-wrap: wrap;
+}
+.intro-foot .checkbox-row {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 13px; color: var(--ink-2);
+}
+.intro-foot .checkbox-row input { accent-color: var(--brand); }
+.intro-nav { margin-left: auto; display: flex; gap: 8px; }
+.intro-nav .btn { font-size: 13px; padding: 9px 14px; }
+
+@media (min-width: 600px) {
+  .intro-backdrop { padding: 24px; }
+  .intro-card {
+    max-width: 560px; height: auto; max-height: calc(100vh - 48px);
+    border-radius: 16px; box-shadow: var(--shadow-lg);
+  }
+  .intro-hero { max-height: 280px; height: 280px; }
+}
+@media (min-width: 1024px) {
+  .intro-backdrop { background: rgba(11, 18, 32, .68); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .intro-track { transition: none; }
+  .modal-card, .intro-backdrop, .modal-backdrop { animation: none; }
+}
+
+/* ---- Toast ---- */
+#toast {
+  position: fixed; left: 50%; bottom: 24px;
+  transform: translate(-50%, 120%);
+  z-index: 50;
+  background: var(--ink); color: #fff;
+  padding: 12px 16px; border-radius: var(--r-md);
+  font-size: 14px; font-weight: 500;
+  display: flex; align-items: center; gap: 14px;
+  box-shadow: var(--shadow-lg);
+  max-width: calc(100vw - 32px);
+  transition: transform 240ms var(--ease), opacity 240ms var(--ease);
+  opacity: 0; pointer-events: none;
+}
+#toast.show { transform: translate(-50%, 0); opacity: 1; pointer-events: auto; }
+#toast .toast-action {
+  appearance: none; border: 0; background: transparent;
+  color: #93C5FD; font: inherit; font-weight: 600;
+  cursor: pointer; padding: 4px 6px; border-radius: var(--r-sm);
+}
+#toast .toast-action:hover { background: rgba(255,255,255,.08); color: #fff; }
+
 @media print {
   @page { size: letter; margin: 0.9in 0.85in 0.9in 0.85in; }
 
   html, body { background: #fff !important; color: var(--ink) !important; }
-  .topbar, #breadcrumbSlot, .summary-hero .actions, #backBtn { display: none !important; }
+  .topbar, #breadcrumbSlot, #topbarMenu, #toast,
+  .intro-backdrop, .modal-backdrop,
+  .summary-hero .actions, #backBtn { display: none !important; }
   .view { animation: none !important; }
   main.shell { max-width: none !important; padding: 0 !important; margin: 0 !important; }
   .summary-hero, .summary-card { display: none !important; }
@@ -419,15 +606,18 @@ button { font-family: inherit; cursor: pointer; }
     <button class="icon-btn" aria-label="Search">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"/><path d="M21 21l-4.35-4.35" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
     </button>
-    <button class="icon-btn" aria-label="Menu">
+    <button class="icon-btn" id="menuBtn" aria-label="Menu" aria-haspopup="menu" aria-expanded="false">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="5" r="1.5" fill="currentColor"/><circle cx="12" cy="12" r="1.5" fill="currentColor"/><circle cx="12" cy="19" r="1.5" fill="currentColor"/></svg>
     </button>
+    <div id="topbarMenu" role="menu" aria-labelledby="menuBtn"></div>
   </div>
 </div>
 
 <div id="breadcrumbSlot"></div>
 
 <main class="shell" id="main"></main>
+
+<div id="toast" role="status" aria-live="polite"></div>
 
 <script>
 /* ================================================================
@@ -464,6 +654,46 @@ function esc(s) {
   return String(s ?? '').replace(/[&<>"']/g, (c) => ({
     '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;',
   }[c]));
+}
+
+/* ----- Namespaced localStorage (so the github.io origin doesn't collide) ----- */
+const LS_PREFIX = 'strokeMgmtMockup:';
+function lsGet(key) {
+  try { return localStorage.getItem(LS_PREFIX + key); } catch { return null; }
+}
+function lsSet(key, value) {
+  try { localStorage.setItem(LS_PREFIX + key, value); } catch {}
+}
+function lsClear() {
+  try {
+    const drop = [];
+    for (let i = 0; i < localStorage.length; i++) {
+      const k = localStorage.key(i);
+      if (k && k.startsWith(LS_PREFIX)) drop.push(k);
+    }
+    drop.forEach((k) => localStorage.removeItem(k));
+  } catch {}
+}
+
+/* ----- Toast ----- */
+let _toastTimer = null;
+function showToast(message, opts = {}) {
+  const el = document.getElementById('toast');
+  if (!el) return;
+  const { actionLabel, onAction, durationMs = 3500 } = opts;
+  const actionId = 'toastAction_' + Date.now();
+  el.innerHTML =
+    `<span>${esc(message)}</span>` +
+    (actionLabel ? `<button class="toast-action" id="${actionId}">${esc(actionLabel)}</button>` : '');
+  el.classList.add('show');
+  if (_toastTimer) clearTimeout(_toastTimer);
+  _toastTimer = setTimeout(() => el.classList.remove('show'), durationMs);
+  if (actionLabel && onAction) {
+    const btn = document.getElementById(actionId);
+    if (btn) btn.addEventListener('click', () => {
+      try { onAction(); } finally { el.classList.remove('show'); }
+    });
+  }
 }
 
 /* ----- Network ----- */
@@ -1312,8 +1542,601 @@ function scrollExpandedIntoView(card) {
   }, 300);
 }
 
+/* ================================================================
+   Topbar menu popover
+   ================================================================ */
+
+const MENU_ITEMS = [
+  { label: 'Intro',       onClick: () => goToIntro({ force: true }) },
+  { label: 'Disclaimer',  onClick: () => goToDisclaimer({ review: true }) },
+  { label: 'License',     onClick: () => goToLicense() },
+  { label: 'Refresh',     onClick: () => doRefresh() },
+  { label: 'Clear Cache', onClick: () => doClearCache() },
+  { label: 'About',       onClick: () => goToAbout() },
+];
+
+function buildMenu() {
+  const menu = $('topbarMenu');
+  menu.innerHTML = MENU_ITEMS.map((m, i) =>
+    `<button class="menu-item" role="menuitem" data-menu-idx="${i}">${esc(m.label)}</button>`
+  ).join('');
+  menu.querySelectorAll('.menu-item').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const idx = +btn.dataset.menuIdx;
+      closeMenu();
+      const item = MENU_ITEMS[idx];
+      if (item) item.onClick();
+    });
+  });
+}
+
+function openMenu() {
+  const menu = $('topbarMenu');
+  const btn = $('menuBtn');
+  menu.classList.add('open');
+  btn.setAttribute('aria-expanded', 'true');
+  setTimeout(() => {
+    document.addEventListener('click', _menuOutsideClick);
+    document.addEventListener('keydown', _menuKeydown);
+  }, 0);
+}
+function closeMenu() {
+  const menu = $('topbarMenu');
+  const btn = $('menuBtn');
+  menu.classList.remove('open');
+  btn.setAttribute('aria-expanded', 'false');
+  document.removeEventListener('click', _menuOutsideClick);
+  document.removeEventListener('keydown', _menuKeydown);
+}
+function _menuOutsideClick(e) {
+  const menu = $('topbarMenu');
+  const btn = $('menuBtn');
+  if (menu.contains(e.target) || btn.contains(e.target)) return;
+  closeMenu();
+}
+function _menuKeydown(e) {
+  if (e.key === 'Escape') closeMenu();
+}
+
+/* ================================================================
+   Disclaimer modal
+   ================================================================ */
+
+const DISCLAIMER_FALLBACK = `
+  <p>This application is a clinical decision-support tool intended for use by
+  qualified medical professionals. It does not replace clinical judgment.
+  Treatment decisions should always be made in the context of a complete
+  patient evaluation.</p>
+  <p>Information presented here is provided for educational purposes and may
+  not reflect the most current evidence at any given moment. Always verify
+  protocols against your institution's standards of care before acting on
+  any recommendation.</p>
+`;
+
+let _disclaimerLastFocus = null;
+let _disclaimerCache = null;
+
+async function fetchDisclaimerBody() {
+  if (_disclaimerCache != null) return _disclaimerCache;
+  try {
+    const json = await fetchJson(`${CMS}/api/disclaimer?populate=*`);
+    const body = json?.data?.attributes?.Body;
+    _disclaimerCache = body || DISCLAIMER_FALLBACK;
+  } catch {
+    _disclaimerCache = DISCLAIMER_FALLBACK;
+  }
+  return _disclaimerCache;
+}
+
+async function goToDisclaimer(opts = {}) {
+  const review = !!opts.review;
+  const body = await fetchDisclaimerBody();
+  renderDisclaimerModal(body, { review, onAccept: opts.onAccept });
+}
+
+function renderDisclaimerModal(bodyHtml, opts = {}) {
+  closeDisclaimerModal(); // ensure single instance
+  _disclaimerLastFocus = document.activeElement;
+  const review = !!opts.review;
+  const wrap = document.createElement('div');
+  wrap.className = 'modal-backdrop';
+  wrap.id = 'disclaimerModal';
+  wrap.setAttribute('role', 'dialog');
+  wrap.setAttribute('aria-modal', 'true');
+  wrap.setAttribute('aria-labelledby', 'disclaimerTitle');
+  wrap.innerHTML = `
+    <div class="modal-card">
+      <div class="modal-head">
+        <h2 id="disclaimerTitle">Disclaimer</h2>
+        ${review ? `
+          <button class="modal-close" id="disclaimerCloseBtn" aria-label="Close disclaimer">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          </button>
+        ` : ''}
+      </div>
+      <div class="modal-body article-reader">${bodyHtml}</div>
+      ${review ? '' : `
+        <div class="modal-foot">
+          <button class="btn btn-primary" id="disclaimerAcceptBtn">I understand</button>
+        </div>
+      `}
+    </div>
+  `;
+  document.body.appendChild(wrap);
+
+  if (!review) {
+    const accept = $('disclaimerAcceptBtn');
+    accept.addEventListener('click', () => {
+      lsSet('disclaimer:accepted', 'true');
+      closeDisclaimerModal();
+      if (opts.onAccept) opts.onAccept();
+    });
+    setTimeout(() => accept.focus(), 0);
+  } else {
+    const close = $('disclaimerCloseBtn');
+    close.addEventListener('click', closeDisclaimerModal);
+    wrap.addEventListener('click', (e) => {
+      if (e.target === wrap) closeDisclaimerModal();
+    });
+    document.addEventListener('keydown', _disclaimerEscClose);
+    setTimeout(() => close.focus(), 0);
+  }
+}
+
+function _disclaimerEscClose(e) {
+  if (e.key === 'Escape') closeDisclaimerModal();
+}
+
+function closeDisclaimerModal() {
+  const m = document.getElementById('disclaimerModal');
+  if (!m) return;
+  m.remove();
+  document.removeEventListener('keydown', _disclaimerEscClose);
+  if (_disclaimerLastFocus && document.body.contains(_disclaimerLastFocus)) {
+    _disclaimerLastFocus.focus();
+  }
+  _disclaimerLastFocus = null;
+}
+
+/* ================================================================
+   Intro slideshow
+   ================================================================ */
+
+let _introState = null;
+let _introLastFocus = null;
+
+async function fetchIntroSequence() {
+  const url = `${CMS}/api/intro-sequence?populate[articles][fields][0]=id&populate[suggestedAlgorithm][fields][0]=id`;
+  const json = await fetchJson(url);
+  const articles = json?.data?.attributes?.articles?.data || [];
+  return articles.map((a) => a.id);
+}
+
+async function fetchArticleFull(id) {
+  const cached = state.articles.find((a) => a.id === id);
+  if (cached && cached.attributes?.Body) return cached;
+  const json = await fetchJson(`${CMS}/api/articles/${id}?populate=*`);
+  return json.data;
+}
+
+async function goToIntro(opts = {}) {
+  const force = !!opts.force;
+  if (!force && lsGet('intro:hideOnLaunch') === 'true') {
+    return false;
+  }
+  let ids;
+  try {
+    ids = await fetchIntroSequence();
+  } catch (e) {
+    showToast(`Couldn't load intro: ${e.message}`);
+    return false;
+  }
+  if (!ids.length) return false;
+
+  _introState = {
+    articleIds: ids,
+    articles: new Array(ids.length).fill(null),
+    errors: new Array(ids.length).fill(null),
+    index: 0,
+  };
+  renderIntroShell();
+  loadIntroSlide(0);
+  // Prefetch next slide for snappy transitions.
+  if (ids.length > 1) loadIntroSlide(1);
+  return true;
+}
+
+function renderIntroShell() {
+  closeIntro();
+  _introLastFocus = document.activeElement;
+  const wrap = document.createElement('div');
+  wrap.className = 'intro-backdrop';
+  wrap.id = 'introSlideshow';
+  wrap.setAttribute('role', 'dialog');
+  wrap.setAttribute('aria-modal', 'true');
+  wrap.setAttribute('aria-label', 'Introduction');
+  wrap.innerHTML = `
+    <div class="intro-card">
+      <div class="intro-head">
+        <div class="intro-dots" id="introDots" role="tablist" aria-label="Slides"></div>
+        <span class="intro-count" id="introCount"></span>
+        <button class="intro-skip" id="introSkipBtn" aria-label="Skip introduction">Skip</button>
+      </div>
+      <div class="intro-body">
+        <div class="intro-track" id="introTrack"></div>
+      </div>
+      <div class="intro-foot" id="introFoot"></div>
+    </div>
+  `;
+  document.body.appendChild(wrap);
+
+  $('introSkipBtn').addEventListener('click', () => closeIntro({ goHome: true }));
+  document.addEventListener('keydown', _introKeydown);
+  _introWireSwipe();
+
+  renderIntroProgress();
+  renderIntroSlides();
+  renderIntroFoot();
+  setTimeout(() => $('introSkipBtn').focus(), 0);
+}
+
+function renderIntroProgress() {
+  if (!_introState) return;
+  const { articleIds, index } = _introState;
+  const dots = articleIds.map((_, i) => {
+    const cls = i === index ? 'active' : (i < index ? 'done' : '');
+    return `<span class="intro-dot ${cls}" ${i === index ? 'aria-current="true"' : ''} role="tab" aria-label="Slide ${i + 1}"></span>`;
+  }).join('');
+  const dotsEl = $('introDots');
+  if (dotsEl) dotsEl.innerHTML = dots;
+  const count = $('introCount');
+  if (count) count.textContent = `${index + 1} of ${articleIds.length}`;
+}
+
+function renderIntroSlides() {
+  if (!_introState) return;
+  const track = $('introTrack');
+  if (!track) return;
+  track.innerHTML = _introState.articleIds.map((_, i) =>
+    `<section class="intro-slide" data-slide-idx="${i}" aria-hidden="${i === _introState.index ? 'false' : 'true'}"><div class="intro-loading loading"><div class="spinner"></div>Loading…</div></section>`
+  ).join('');
+  applyIntroTransform(false);
+  // Render any already-loaded slides immediately.
+  _introState.articleIds.forEach((_, i) => {
+    if (_introState.articles[i] || _introState.errors[i]) renderIntroSlideContent(i);
+  });
+}
+
+function applyIntroTransform(animated) {
+  const track = $('introTrack');
+  if (!track) return;
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  track.style.transition = (animated && !reduce) ? '' : 'none';
+  track.style.transform = `translateX(-${_introState.index * 100}%)`;
+  if (!animated || reduce) {
+    // Force reflow then restore default transition for next move.
+    void track.offsetWidth;
+    track.style.transition = '';
+  }
+}
+
+function renderIntroSlideContent(i) {
+  if (!_introState) return;
+  const slide = document.querySelector(`.intro-slide[data-slide-idx="${i}"]`);
+  if (!slide) return;
+  const err = _introState.errors[i];
+  if (err) {
+    slide.innerHTML = `
+      <div class="intro-error">
+        <p>Couldn't load this slide.</p>
+        <p style="font-size:13px;color:var(--ink-3);">${esc(err)}</p>
+        <button class="btn btn-ghost" data-intro-retry="${i}">Retry</button>
+      </div>
+    `;
+    slide.querySelector('[data-intro-retry]').addEventListener('click', () => {
+      _introState.errors[i] = null;
+      renderIntroSlideContent(i);
+      slide.innerHTML = `<div class="intro-loading loading"><div class="spinner"></div>Loading…</div>`;
+      loadIntroSlide(i);
+    });
+    return;
+  }
+  const art = _introState.articles[i];
+  if (!art) return;
+  const att = art.attributes || {};
+  const tag = (att.tags?.data || [])[0]?.attributes?.Name || 'Intro';
+  const hero = thumbUrl(att) || placeholderThumb(art.id, 'intro');
+  const title = decodeEntities(att.Title || '');
+  slide.innerHTML = `
+    <img class="intro-hero" src="${hero}" alt="" decoding="async">
+    <div class="intro-content">
+      <div class="article-reader">
+        <span class="tag">${esc(tag)}</span>
+        <h1>${esc(title)}</h1>
+        <div>${att.Body || ''}</div>
+      </div>
+    </div>
+  `;
+}
+
+async function loadIntroSlide(i) {
+  if (!_introState) return;
+  if (_introState.articles[i] || _introState.errors[i]) return;
+  const id = _introState.articleIds[i];
+  try {
+    const art = await fetchArticleFull(id);
+    if (!_introState) return;
+    _introState.articles[i] = art;
+    renderIntroSlideContent(i);
+  } catch (e) {
+    if (!_introState) return;
+    _introState.errors[i] = e.message || 'Network error';
+    renderIntroSlideContent(i);
+  }
+}
+
+function renderIntroFoot() {
+  if (!_introState) return;
+  const foot = $('introFoot');
+  if (!foot) return;
+  const { articleIds, index } = _introState;
+  const isLast = index === articleIds.length - 1;
+  const isFirst = index === 0;
+  foot.innerHTML = `
+    ${isLast ? `
+      <label class="checkbox-row">
+        <input type="checkbox" id="introHideChk" ${lsGet('intro:hideOnLaunch') === 'true' ? 'checked' : ''}>
+        Don't show again
+      </label>
+    ` : '<span></span>'}
+    <div class="intro-nav">
+      ${isFirst ? '' : `<button class="btn btn-ghost" id="introPrevBtn">Previous</button>`}
+      <button class="btn btn-primary" id="introNextBtn">${isLast ? 'Get Started' : 'Next →'}</button>
+    </div>
+  `;
+  const next = $('introNextBtn');
+  const prev = $('introPrevBtn');
+  if (next) next.addEventListener('click', introAdvance);
+  if (prev) prev.addEventListener('click', introBack);
+}
+
+function introAdvance() {
+  if (!_introState) return;
+  const { articleIds, index } = _introState;
+  const isLast = index === articleIds.length - 1;
+  if (isLast) {
+    const chk = $('introHideChk');
+    if (chk?.checked) lsSet('intro:hideOnLaunch', 'true');
+    closeIntro({ goHome: true });
+    return;
+  }
+  _introState.index = index + 1;
+  renderIntroProgress();
+  applyIntroTransform(true);
+  renderIntroFoot();
+  // Mark slides for accessibility + prefetch the new "next" slide.
+  document.querySelectorAll('.intro-slide').forEach((s) => {
+    s.setAttribute('aria-hidden', +s.dataset.slideIdx === _introState.index ? 'false' : 'true');
+  });
+  if (_introState.index + 1 < articleIds.length) loadIntroSlide(_introState.index + 1);
+  loadIntroSlide(_introState.index);
+}
+
+function introBack() {
+  if (!_introState) return;
+  if (_introState.index === 0) return;
+  _introState.index -= 1;
+  renderIntroProgress();
+  applyIntroTransform(true);
+  renderIntroFoot();
+  document.querySelectorAll('.intro-slide').forEach((s) => {
+    s.setAttribute('aria-hidden', +s.dataset.slideIdx === _introState.index ? 'false' : 'true');
+  });
+}
+
+function _introKeydown(e) {
+  if (!_introState) return;
+  if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); introAdvance(); }
+  else if (e.key === 'ArrowLeft') { e.preventDefault(); introBack(); }
+  else if (e.key === 'Escape') { e.preventDefault(); closeIntro({ goHome: true }); }
+}
+
+function _introWireSwipe() {
+  const body = document.querySelector('.intro-body');
+  if (!body) return;
+  let startX = 0, startY = 0, tracking = false, locked = false;
+  body.addEventListener('pointerdown', (e) => {
+    tracking = true; locked = false;
+    startX = e.clientX; startY = e.clientY;
+  });
+  body.addEventListener('pointermove', (e) => {
+    if (!tracking) return;
+    const dx = e.clientX - startX, dy = e.clientY - startY;
+    if (!locked && (Math.abs(dx) > 10 || Math.abs(dy) > 10)) {
+      // Lock to whichever axis dominates so vertical scroll inside the slide
+      // body keeps working without triggering a slide change.
+      locked = Math.abs(dx) > Math.abs(dy) ? 'x' : 'y';
+    }
+  });
+  body.addEventListener('pointerup', (e) => {
+    if (!tracking) return;
+    const dx = e.clientX - startX;
+    if (locked === 'x' && Math.abs(dx) >= 40) {
+      if (dx < 0) introAdvance();
+      else introBack();
+    }
+    tracking = false; locked = false;
+  });
+  body.addEventListener('pointercancel', () => { tracking = false; locked = false; });
+}
+
+function closeIntro(opts = {}) {
+  const el = document.getElementById('introSlideshow');
+  if (el) el.remove();
+  document.removeEventListener('keydown', _introKeydown);
+  _introState = null;
+  if (_introLastFocus && document.body.contains(_introLastFocus)) {
+    _introLastFocus.focus();
+  }
+  _introLastFocus = null;
+  if (opts.goHome) {
+    if (state.view !== 'home') renderHome();
+  }
+}
+
+/* ================================================================
+   License (static MIT)
+   ================================================================ */
+
+const LICENSE_TEXT = `
+  <p>Copyright (c) Yahia M. Lodi Physician PC.</p>
+  <p>Permission is hereby granted, free of charge, to any person obtaining a
+  copy of this software and associated documentation files (the
+  "Software"), to deal in the Software without restriction, including
+  without limitation the rights to use, copy, modify, merge, publish,
+  distribute, sublicense, and/or sell copies of the Software, and to permit
+  persons to whom the Software is furnished to do so, subject to the
+  following conditions:</p>
+  <p>The above copyright notice and this permission notice shall be included
+  in all copies or substantial portions of the Software.</p>
+  <p>THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+  OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+  MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+  NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+  DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+  OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+  USE OR OTHER DEALINGS IN THE SOFTWARE.</p>
+  <p style="color:var(--ink-3);font-size:13px;">Third-party dependency
+  licenses are bundled with the native iOS / Android builds and are not
+  reproduced in this web mockup.</p>
+`;
+
+function goToLicense() {
+  state.view = 'license';
+  setBreadcrumb('');
+  setTopbar('License');
+  viewFrame(`
+    <div class="article-reader">
+      <span class="tag">LICENSE</span>
+      <h1>MIT License</h1>
+      <div>${LICENSE_TEXT}</div>
+    </div>
+  `);
+  window.scrollTo({ top: 0, behavior: 'instant' });
+}
+
+/* ================================================================
+   About
+   ================================================================ */
+
+const ABOUT_FALLBACK = `
+  <p>Ischemic Stroke is a clinical decision-support tool developed by
+  Yahia M. Lodi Physician PC. This mockup demonstrates planned design
+  changes to the existing iOS / Android app.</p>
+`;
+
+let _aboutCache = null;
+
+async function goToAbout() {
+  state.view = 'about';
+  setBreadcrumb('');
+  setTopbar('About');
+  loadingFrame();
+  let body = _aboutCache;
+  if (!body) {
+    try {
+      const json = await fetchJson(`${CMS}/api/about-us?populate=*`);
+      body = json?.data?.attributes?.Body || ABOUT_FALLBACK;
+    } catch {
+      body = ABOUT_FALLBACK;
+    }
+    _aboutCache = body;
+  }
+  if (state.view !== 'about') return;
+  viewFrame(`
+    <div class="article-reader">
+      <span class="tag">ABOUT</span>
+      <h1>About this app</h1>
+      <div>${body}</div>
+    </div>
+  `);
+  window.scrollTo({ top: 0, behavior: 'instant' });
+}
+
+/* ================================================================
+   Refresh + Clear Cache actions
+   ================================================================ */
+
+async function doRefresh() {
+  state.algoCache = {};
+  state.homeAlgos = [];
+  state.articles = [];
+  state.placeholderImages = [];
+  _aboutCache = null;
+  _disclaimerCache = null;
+  try {
+    const [algos, arts, phImgs] = await Promise.all([
+      loadHomeAlgorithms(),
+      loadAllArticles(),
+      loadPlaceholderImages().catch(() => []),
+    ]);
+    state.homeAlgos = algos;
+    state.articles = arts;
+    state.placeholderImages = phImgs;
+    for (const a of algos) state.algoCache[a.id] = a;
+    if (state.view === 'home') renderHome();
+    showToast('Refreshed.');
+  } catch (e) {
+    showToast('Refresh failed — check connection.');
+  }
+}
+
+function doClearCache() {
+  lsClear();
+  showToast('Cache cleared. Reload to start fresh.', {
+    actionLabel: 'Reload',
+    onAction: () => location.reload(),
+    durationMs: 6000,
+  });
+}
+
+/* ================================================================
+   Boot dispatcher — disclaimer first, then intro, then home
+   ================================================================ */
+
+async function boot() {
+  // Wire the menu button + build menu items once.
+  buildMenu();
+  $('menuBtn').addEventListener('click', (e) => {
+    e.stopPropagation();
+    const menu = $('topbarMenu');
+    if (menu.classList.contains('open')) closeMenu();
+    else openMenu();
+  });
+
+  // Always start by rendering home so it's behind any modals.
+  await renderHome();
+
+  // First-visit flow: disclaimer -> intro -> home.
+  const disclaimerAccepted = lsGet('disclaimer:accepted') === 'true';
+  if (!disclaimerAccepted) {
+    const body = await fetchDisclaimerBody();
+    renderDisclaimerModal(body, {
+      review: false,
+      onAccept: () => maybeAutoLaunchIntro(),
+    });
+  } else {
+    maybeAutoLaunchIntro();
+  }
+}
+
+function maybeAutoLaunchIntro() {
+  if (lsGet('intro:hideOnLaunch') === 'true') return;
+  goToIntro({ force: false });
+}
+
 /* ---------- Boot ---------- */
-renderHome();
+boot();
 </script>
 
 </body>
