@@ -151,7 +151,9 @@ button { font-family: inherit; cursor: pointer; }
 .score-bar .score-label .eyebrow { color: rgba(255,255,255,.6); margin: 0; }
 .score-bar .score-label .name { font-size: 14px; font-weight: 500; color: rgba(255,255,255,.9); }
 .score-bar .score-val { font-size: 36px; font-weight: 700; letter-spacing: -0.03em; font-variant-numeric: tabular-nums; transition: color 180ms var(--ease); }
-.score-bar .score-val.animate { animation: scorePulse 300ms var(--ease); }
+.score-bar .score-val .score-max { color: rgba(255,255,255,.5); font-weight: 500; }
+.score-bar #scoreVal { display: inline-block; transition: color 180ms var(--ease); }
+.score-bar #scoreVal.animate { animation: scorePulse 300ms var(--ease); }
 @keyframes scorePulse { 0%,100% { transform: scale(1); } 50% { transform: scale(1.08); color: #93C5FD; } }
 
 .outcomes { display: grid; gap: 10px; }
@@ -478,6 +480,16 @@ function calcScore(algo) {
   }
   return total;
 }
+function calcMaxScore(algo) {
+  const sw = algo.attributes.switches || [];
+  let total = 0;
+  for (const s of sw) {
+    const levels = s.levels || [];
+    if (levels.length === 0) continue;
+    total += Math.max(...levels.map((l) => l.Value));
+  }
+  return total;
+}
 function allSwitchesSet(algo) {
   const sc = state.currentAlgoScores[algo.id] || {};
   return (algo.attributes.switches || []).every((s) => typeof sc[s.id] === 'number');
@@ -780,10 +792,12 @@ function renderAlgorithm(algo, opts = {}) {
 
     <div class="score-bar">
       <div class="score-label">
-        <div class="eyebrow">Live score</div>
+        <div class="eyebrow">Severity</div>
         <div class="name" id="scoreInterpretation"></div>
       </div>
-      <div class="score-val" id="scoreVal">${score}</div>
+      <div class="score-val">
+        <span id="scoreVal">${score}</span><span class="score-max"> / ${calcMaxScore(algo)}</span>
+      </div>
     </div>
   ` : '';
 
