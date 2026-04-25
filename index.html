@@ -1217,7 +1217,8 @@ async function exportHandoffPdf() {
 /* ---------- SUMMARY ---------- */
 function showSummary() {
   state.view = 'summary';
-  setBreadcrumb('');
+  setBreadcrumb(renderBreadcrumb(null));
+  wireBreadcrumbHandlers();
   setTopbar('Treatment Summary');
   const steps = state.trail.map((s, i) => `
     <div class="summary-step">
