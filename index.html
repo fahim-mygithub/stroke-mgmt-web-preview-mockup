@@ -836,7 +836,7 @@ function renderAlgorithm(algo, opts = {}) {
             <div class="level-row">
               ${s.levels.map((l) => `
                 <button class="level-btn ${l.Value === selected ? 'selected' : ''}" data-level="${l.Value}">
-                  ${l.Value} — ${esc(decodeEntities(l.Label))}
+                  ${esc(decodeEntities(l.Label))}
                 </button>`).join('')}
             </div>
           </div>`;
