@@ -271,112 +271,37 @@ button { font-family: inherit; cursor: pointer; }
 @keyframes spin { to { transform: rotate(360deg); } }
 .error-banner { background: #FEF3F2; border: 1px solid #FECDCA; color: #B42318; border-radius: var(--r-md); padding: 14px 16px; font-size: 14px; }
 
-/* ---- Steps drawer ---- */
-.topbar-steps-btn {
-  position: relative;
-  width: auto;
-  min-width: 36px;
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  padding: 0 10px;
+/* ---- Breadcrumb trail ---- */
+#breadcrumbSlot { background: rgba(247,245,242,.92); border-bottom: 1px solid var(--border-2); }
+#breadcrumbSlot:empty { display: none; }
+.breadcrumb-inner {
+  max-width: 1280px; margin: 0 auto; padding: 8px 24px;
+  display: flex; align-items: center; gap: 6px;
+  overflow-x: auto; scrollbar-width: none; -ms-overflow-style: none;
+  -webkit-mask-image: linear-gradient(to right, transparent 0, #000 32px, #000 100%);
+          mask-image: linear-gradient(to right, transparent 0, #000 32px, #000 100%);
 }
-.topbar-steps-btn .steps-count {
-  font-size: 11px; font-weight: 700; color: var(--ink-2);
-  font-variant-numeric: tabular-nums;
+.breadcrumb-inner::-webkit-scrollbar { display: none; }
+.crumb {
+  flex-shrink: 0;
+  background: transparent; border: 0; padding: 4px 8px;
+  font-family: inherit; font-size: 12.5px; font-weight: 500;
+  color: var(--ink-3); cursor: pointer;
+  border-radius: var(--r-sm);
+  transition: color 140ms var(--ease), background 140ms var(--ease);
+  white-space: nowrap;
 }
-.topbar-steps-btn[hidden] { display: none; }
-
-.steps-backdrop {
-  position: fixed; inset: 0;
-  background: rgba(0,0,0,0);
-  pointer-events: none;
-  transition: background 240ms var(--ease);
-  z-index: 99;
+.crumb:hover { color: var(--ink); background: var(--brand-softer); }
+.crumb:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
+.crumb-current {
+  flex-shrink: 0;
+  font-size: 13px; font-weight: 600; color: var(--ink);
+  padding: 4px 8px; cursor: default;
+  white-space: nowrap;
 }
-.steps-backdrop.open {
-  background: rgba(0,0,0,0.4);
-  pointer-events: auto;
-}
-
-.steps-drawer {
-  position: fixed; top: 0; bottom: 0; left: 0;
-  width: min(360px, 86vw);
-  background: var(--surface);
-  border-right: 1px solid var(--border);
-  box-shadow: var(--shadow-md);
-  transform: translateX(-100%);
-  transition: transform 240ms var(--ease);
-  z-index: 100;
-  display: flex; flex-direction: column;
-}
-.steps-drawer.open { transform: translateX(0); }
-.steps-drawer-head {
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 16px 20px; border-bottom: 1px solid var(--border-2);
-}
-.steps-drawer-head h2 {
-  margin: 0; font-size: 14px; font-weight: 600; letter-spacing: 0.02em;
-  text-transform: uppercase; color: var(--ink-3);
-}
-
-.steps-list {
-  list-style: none; counter-reset: step;
-  margin: 0; padding: 8px;
-  overflow-y: auto; flex: 1;
-}
-.steps-list li {
-  counter-increment: step;
-  margin: 0;
-}
-.steps-list .step-item {
-  display: grid; grid-template-columns: 28px 1fr;
-  gap: 10px; align-items: start;
-  width: 100%;
-  padding: 10px 12px;
-  border: 0; background: transparent;
-  font-family: inherit; font-size: 14px; text-align: left;
-  color: var(--ink); cursor: pointer;
-  border-radius: var(--r-md);
-  transition: background 140ms var(--ease);
-}
-.steps-list .step-item:hover { background: var(--brand-softer); }
-.steps-list .step-item:focus-visible {
-  outline: 2px solid var(--brand); outline-offset: 2px;
-}
-.steps-list .step-item::before {
-  content: counter(step) ".";
-  font-variant-numeric: tabular-nums;
-  font-weight: 600;
-  color: var(--ink-3);
-  text-align: right;
-}
-.steps-list .step-name { font-weight: 600; line-height: 1.3; }
-.steps-list .step-choice {
-  font-size: 13px; color: var(--ink-2);
-  margin-top: 2px; line-height: 1.4;
-}
-
-.steps-list .step-item.current {
-  background: var(--brand);
-  color: #fff; cursor: default;
-}
-.steps-list .step-item.current::before { color: rgba(255,255,255,.7); }
-.steps-list .step-item.current .step-choice { color: rgba(255,255,255,.85); }
-.steps-list .step-item.current:hover { background: var(--brand); }
-.steps-list .step-item.tentative { opacity: .55; }
-
-/* Inline step indicator under algorithm title */
-.algo-step-indicator {
-  font-size: 12px; font-weight: 600;
-  color: var(--ink-3);
-  text-transform: uppercase; letter-spacing: 0.08em;
-  margin-bottom: 6px;
-}
-
-/* Print: never show drawer/backdrop */
-@media print {
-  .steps-drawer, .steps-backdrop, .topbar-steps-btn { display: none !important; }
+.crumb-sep {
+  flex-shrink: 0;
+  color: var(--ink-3); font-size: 12px; opacity: .6;
 }
 
 @media (max-width: 480px) {
@@ -450,7 +375,7 @@ button { font-family: inherit; cursor: pointer; }
   @page { size: letter; margin: 0.9in 0.85in 0.9in 0.85in; }
 
   html, body { background: #fff !important; color: var(--ink) !important; }
-  .topbar, .summary-hero .actions, #backBtn { display: none !important; }
+  .topbar, #breadcrumbSlot, .summary-hero .actions, #backBtn { display: none !important; }
   .view { animation: none !important; }
   main.shell { max-width: none !important; padding: 0 !important; margin: 0 !important; }
   .summary-hero, .summary-card { display: none !important; }
@@ -489,10 +414,6 @@ button { font-family: inherit; cursor: pointer; }
     </div>
     <div class="topbar-title" id="topbarTitle"></div>
     <div class="spacer"></div>
-    <button class="icon-btn topbar-steps-btn" id="topbarStepsBtn" type="button" aria-haspopup="dialog" aria-expanded="false" aria-controls="stepsDrawer" hidden>
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
-      <span class="steps-count" id="topbarStepsCount"></span>
-    </button>
     <button class="icon-btn" aria-label="Search">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"/><path d="M21 21l-4.35-4.35" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
     </button>
@@ -502,17 +423,9 @@ button { font-family: inherit; cursor: pointer; }
   </div>
 </div>
 
+<div id="breadcrumbSlot"></div>
+
 <main class="shell" id="main"></main>
-<div class="steps-backdrop" id="stepsBackdrop" aria-hidden="true"></div>
-<aside class="steps-drawer" id="stepsDrawer" role="dialog" aria-modal="true" aria-label="Treatment path steps" aria-hidden="true">
-  <div class="steps-drawer-head">
-    <h2>Your treatment path</h2>
-    <button class="icon-btn" id="stepsCloseBtn" aria-label="Close">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M6 18L18 6"/></svg>
-    </button>
-  </div>
-  <ol class="steps-list" id="stepsList"></ol>
-</aside>
 
 <script>
 /* ================================================================
@@ -630,70 +543,51 @@ function setTopbar(title) {
   $('topbarTitle').textContent = title || '';
   $('backBtn').style.display = state.view === 'home' ? 'none' : 'inline-flex';
 }
-function updateStepsAffordance(currentAlgo) {
-  const btn = document.getElementById('topbarStepsBtn');
-  const count = document.getElementById('topbarStepsCount');
-  const totalSteps = state.trail.length + (currentAlgo && !state.trail.find((t) => t.algorithmId === currentAlgo.id) ? 1 : 0);
-  if (totalSteps === 0) {
-    btn.hidden = true;
-    return;
-  }
-  btn.hidden = false;
-  count.textContent = `· ${totalSteps}`;
+function setBreadcrumb(html) {
+  const slot = document.getElementById('breadcrumbSlot');
+  slot.innerHTML = html || '';
+  const inner = slot.querySelector('.breadcrumb-inner');
+  if (inner) inner.scrollLeft = inner.scrollWidth;
 }
 
-function renderStepsList(currentAlgo) {
-  const list = document.getElementById('stepsList');
+function truncateCrumb(text) {
+  return text.length > 15 ? text.slice(0, 15) + '…' : text;
+}
+
+function renderBreadcrumb(currentAlgo) {
   const currentIdx = currentAlgo
     ? state.trail.findIndex((t) => t.algorithmId === currentAlgo.id)
     : -1;
-  const items = [];
+  const parts = [];
   state.trail.forEach((s, i) => {
     const isCurrent = i === currentIdx;
-    const isTentative = currentIdx >= 0 && i > currentIdx;
-    const cls = `step-item ${isCurrent ? 'current' : ''} ${isTentative ? 'tentative' : ''}`.trim();
+    const full = s.algorithmTitle;
     if (isCurrent) {
-      items.push(`<li><span class="${cls}" aria-current="step"><span><span class="step-name">${esc(s.algorithmTitle)}</span><span class="step-choice">Current</span></span></span></li>`);
+      parts.push(`<span class="crumb crumb-current" aria-current="page">${esc(full)}</span>`);
     } else {
-      items.push(`<li><button class="${cls}" type="button" data-step-idx="${i}"><span><span class="step-name">${esc(s.algorithmTitle)}</span><span class="step-choice">${esc(s.outcomeTitle)}</span></span></button></li>`);
+      parts.push(`<button class="crumb" type="button" data-trail-idx="${i}" title="${esc(full)}" aria-label="${esc(full)}">${esc(truncateCrumb(full))}</button>`);
     }
   });
   if (currentAlgo && currentIdx === -1) {
     const t = decodeEntities(currentAlgo.attributes.Title);
-    items.push(`<li><span class="step-item current" aria-current="step"><span><span class="step-name">${esc(t)}</span><span class="step-choice">Current</span></span></span></li>`);
+    parts.push(`<span class="crumb crumb-current" aria-current="page">${esc(t)}</span>`);
   }
-  list.innerHTML = items.join('');
-  list.querySelectorAll('.step-item[data-step-idx]').forEach((btn) => {
+  if (parts.length === 0) return '';
+  const sep = `<span class="crumb-sep" aria-hidden="true">›</span>`;
+  return `<nav class="breadcrumb-inner" aria-label="Treatment path">${parts.join(sep)}</nav>`;
+}
+
+function wireBreadcrumbHandlers() {
+  document.querySelectorAll('#breadcrumbSlot .crumb[data-trail-idx]').forEach((btn) => {
     btn.addEventListener('click', () => {
-      const idx = +btn.dataset.stepIdx;
+      const idx = +btn.dataset.trailIdx;
       const entry = state.trail[idx];
       if (!entry) return;
-      closeStepsDrawer();
       goToAlgorithm(entry.algorithmId, { restoreFrom: entry });
     });
   });
 }
 
-function openStepsDrawer() {
-  document.getElementById('stepsDrawer').classList.add('open');
-  document.getElementById('stepsBackdrop').classList.add('open');
-  document.getElementById('stepsDrawer').setAttribute('aria-hidden', 'false');
-  document.getElementById('topbarStepsBtn').setAttribute('aria-expanded', 'true');
-  // a11y: block focus + hide from AT for rest of page while drawer is modal
-  document.getElementById('main')?.toggleAttribute('inert', true);
-  document.querySelector('.topbar')?.toggleAttribute('inert', true);
-  document.getElementById('stepsCloseBtn').focus();
-}
-
-function closeStepsDrawer() {
-  document.getElementById('stepsDrawer').classList.remove('open');
-  document.getElementById('stepsBackdrop').classList.remove('open');
-  document.getElementById('stepsDrawer').setAttribute('aria-hidden', 'true');
-  document.getElementById('topbarStepsBtn').setAttribute('aria-expanded', 'false');
-  document.getElementById('main')?.removeAttribute('inert');
-  document.querySelector('.topbar')?.removeAttribute('inert');
-  document.getElementById('topbarStepsBtn').focus();
-}
 $('backBtn').addEventListener('click', () => {
   if (state.view === 'algorithm' && state.trail.length >= 1) {
     const last = state.trail.pop();
@@ -701,20 +595,6 @@ $('backBtn').addEventListener('click', () => {
     return;
   }
   renderHome();
-});
-document.getElementById('topbarStepsBtn').addEventListener('click', () => {
-  if (document.getElementById('stepsDrawer').classList.contains('open')) {
-    closeStepsDrawer();
-  } else {
-    openStepsDrawer();
-  }
-});
-document.getElementById('stepsCloseBtn').addEventListener('click', closeStepsDrawer);
-document.getElementById('stepsBackdrop').addEventListener('click', closeStepsDrawer);
-document.addEventListener('keydown', (e) => {
-  if (e.key === 'Escape' && document.getElementById('stepsDrawer').classList.contains('open')) {
-    closeStepsDrawer();
-  }
 });
 
 /* ================================================================
@@ -780,7 +660,7 @@ function placeholderThumb(id, kind) {
 /* ---------- HOME ---------- */
 async function renderHome() {
   state.view = 'home';
-  updateStepsAffordance(null);
+  setBreadcrumb('');
   state.currentAlgoId = null;
   setTopbar('');
   // Fresh fetch of home algos and articles if not loaded yet
@@ -929,11 +809,6 @@ function renderAlgorithm(algo, opts = {}) {
   const score = scored ? calcScore(algo) : 0;
   const lastUpdated = att.updatedAt ? new Date(att.updatedAt).toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' }) : '';
 
-  const stepCurrentIdx = state.trail.findIndex((t) => t.algorithmId === algo.id);
-  const stepNum = stepCurrentIdx >= 0 ? stepCurrentIdx + 1 : state.trail.length + 1;
-  const totalSteps = stepCurrentIdx >= 0 ? state.trail.length : state.trail.length + 1;
-  const stepIndicator = totalSteps > 1 ? `<div class="algo-step-indicator">Step ${stepNum} of ${totalSteps}</div>` : '';
-
   const switchesHTML = scored ? `
     <div class="switches">
       ${att.switches.map((s) => {
@@ -964,7 +839,7 @@ function renderAlgorithm(algo, opts = {}) {
 
     <div class="score-bar">
       <div class="score-label">
-        <div class="eyebrow">Severity</div>
+        <div class="eyebrow">Criteria met</div>
         <div class="name" id="scoreInterpretation"></div>
       </div>
       <div class="score-val">
@@ -1012,7 +887,6 @@ function renderAlgorithm(algo, opts = {}) {
     <div class="algo-wrap">
       <div class="algo-header">
         <div class="eyebrow">${scored ? 'Scored pathway' : 'Text pathway'}</div>
-        ${stepIndicator}
         <h1 class="algo-title">${esc(title)}</h1>
         <p class="algo-sub">${esc(decodeEntities(att.Summary || ''))}</p>
       </div>
@@ -1027,8 +901,8 @@ function renderAlgorithm(algo, opts = {}) {
     </div>
   `);
 
-  updateStepsAffordance(algo);
-  renderStepsList(algo);
+  setBreadcrumb(renderBreadcrumb(algo));
+  wireBreadcrumbHandlers();
   wireAlgorithmHandlers(algo, opts);
   rerenderOutcomesInPlace(algo);
   updateScoreInterpretation(algo);
@@ -1343,7 +1217,7 @@ async function exportHandoffPdf() {
 /* ---------- SUMMARY ---------- */
 function showSummary() {
   state.view = 'summary';
-  updateStepsAffordance(null);
+  setBreadcrumb('');
   setTopbar('Treatment Summary');
   const steps = state.trail.map((s, i) => `
     <div class="summary-step">
@@ -1383,7 +1257,7 @@ function showSummary() {
 /* ---------- ARTICLE ---------- */
 async function goToArticle(id) {
   state.view = 'article';
-  updateStepsAffordance(null);
+  setBreadcrumb('');
   setTopbar('Article');
   const found = state.articles.find((a) => a.id === id);
   if (!found) { errorFrame('Article not found.'); return; }
