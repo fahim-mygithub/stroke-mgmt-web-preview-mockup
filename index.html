@@ -630,9 +630,67 @@ function setTopbar(title) {
   $('topbarTitle').textContent = title || '';
   $('backBtn').style.display = state.view === 'home' ? 'none' : 'inline-flex';
 }
-function setBreadcrumb(html) {
-  // TEMP: drawer DOM is in place, but breadcrumbSlot is removed; Task 3 replaces this function entirely.
-  return;
+function updateStepsAffordance(currentAlgo) {
+  const btn = document.getElementById('topbarStepsBtn');
+  const count = document.getElementById('topbarStepsCount');
+  const totalSteps = state.trail.length + (currentAlgo && !state.trail.find((t) => t.algorithmId === currentAlgo.id) ? 1 : 0);
+  if (totalSteps === 0) {
+    btn.hidden = true;
+    return;
+  }
+  btn.hidden = false;
+  count.textContent = `· ${totalSteps}`;
+}
+
+function renderStepsList(currentAlgo) {
+  const list = document.getElementById('stepsList');
+  const currentIdx = currentAlgo
+    ? state.trail.findIndex((t) => t.algorithmId === currentAlgo.id)
+    : -1;
+  const items = [];
+  state.trail.forEach((s, i) => {
+    const isCurrent = i === currentIdx;
+    const isTentative = currentIdx >= 0 && i > currentIdx;
+    const cls = `step-item ${isCurrent ? 'current' : ''} ${isTentative ? 'tentative' : ''}`.trim();
+    if (isCurrent) {
+      items.push(`<li><span class="${cls}" aria-current="step"><span><span class="step-name">${esc(s.algorithmTitle)}</span><span class="step-choice">Current</span></span></span></li>`);
+    } else {
+      items.push(`<li><button class="${cls}" type="button" data-step-idx="${i}"><span><span class="step-name">${esc(s.algorithmTitle)}</span><span class="step-choice">${esc(s.outcomeTitle)}</span></span></button></li>`);
+    }
+  });
+  if (currentAlgo && currentIdx === -1) {
+    const t = decodeEntities(currentAlgo.attributes.Title);
+    items.push(`<li><span class="step-item current" aria-current="step"><span><span class="step-name">${esc(t)}</span><span class="step-choice">Current</span></span></span></li>`);
+  }
+  list.innerHTML = items.join('');
+  list.querySelectorAll('.step-item[data-step-idx]').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const idx = +btn.dataset.stepIdx;
+      const entry = state.trail[idx];
+      if (!entry) return;
+      closeStepsDrawer();
+      goToAlgorithm(entry.algorithmId, { restoreFrom: entry });
+    });
+  });
+}
+
+function openStepsDrawer() {
+  document.getElementById('stepsDrawer').classList.add('open');
+  document.getElementById('stepsBackdrop').classList.add('open');
+  document.getElementById('stepsDrawer').setAttribute('aria-hidden', 'false');
+  document.getElementById('topbarStepsBtn').setAttribute('aria-expanded', 'true');
+  // a11y: hide rest of page from AT while drawer is modal
+  document.getElementById('main')?.setAttribute('aria-hidden', 'true');
+  document.getElementById('stepsCloseBtn').focus();
+}
+
+function closeStepsDrawer() {
+  document.getElementById('stepsDrawer').classList.remove('open');
+  document.getElementById('stepsBackdrop').classList.remove('open');
+  document.getElementById('stepsDrawer').setAttribute('aria-hidden', 'true');
+  document.getElementById('topbarStepsBtn').setAttribute('aria-expanded', 'false');
+  document.getElementById('main')?.removeAttribute('aria-hidden');
+  document.getElementById('topbarStepsBtn').focus();
 }
 $('backBtn').addEventListener('click', () => {
   if (state.view === 'algorithm' && state.trail.length >= 1) {
@@ -641,6 +699,20 @@ $('backBtn').addEventListener('click', () => {
     return;
   }
   renderHome();
+});
+document.getElementById('topbarStepsBtn').addEventListener('click', () => {
+  if (document.getElementById('stepsDrawer').classList.contains('open')) {
+    closeStepsDrawer();
+  } else {
+    openStepsDrawer();
+  }
+});
+document.getElementById('stepsCloseBtn').addEventListener('click', closeStepsDrawer);
+document.getElementById('stepsBackdrop').addEventListener('click', closeStepsDrawer);
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && document.getElementById('stepsDrawer').classList.contains('open')) {
+    closeStepsDrawer();
+  }
 });
 
 /* ================================================================
@@ -706,7 +778,7 @@ function placeholderThumb(id, kind) {
 /* ---------- HOME ---------- */
 async function renderHome() {
   state.view = 'home';
-  setBreadcrumb('');
+  updateStepsAffordance(null);
   state.currentAlgoId = null;
   setTopbar('');
   // Fresh fetch of home algos and articles if not loaded yet
@@ -846,52 +918,6 @@ async function goToAlgorithm(id, opts = {}) {
   renderAlgorithm(algo, { restoreOutcomeId: opts.restoreFrom?.outcomeId });
 }
 
-function renderBreadcrumb(currentAlgo) {
-  if (!currentAlgo && state.trail.length === 0) return '';
-
-  const currentIdx = currentAlgo
-    ? state.trail.findIndex((t) => t.algorithmId === currentAlgo.id)
-    : -1;
-
-  const parts = [];
-  state.trail.forEach((s, i) => {
-    if (i > 0) parts.push(`<span class="crumb-sep">›</span>`);
-    if (i === currentIdx) {
-      parts.push(`
-        <span class="crumb current" aria-current="step">
-          <span class="crumb-name">${esc(s.algorithmTitle)}</span>
-          <span class="crumb-choice">Current</span>
-        </span>
-      `);
-    } else {
-      const cls = currentIdx >= 0 && i > currentIdx ? 'crumb tentative' : 'crumb';
-      parts.push(`
-        <button class="${cls}" data-crumb-idx="${i}" title="Jump back to ${esc(s.algorithmTitle)}">
-          <span class="crumb-name">${esc(s.algorithmTitle)}</span>
-          <span class="crumb-choice">${esc(s.outcomeTitle)}</span>
-        </button>
-      `);
-    }
-  });
-
-  // If the current algo is brand-new (not in trail), append its current pill.
-  if (currentAlgo && currentIdx === -1) {
-    if (state.trail.length > 0) parts.push(`<span class="crumb-sep">›</span>`);
-    const t = decodeEntities(currentAlgo.attributes.Title);
-    parts.push(`
-      <span class="crumb current" aria-current="step">
-        <span class="crumb-name">${esc(t)}</span>
-        <span class="crumb-choice">Current</span>
-      </span>
-    `);
-  }
-
-  return `<div class="breadcrumb-bar"><div class="breadcrumb-inner">
-    <span class="breadcrumb-label">Your triage</span>
-    ${parts.join('')}
-  </div></div>`;
-}
-
 function renderAlgorithm(algo, opts = {}) {
   const att = algo.attributes;
   const title = decodeEntities(att.Title);
@@ -900,6 +926,11 @@ function renderAlgorithm(algo, opts = {}) {
   const scored = isScored(algo);
   const score = scored ? calcScore(algo) : 0;
   const lastUpdated = att.updatedAt ? new Date(att.updatedAt).toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' }) : '';
+
+  const stepCurrentIdx = state.trail.findIndex((t) => t.algorithmId === algo.id);
+  const stepNum = stepCurrentIdx >= 0 ? stepCurrentIdx + 1 : state.trail.length + 1;
+  const totalSteps = stepCurrentIdx >= 0 ? state.trail.length : state.trail.length + 1;
+  const stepIndicator = totalSteps > 1 ? `<div class="algo-step-indicator">Step ${stepNum} of ${totalSteps}</div>` : '';
 
   const switchesHTML = scored ? `
     <div class="switches">
@@ -979,6 +1010,7 @@ function renderAlgorithm(algo, opts = {}) {
     <div class="algo-wrap">
       <div class="algo-header">
         <div class="eyebrow">${scored ? 'Scored pathway' : 'Text pathway'}</div>
+        ${stepIndicator}
         <h1 class="algo-title">${esc(title)}</h1>
         <p class="algo-sub">${esc(decodeEntities(att.Summary || ''))}</p>
       </div>
@@ -993,7 +1025,8 @@ function renderAlgorithm(algo, opts = {}) {
     </div>
   `);
 
-  setBreadcrumb(renderBreadcrumb(algo));
+  updateStepsAffordance(algo);
+  renderStepsList(algo);
   wireAlgorithmHandlers(algo, opts);
   rerenderOutcomesInPlace(algo);
   updateScoreInterpretation(algo);
@@ -1320,7 +1353,7 @@ async function exportHandoffPdf() {
 /* ---------- SUMMARY ---------- */
 function showSummary() {
   state.view = 'summary';
-  setBreadcrumb('');
+  updateStepsAffordance(null);
   setTopbar('Triage Summary');
   const steps = state.trail.map((s, i) => `
     <div class="summary-step">
@@ -1360,7 +1393,7 @@ function showSummary() {
 /* ---------- ARTICLE ---------- */
 async function goToArticle(id) {
   state.view = 'article';
-  setBreadcrumb('');
+  updateStepsAffordance(null);
   setTopbar('Article');
   const found = state.articles.find((a) => a.id === id);
   if (!found) { errorFrame('Article not found.'); return; }
