@@ -143,9 +143,16 @@ button { font-family: inherit; cursor: pointer; }
   color: var(--ink-3); font-size: 16px; line-height: 1;
   cursor: pointer; transition: color 140ms var(--ease);
   display: inline-flex; align-items: center;
+  position: relative;
+}
+.switch-row .info-toggle::before {
+  content: ''; position: absolute; inset: -10px;
 }
 .switch-row .info-toggle:hover { color: var(--ink); }
 .switch-row .info-toggle[aria-expanded="true"] { color: var(--brand); }
+.switch-row .info-toggle:focus-visible {
+  outline: 2px solid var(--brand); outline-offset: 2px; border-radius: 4px;
+}
 
 .switch-row .desc-wrap {
   display: grid;
@@ -805,12 +812,12 @@ function renderAlgorithm(algo, opts = {}) {
           <div class="switch-row" data-switch-id="${s.id}">
             <div class="label-line">
               <span class="lbl">${esc(decodeEntities(s.Label))}</span>
-              ${hasDesc ? `<button class="info-toggle" type="button" aria-expanded="false" aria-label="Show description">ⓘ</button>` : ''}
+              ${hasDesc ? `<button class="info-toggle" type="button" aria-expanded="false" aria-label="Toggle description">ⓘ</button>` : ''}
             </div>
             ${hasDesc ? `
               <div class="desc-wrap">
                 <div class="desc-inner">
-                  <p class="desc">${s.Description}</p>
+                  <div class="desc">${s.Description}</div>
                 </div>
               </div>
             ` : ''}
@@ -937,7 +944,6 @@ function wireAlgorithmHandlers(algo, opts = {}) {
       const row = btn.closest('.switch-row');
       const open = row.classList.toggle('desc-open');
       btn.setAttribute('aria-expanded', open ? 'true' : 'false');
-      btn.setAttribute('aria-label', open ? 'Hide description' : 'Show description');
     });
   });
 
