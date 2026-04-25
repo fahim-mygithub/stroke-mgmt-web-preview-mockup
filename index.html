@@ -428,6 +428,7 @@ button { font-family: inherit; cursor: pointer; }
 .modal-close:hover { background: var(--surface-2); color: var(--ink); }
 .modal-body {
   padding: 18px 22px; overflow-y: auto; flex: 1;
+  min-height: 0;
 }
 .modal-foot {
   padding: 14px 22px; border-top: 1px solid var(--border-2);
@@ -474,18 +475,21 @@ button { font-family: inherit; cursor: pointer; }
 .intro-skip:hover { background: var(--surface-2); color: var(--ink); }
 
 .intro-body {
-  flex: 1; overflow: hidden; position: relative;
+  flex: 1; min-height: 0;
+  overflow: hidden; position: relative;
   display: flex;
 }
 .intro-track {
-  display: flex; width: 100%; height: 100%;
+  display: flex; flex: 1; min-width: 0;
+  align-items: stretch;
   transition: transform 240ms cubic-bezier(.2,.8,.2,1);
   will-change: transform;
 }
 .intro-slide {
-  flex: 0 0 100%; width: 100%; height: 100%;
+  flex: 0 0 100%; width: 100%;
   overflow-y: auto; -webkit-overflow-scrolling: touch;
   display: flex; flex-direction: column;
+  min-height: 0;
 }
 .intro-hero {
   width: 100%; height: 38vh; min-height: 200px; max-height: 320px;
