@@ -1747,7 +1747,10 @@ async function goToIntro(opts = {}) {
 }
 
 function renderIntroShell() {
-  closeIntro();
+  // Tear down any prior shell DOM without nuking _introState (we just set it).
+  const prior = document.getElementById('introSlideshow');
+  if (prior) prior.remove();
+  document.removeEventListener('keydown', _introKeydown);
   _introLastFocus = document.activeElement;
   const wrap = document.createElement('div');
   wrap.className = 'intro-backdrop';
