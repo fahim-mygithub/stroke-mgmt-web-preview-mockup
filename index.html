@@ -273,7 +273,14 @@ button { font-family: inherit; cursor: pointer; }
 
 /* ---- Horizontal breadcrumb trail ---- */
 .breadcrumb-bar { position: sticky; top: 64px; z-index: 15; background: rgba(247,245,242,.92); backdrop-filter: blur(8px); border-bottom: 1px solid var(--border-2); }
-.breadcrumb-inner { max-width: 1280px; margin: 0 auto; padding: 10px 24px; display: flex; align-items: center; gap: 6px; overflow-x: auto; scrollbar-width: none; -ms-overflow-style: none; }
+.breadcrumb-inner {
+  max-width: 1280px; margin: 0 auto; padding: 10px 24px;
+  display: flex; align-items: center; gap: 6px;
+  overflow-x: auto; scrollbar-width: none; -ms-overflow-style: none;
+  -webkit-mask-image: linear-gradient(to right, transparent 0, #000 32px, #000 calc(100% - 32px), transparent 100%);
+          mask-image: linear-gradient(to right, transparent 0, #000 32px, #000 calc(100% - 32px), transparent 100%);
+  scroll-behavior: smooth;
+}
 .breadcrumb-inner::-webkit-scrollbar { display: none; }
 .breadcrumb-label { flex: 0 0 auto; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--ink-3); margin-right: 4px; }
 .crumb { flex: 0 0 auto; display: inline-flex; align-items: center; gap: 8px; padding: 6px 12px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-pill); color: var(--ink-2); font-family: inherit; font-size: 12.5px; line-height: 1.25; cursor: pointer; transition: all 140ms var(--ease); max-width: 260px; }
@@ -534,7 +541,12 @@ function setTopbar(title) {
   $('backBtn').style.display = state.view === 'home' ? 'none' : 'inline-flex';
 }
 function setBreadcrumb(html) {
-  document.getElementById('breadcrumbSlot').innerHTML = html || '';
+  const slot = document.getElementById('breadcrumbSlot');
+  slot.innerHTML = html || '';
+  // Make the active "current" crumb visible on narrow viewports — it sits
+  // at the end of the trail and is otherwise scrolled off-screen right.
+  const inner = slot.querySelector('.breadcrumb-inner');
+  if (inner) inner.scrollLeft = inner.scrollWidth;
 }
 $('backBtn').addEventListener('click', () => {
   if (state.view === 'algorithm' && state.trail.length >= 1) {
