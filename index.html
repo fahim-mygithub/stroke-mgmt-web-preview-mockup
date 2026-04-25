@@ -138,8 +138,34 @@ button { font-family: inherit; cursor: pointer; }
 .switch-row { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-md); padding: 14px 16px; transition: all 180ms var(--ease); }
 .switch-row .label-line { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; margin-bottom: 10px; flex-wrap: wrap; }
 .switch-row .label-line .lbl { font-size: 14px; font-weight: 600; color: var(--ink); }
-.switch-row .label-line .desc { font-size: 12.5px; color: var(--ink-3); flex: 1 1 280px; }
-.switch-row .label-line .desc p { margin: 0; }
+.switch-row .info-toggle {
+  background: transparent; border: 0; padding: 0; margin: 0;
+  color: var(--ink-3); font-size: 16px; line-height: 1;
+  cursor: pointer; transition: color 140ms var(--ease);
+  display: inline-flex; align-items: center;
+}
+.switch-row .info-toggle:hover { color: var(--ink); }
+.switch-row .info-toggle[aria-expanded="true"] { color: var(--brand); }
+
+.switch-row .desc-wrap {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 240ms var(--ease);
+  margin-top: 0;
+}
+.switch-row.desc-open .desc-wrap {
+  grid-template-rows: 1fr;
+  margin-top: 8px;
+}
+.switch-row .desc-inner { overflow: hidden; }
+.switch-row .desc {
+  margin: 0 0 10px 0;
+  font-size: 12.5px;
+  color: var(--ink-3);
+  line-height: 1.5;
+}
+.switch-row .desc p { margin: 0 0 6px 0; }
+.switch-row .desc p:last-child { margin-bottom: 0; }
 .level-row { display: flex; gap: 6px; flex-wrap: wrap; }
 .level-btn { padding: 8px 14px; border-radius: var(--r-md); border: 1px solid var(--border); background: var(--surface); color: var(--ink-2); font-size: 13px; font-weight: 500; cursor: pointer; transition: all 140ms var(--ease); min-width: 44px; text-align: center; }
 .level-btn:hover { border-color: var(--ink-3); color: var(--ink); }
@@ -774,12 +800,20 @@ function renderAlgorithm(algo, opts = {}) {
     <div class="switches">
       ${att.switches.map((s) => {
         const selected = state.currentAlgoScores[algo.id][s.id];
+        const hasDesc = !!s.Description;
         return `
           <div class="switch-row" data-switch-id="${s.id}">
             <div class="label-line">
               <span class="lbl">${esc(decodeEntities(s.Label))}</span>
-              ${s.Description ? `<span class="desc">${s.Description}</span>` : ''}
+              ${hasDesc ? `<button class="info-toggle" type="button" aria-expanded="false" aria-label="Show description">ⓘ</button>` : ''}
             </div>
+            ${hasDesc ? `
+              <div class="desc-wrap">
+                <div class="desc-inner">
+                  <p class="desc">${s.Description}</p>
+                </div>
+              </div>
+            ` : ''}
             <div class="level-row">
               ${s.levels.map((l) => `
                 <button class="level-btn ${l.Value === selected ? 'selected' : ''}" data-level="${l.Value}">
@@ -893,6 +927,17 @@ function wireAlgorithmHandlers(algo, opts = {}) {
         updateScoreInterpretation(algo);
         rerenderOutcomesInPlace(algo);
       });
+    });
+  });
+
+  // Description info toggles
+  document.querySelectorAll('.switch-row .info-toggle').forEach((btn) => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const row = btn.closest('.switch-row');
+      const open = row.classList.toggle('desc-open');
+      btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+      btn.setAttribute('aria-label', open ? 'Hide description' : 'Show description');
     });
   });
 
