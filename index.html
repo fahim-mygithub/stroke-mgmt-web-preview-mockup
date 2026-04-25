@@ -679,8 +679,9 @@ function openStepsDrawer() {
   document.getElementById('stepsBackdrop').classList.add('open');
   document.getElementById('stepsDrawer').setAttribute('aria-hidden', 'false');
   document.getElementById('topbarStepsBtn').setAttribute('aria-expanded', 'true');
-  // a11y: hide rest of page from AT while drawer is modal
-  document.getElementById('main')?.setAttribute('aria-hidden', 'true');
+  // a11y: block focus + hide from AT for rest of page while drawer is modal
+  document.getElementById('main')?.toggleAttribute('inert', true);
+  document.querySelector('.topbar')?.toggleAttribute('inert', true);
   document.getElementById('stepsCloseBtn').focus();
 }
 
@@ -689,7 +690,8 @@ function closeStepsDrawer() {
   document.getElementById('stepsBackdrop').classList.remove('open');
   document.getElementById('stepsDrawer').setAttribute('aria-hidden', 'true');
   document.getElementById('topbarStepsBtn').setAttribute('aria-expanded', 'false');
-  document.getElementById('main')?.removeAttribute('aria-hidden');
+  document.getElementById('main')?.removeAttribute('inert');
+  document.querySelector('.topbar')?.removeAttribute('inert');
   document.getElementById('topbarStepsBtn').focus();
 }
 $('backBtn').addEventListener('click', () => {
@@ -1116,18 +1118,6 @@ function wireAlgorithmHandlers(algo, opts = {}) {
 
       if (nextId) goToAlgorithm(nextId);
       else showSummary();
-    });
-  });
-
-  document.querySelectorAll('.crumb[data-crumb-idx]').forEach((btn) => {
-    btn.addEventListener('click', () => {
-      const idx = +btn.dataset.crumbIdx;
-      const entry = state.trail[idx];
-      if (!entry) return;
-      // Don't truncate here; keep the full trail so the user sees their
-      // walked path. The Continue handler (Task 5) decides whether to
-      // preserve downstream (same choice) or truncate (different choice).
-      goToAlgorithm(entry.algorithmId, { restoreFrom: entry });
     });
   });
 
