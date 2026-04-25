@@ -1659,11 +1659,11 @@ function renderDisclaimerModal(bodyHtml, opts = {}) {
         ` : ''}
       </div>
       <div class="modal-body article-reader">${bodyHtml}</div>
-      ${review ? '' : `
-        <div class="modal-foot">
-          <button class="btn btn-primary" id="disclaimerAcceptBtn">I understand</button>
-        </div>
-      `}
+      <div class="modal-foot">
+        ${review
+          ? `<button class="btn btn-primary" id="disclaimerCloseFootBtn">Close</button>`
+          : `<button class="btn btn-primary" id="disclaimerAcceptBtn">I understand</button>`}
+      </div>
     </div>
   `;
   document.body.appendChild(wrap);
@@ -1677,13 +1677,15 @@ function renderDisclaimerModal(bodyHtml, opts = {}) {
     });
     setTimeout(() => accept.focus(), 0);
   } else {
-    const close = $('disclaimerCloseBtn');
-    close.addEventListener('click', closeDisclaimerModal);
+    const closeX = $('disclaimerCloseBtn');
+    const closeFoot = $('disclaimerCloseFootBtn');
+    closeX.addEventListener('click', closeDisclaimerModal);
+    closeFoot.addEventListener('click', closeDisclaimerModal);
     wrap.addEventListener('click', (e) => {
       if (e.target === wrap) closeDisclaimerModal();
     });
     document.addEventListener('keydown', _disclaimerEscClose);
-    setTimeout(() => close.focus(), 0);
+    setTimeout(() => closeFoot.focus(), 0);
   }
 }
 
